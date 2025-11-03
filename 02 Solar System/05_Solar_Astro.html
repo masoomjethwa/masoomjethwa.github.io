@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Astrophysics Explained</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for the timeline dot */
+        .timeline-dot {
+            position: absolute;
+            left: -0.375rem; /* Adjust to align with the border-l */
+            top: 0.625rem; /* Adjust to vertically center with the text */
+            width: 0.5rem;
+            height: 0.5rem;
+            background-color: #FACC15; /* yellow-400 */
+            border-radius: 9999px; /* full rounded */
+            border: 2px solid #FACC15; /* yellow-400 */
+            z-index: 10; /* Ensure dot is above the line */
+        }
+        /* Highlight style for major discoveries */
+        .highlight-event {
+            background-color: rgba(253, 224, 71, 0.1); /* yellow-200 with opacity */
+            border-left: 4px solid #FACC15; /* yellow-400 */
+            padding-left: 1rem; /* Add some padding for visual separation */
+            margin-left: -1rem; /* Adjust to align with the main timeline border */
+            border-radius: 0.5rem;
+            position: relative; /* Needed for timeline-dot positioning */
+        }
+        .highlight-event .timeline-dot {
+            background-color: #FACC15; /* Ensure dot color matches highlight */
+            border-color: #FACC15;
+        }
+        /* General list item styling for visual appeal */
+        ul.styled-list li {
+            padding-left: 1.5rem; /* Space for custom bullet/icon */
+            position: relative;
+        }
+        ul.styled-list li::before {
+            content: '✨'; /* Default emoji bullet */
+            position: absolute;
+            left: 0;
+            color: #FACC15; /* Yellow color for emoji */
+            font-size: 0.9em;
+            line-height: 1.5; /* Align with text */
+        }
+        /* Specific emoji for different list types */
+        ul.structure-list li::before { content: '🔬'; }
+        ul.phenomena-list li::before { content: '⚡'; }
+        ul.spacecraft-list li::before { content: '🚀'; }
+        ul.observatory-list li::before { content: '🔭'; }
+        ul.recent-discovery-list li::before { content: '💡'; }
+        ul.upcoming-mission-list li::before { content: '🏆'; } /* Awards/upcoming */
+
+        /* Enhanced section titles */
+        .section-title-icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 1.2em;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-900 text-gray-100 p-4 sm:p-8">
+
+    <header class="text-center mb-8">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-yellow-300 drop-shadow-lg mb-4">
+            <span class="section-title-icon">☀️</span> Solar Astrophysics Explained
+        </h1>
+        <p class="text-lg sm:text-xl text-indigo-200">
+            Unveiling the secrets of our star, the Sun.
+        </p>
+    </header>
+
+    <div class="max-w-4xl mx-auto bg-gray-800 bg-opacity-70 rounded-xl shadow-2xl p-6 sm:p-8">
+        <div class="mb-6">
+            <label for="section-select" class="block text-lg font-semibold mb-2 text-indigo-300">
+                Select a topic:
+            </label>
+            <div class="relative">
+                <select
+                    id="section-select"
+                    class="block w-full bg-gray-700 border border-indigo-500 text-white py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-gray-600 focus:border-yellow-400 appearance-none transition duration-300 ease-in-out"
+                >
+                    <option value="structure">🌞 The Sun's Structure</option>
+                    <option value="phenomena">🔥 Solar Phenomena</option>
+                    <option value="timeline">📜 Timeline of Discoveries</option>
+                    <option value="moving-forward">🔭 Moving Forward: Recent Discoveries & Awards</option>
+                    <option value="spacecraft-probes">🛰️ Spacecraft/Probes Sent To Observe Sun</option>
+                    <option value="solar-observatories">🌍 Solar Observatories (Ground-based)</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-area">
+            <!-- Content will be loaded here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Function to render the Sun's Structure section
+        function renderSunStructure() {
+            return `
+                <div class="space-y-6 text-gray-200">
+                    <h2 class="text-3xl font-bold text-yellow-300 mb-4"><span class="section-title-icon">🌞</span> The Sun's Structure</h2>
+                    <p class="text-lg leading-relaxed">
+                        Our Sun, a G-type main-sequence star, is a colossal ball of hot plasma, held together by gravity and powered by nuclear fusion. It has a layered structure, each with distinct characteristics.
+                    </p>
+
+                    <!-- Core -->
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">1. Core <span class="section-title-icon">⚛️</span></h3>
+                        <p class="text-base leading-relaxed">
+                            The innermost region of the Sun, extending from the center to about 0.25 solar radii.
+                            Here, nuclear fusion of hydrogen into helium occurs, releasing immense energy.
+                        </p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 styled-list structure-list">
+                            <li><span class="font-medium text-yellow-200">Temperature:</span> Approximately 15 million degrees Celsius ($1.5 \\times 10^7 \\, \\text{K}$).</li>
+                            <li><span class="font-medium text-yellow-200">Density:</span> Around 150 times that of water, incredibly dense.</li>
+                            <li><span class="font-medium text-yellow-200">Process:</span> Proton-proton chain reaction, converting mass into energy ($E=mc^2$).</li>
+                        </ul>
+                    </div>
+
+                    <!-- Radiative Zone -->
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">2. Radiative Zone <span class="section-title-icon">🌊</span></h3>
+                        <p class="text-base leading-relaxed">
+                            Extends from about 0.25 to 0.7 solar radii. Energy is transported outwards primarily by photons (electromagnetic radiation) that are continuously absorbed and re-emitted.
+                            This process is very slow due to the high density, taking hundreds of thousands of years for a photon to escape.
+                        </p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 styled-list structure-list">
+                            <li><span class="font-medium text-yellow-200">Temperature:</span> Decreases from about 7 million K near the core to 2 million K at the top.</li>
+                            <li><span class="font-medium text-yellow-200">Energy Transport:</span> Radiation.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Convective Zone -->
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">3. Convective Zone <span class="section-title-icon">⬆️⬇️</span></h3>
+                        <p class="text-base leading-relaxed">
+                            The outermost layer of the solar interior, from 0.7 solar radii to the surface.
+                            Here, plasma circulates in convection currents, carrying energy to the surface. Hot plasma rises, cools, and sinks, creating a boiling motion.
+                        </p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 styled-list structure-list">
+                            <li><span class="font-medium text-yellow-200">Temperature:</span> Decreases from 2 million K to about 5,778 K at the surface.</li>
+                            <li><span class="font-medium text-yellow-200">Energy Transport:</span> Convection.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Photosphere -->
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">4. Photosphere <span class="section-title-icon">💡</span></h3>
+                        <p class="text-base leading-relaxed">
+                            The visible surface of the Sun, where sunlight is emitted. It's relatively thin, about 500 km thick.
+                            This is where sunspots are observed.
+                        </p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 styled-list structure-list">
+                            <li><span class="font-medium text-yellow-200">Temperature:</span> Approximately 5,778 K (5,505 $^\\circ \\text{C}$).</li>
+                            <li><span class="font-medium text-yellow-200">Features:</span> Granulation (tops of convection cells), sunspots.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Chromosphere -->
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">5. Chromosphere <span class="section-title-icon">🔴</span></h3>
+                        <p class="text-base leading-relaxed">
+                            A reddish layer above the photosphere, visible during total solar eclipses as a thin, glowing rim.
+                            It's about 2,000 km thick and characterized by spicules (jet-like spikes of gas).
+                        </p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 styled-list structure-list">
+                            <li><span class="font-medium text-yellow-200">Temperature:</span> Increases with altitude, from 4,000 K to about 20,000 K.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Corona -->
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">6. Corona <span class="section-title-icon">👑</span></h3>
+                        <p class="text-base leading-relaxed">
+                            The outermost layer of the Sun's atmosphere, extending millions of kilometers into space.
+                            It's extremely hot but very tenuous, making it visible only during eclipses or with a coronagraph.
+                            This is where the solar wind originates.
+                        </p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 styled-list structure-list">
+                            <li><span class="font-medium text-yellow-200">Temperature:</span> Can reach millions of Kelvin ($10^6 \\, \\text{K}$), a mystery still being researched (Coronal Heating Problem).</li>
+                            <li><span class="font-medium text-yellow-200">Features:</span> Magnetic loops, streamers, coronal holes.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Magnetic Poles and Arches -->
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">Magnetic Poles and Arches <span class="section-title-icon">🧲</span></h3>
+                        <p class="text-base leading-relaxed">
+                            The Sun has a complex magnetic field generated by the movement of conductive plasma in its interior.
+                            Magnetic field lines emerge from and re-enter the Sun's surface, forming loops and arches that can extend into the corona. These structures play a crucial role in solar activity.
+                        </p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 styled-list structure-list">
+                            <li><span class="font-medium text-yellow-200">Solar Dynamo:</span> The mechanism that generates the Sun's magnetic field.</li>
+                            <li><span class="font-medium text-yellow-200">Magnetic Reconnection:</span> The process that releases energy in solar flares and CMEs.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to render the Solar Phenomena section
+        function renderSolarPhenomena() {
+            return `
+                <div class="space-y-6 text-gray-200">
+                    <h2 class="text-3xl font-bold text-yellow-300 mb-4"><span class="section-title-icon">💥</span> Solar Phenomena</h2>
+                    <p class="text-lg leading-relaxed">
+                        The Sun is a dynamic star, constantly exhibiting various phenomena driven by its powerful magnetic field. These events can have significant impacts on Earth.
+                    </p>
+
+                    <!-- Solar Flares -->
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">1. Solar Flares <span class="section-title-icon">⚡</span></h3>
+                        <p class="text-base leading-relaxed">
+                            Sudden, intense bursts of radiation emanating from the Sun's surface, often associated with sunspots.
+                            They release energy equivalent to millions of hydrogen bombs and can cause radio blackouts on Earth.
+                        </p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 styled-list phenomena-list">
+                            <li><span class="font-medium text-yellow-200">Cause:</span> Magnetic reconnection in the Sun's atmosphere.</li>
+                            <li><span class="font-medium text-yellow-200">Effect on Earth:</span> Radio communication disruption, particularly shortwave.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Prominences -->
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">2. Prominences <span class="section-title-icon">〰️</span></h3>
+                        <p class="text-base leading-relaxed">
+                            Large, bright, gaseous features extending outwards from the Sun's surface, often in a loop shape.
+                            They are anchored to the Sun's surface in the photosphere and extend into the corona.
+                        </p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 styled-list phenomena-list">
+                            <li><span class="font-medium text-yellow-200">Composition:</span> Cooler, denser plasma suspended by magnetic fields.</li>
+                            <li><span class="font-medium text-yellow-200">Types:</span> Quiescent (long-lived) and eruptive (can lead to CMEs).</li>
+                        </ul>
+                    </div>
+
+                    <!-- Solar Wind -->
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">3. Solar Wind <span class="section-title-icon">💨</span></h3>
+                        <p class="text-base leading-relaxed">
+                            A continuous flow of charged particles (plasma) released from the Sun's corona into space.
+                            It travels at speeds of hundreds of kilometers per second and fills the entire solar system.
+                        </p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 styled-list phenomena-list">
+                            <li><span class="font-medium text-yellow-200">Origin:</span> Coronal holes, regions of open magnetic field lines.</li>
+                            <li><span class="font-medium text-yellow-200">Impact:</span> Creates the heliosphere, affects planetary magnetospheres.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Solar Storms (Coronal Mass Ejections - CMEs) -->
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">4. Solar Storms (Coronal Mass Ejections - CMEs) <span class="section-title-icon">🌪️</span></h3>
+                        <p class="text-base leading-relaxed">
+                            Massive expulsions of plasma and magnetic field from the Sun's corona.
+                            When directed towards Earth, they can cause geomagnetic storms, disrupting power grids, satellites, and communications.
+                        </p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 styled-list phenomena-list">
+                            <li><span class="font-medium text-yellow-200">Speed:</span> Can travel from 250 km/s to over 2,000 km/s.</li>
+                            <li><span class="font-medium text-yellow-200">Impact:</span> Auroras, power grid outages, satellite damage, GPS interference.</li>
+                            <li><span class="font-medium text-yellow-200">Whistlers:</span> Naturally occurring very low frequency (VLF) radio waves generated by lightning, which propagate along geomagnetic field lines and can be affected by solar storms.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Sunspots and Sunspot Cycle -->
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">5. Sunspots and Sunspot Cycle <span class="section-title-icon">⚫</span></h3>
+                        <p class="text-base leading-relaxed">
+                            Darker, cooler regions on the Sun's photosphere, caused by intense magnetic activity inhibiting convection.
+                            They appear dark because they are cooler than the surrounding photosphere.
+                        </p>
+                        <ul class="list-disc list-inside mt-3 space-y-1 styled-list phenomena-list">
+                            <li><span class="font-medium text-yellow-200">Temperature:</span> Around 4,000 K (compared to 5,778 K for the photosphere).</li>
+                            <li><span class="font-medium text-yellow-200">Sunspot Cycle:</span> The number of sunspots varies over an approximately 11-year cycle (the full magnetic cycle is 22 years). We are currently in Solar Cycle 25.</li>
+                            <li><span class="font-medium text-yellow-200">Maunder Minimum:</span> A period from 1645 to 1715 when sunspots were exceedingly rare. This period coincided with a colder climate on Earth, known as the "Little Ice Age," suggesting a link between solar activity and Earth's climate.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to render a single timeline event
+        function renderTimelineEvent(year, title, description, highlight = false) {
+            const highlightClass = highlight ? 'highlight-event' : '';
+            return `
+                <div class="mb-8 flex items-start relative ${highlightClass}">
+                    <div class="timeline-dot"></div>
+                    <div class="flex-grow pl-4">
+                        <h3 class="text-xl font-semibold text-indigo-200">${year} - ${title}</h3>
+                        <p class="text-base text-gray-300 mt-1">${description}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to render the Timeline of Discoveries section
+        function renderSolarTimeline() {
+            return `
+                <div class="space-y-6 text-gray-200">
+                    <h2 class="text-3xl font-bold text-yellow-300 mb-4"><span class="section-title-icon">⏳</span> Timeline of Major Discoveries in Solar Astronomy</h2>
+                    <p class="text-lg leading-relaxed mb-6">
+                        Humanity's understanding of the Sun has evolved over millennia, from early observations to sophisticated space missions. Here are some key milestones:
+                    </p>
+
+                    <div class="relative border-l-4 border-indigo-500 pl-6 ml-3">
+                        <!-- Ancient Observations -->
+                        ${renderTimelineEvent(
+                            "c. 1375 BCE",
+                            "Early Sunspot Observations (China)",
+                            "Ancient Chinese astronomers recorded observations of sunspots in the 'I Ching', demonstrating early awareness of solar features."
+                        )}
+                        ${renderTimelineEvent(
+                            "c. 150 CE",
+                            "Ptolemy's Geocentric Model",
+                            "Claudius Ptolemy's 'Almagest' described an Earth-centered universe with the Sun orbiting Earth, which was the dominant view for over a millennium."
+                        )}
+
+                        <!-- Renaissance & Early Modern Era -->
+                        ${renderTimelineEvent(
+                            "1543",
+                            "Copernican Heliocentrism",
+                            "Nicolaus Copernicus published 'De Revolutionibus Orbium Coelestium', proposing a Sun-centered (heliocentric) model of the solar system, revolutionizing astronomy.",
+                            true // Highlight
+                        )}
+                        ${renderTimelineEvent(
+                            "1608",
+                            "Invention of the Telescope",
+                            "Hans Lippershey's invention of the refracting telescope paved the way for detailed astronomical observations.",
+                            true // Highlight
+                        )}
+                        ${renderTimelineEvent(
+                            "1610-1613",
+                            "Telescopic Sunspot Observations (Galileo, Fabricius, Scheiner, Harriot)",
+                            "Galileo Galilei, Johannes Fabricius, Christoph Scheiner, and Thomas Harriot independently observed sunspots with telescopes. Fabricius was the first to publish, correctly interpreting their motion as solar rotation. Galileo's detailed observations further supported the idea that they were features on the Sun itself.",
+                            true // Highlight
+                        )}
+                        ${renderTimelineEvent(
+                            "1645-1715",
+                            "Maunder Minimum",
+                            "A period of extremely low sunspot activity, later named after Edward Maunder. This coincided with a colder climate on Earth, known as the 'Little Ice Age', suggesting a link between solar activity and terrestrial climate."
+                        )}
+                        ${renderTimelineEvent(
+                            "1687",
+                            "Newton's Law of Universal Gravitation",
+                            "Isaac Newton's 'Philosophiæ Naturalis Principia Mathematica' provided the mathematical framework for understanding the forces governing celestial bodies, including the Sun."
+                        )}
+
+                        <!-- 19th Century -->
+                        ${renderTimelineEvent(
+                            "1802",
+                            "Discovery of Fraunhofer Lines",
+                            "William Hyde Wollaston and later Joseph von Fraunhofer observed dark absorption lines in the solar spectrum, which were later understood to reveal the Sun's chemical composition."
+                        )}
+                        ${renderTimelineEvent(
+                            "1843",
+                            "Discovery of the Sunspot Cycle",
+                            "Samuel Heinrich Schwabe, after 17 years of observations, discovered the approximately 11-year cycle in sunspot numbers.",
+                            true // Highlight
+                        )}
+                        ${renderTimelineEvent(
+                            "1859",
+                            "Carrington Event & First Solar Flare Observation",
+                            "Richard Carrington and Richard Hodgson independently observed a powerful solar flare, followed by a massive geomagnetic storm on Earth, demonstrating the Sun's direct impact.",
+                            true // Highlight
+                        )}
+                        ${renderTimelineEvent(
+                            "1868",
+                            "Discovery of Helium",
+                            "Pierre Janssen and Norman Lockyer independently detected a new spectral line in the Sun's corona during an eclipse, leading to the discovery of helium, an element first found on the Sun before Earth."
+                        )}
+                        ${renderTimelineEvent(
+                            "1908",
+                            "Sunspots are Magnetic (Hale)",
+                            "George Ellery Hale demonstrated that sunspots are regions of intense magnetic fields, explaining their dark appearance and connection to solar activity.",
+                            true // Highlight
+                        )}
+
+                        <!-- 20th Century & Space Age -->
+                        ${renderTimelineEvent(
+                            "1931",
+                            "Invention of the Coronagraph",
+                            "Bernard Lyot invented the coronagraph, allowing continuous observation of the Sun's corona without waiting for a total solar eclipse."
+                        )}
+                        ${renderTimelineEvent(
+                            "1958",
+                            "Prediction of Solar Wind (Parker)",
+                            "Eugene Parker theorized the existence of the solar wind, a continuous outflow of particles from the Sun, later confirmed by space probes.",
+                            true // Highlight
+                        )}
+                        ${renderTimelineEvent(
+                            "1962",
+                            "Mariner 2 Confirms Solar Wind",
+                            "NASA's Mariner 2 spacecraft made the first direct measurements of the solar wind, confirming Parker's prediction."
+                        )}
+                        ${renderTimelineEvent(
+                            "1995",
+                            "Launch of SOHO (Solar and Heliospheric Observatory)",
+                            "A joint ESA/NASA mission, SOHO provided unprecedented continuous observations of the Sun, from its interior to the outer corona, revolutionizing solar physics.",
+                            true // Highlight
+                        )}
+
+                        <!-- 21st Century -->
+                        ${renderTimelineEvent(
+                            "2010",
+                            "Launch of Solar Dynamics Observatory (SDO)",
+                            "SDO provides high-resolution, full-disk images of the Sun in multiple wavelengths, enabling detailed studies of solar activity and space weather."
+                        )}
+                        ${renderTimelineEvent(
+                            "2018",
+                            "Launch of Parker Solar Probe",
+                            "NASA's Parker Solar Probe became the first spacecraft to 'touch the Sun' by flying directly into its outer corona, providing crucial data on solar wind origin and coronal heating.",
+                            true // Highlight
+                        )}
+                        ${renderTimelineEvent(
+                            "2020",
+                            "Launch of Solar Orbiter",
+                            "A joint ESA/NASA mission, Solar Orbiter provides close-up images of the Sun's poles and inner heliosphere, complementing Parker Solar Probe's observations."
+                        )}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to render the Moving Forward section
+        function renderMovingForward() {
+            return `
+                <div class="space-y-6 text-gray-200">
+                    <h2 class="text-3xl font-bold text-yellow-300 mb-4"><span class="section-title-icon">🚀</span> Moving Forward: Recent Discoveries & Awards</h2>
+                    <p class="text-lg leading-relaxed">
+                        Solar astrophysics is a rapidly evolving field, with new discoveries constantly reshaping our understanding of the Sun and its influence on the heliosphere. Recent missions and research have provided unprecedented insights.
+                    </p>
+
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">Recent Heliosphere Discoveries <span class="section-title-icon">🌌</span></h3>
+                        <ul class="list-disc list-inside mt-3 space-y-2 styled-list recent-discovery-list">
+                            <li><span class="font-medium text-yellow-200">Heliosphere's Shape:</span> Recent models, supported by data from missions like IBEX and Voyager, suggest the heliosphere (our Sun's protective bubble) might have a 'deflated croissant' or 'bullet-like' shape, rather than a simple comet-like tail. This shape is influenced by the interaction with the local interstellar medium.</li>
+                            <li><span class="font-medium text-yellow-200">Ripples at the Edge:</span> Unexplained ripples and asymmetries have been detected at the heliosphere's boundary (heliopause), indicating complex interactions between the solar wind and interstellar space. These shifts are being actively investigated.</li>
+                            <li><span class="font-medium text-yellow-200">Voyager Missions:</span> NASA's Voyager 1 and 2 spacecraft are the only human-made objects to have crossed the heliopause and entered interstellar space (in 2012 and 2018, respectively), providing direct measurements of this distant boundary.</li>
+                            <li><span class="font-medium text-yellow-200">Interstellar Cloud Interaction:</span> Research suggests that millions of years ago, the heliosphere may have shrunk significantly due to interaction with a cold interstellar cloud, potentially exposing Earth to more cosmic radiation and influencing past ice ages.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">Upcoming Missions & Awards <span class="section-title-icon">🌟</span></h3>
+                        <ul class="list-disc list-inside mt-3 space-y-2 styled-list upcoming-mission-list">
+                            <li><span class="font-medium text-yellow-200">Interstellar Mapping and Acceleration Probe (IMAP):</span> Scheduled for launch in 2025, IMAP will study the heliosphere's boundary and the flow of particles from the Sun and interstellar space, building upon the Voyager and IBEX data.</li>
+                            <li><span class="font-medium text-yellow-200">Parker Solar Probe & Solar Orbiter:</span> These ongoing missions continue to provide unprecedented close-up data on the Sun's corona and solar wind, crucial for understanding the heliosphere's dynamics.</li>
+                            <li><span class="font-medium text-yellow-200">Notable Awards:</span> Researchers in heliophysics and solar physics are regularly recognized for their groundbreaking work. For instance, Dr. Merav Opher (Boston University) leads the NASA-funded SHIELD DRIVE Science Center, focusing on modeling the heliosphere. Dr. Holly Gilbert (NSF NCAR) was recently awarded the inaugural Irene González Hernández Prize for her significant contributions to solar physics, including understanding the Sun's impact on the heliosphere.</li>
+                            <li><span class="font-medium text-yellow-200">International Recognition:</span> Awards like the COSPAR Space Science Award and various prizes from the American Astronomical Society (AAS) and International Astronomical Union (IAU) continue to celebrate advancements in solar and heliospheric research globally.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to render the Spacecraft/Probes section
+        function renderSpacecraftProbes() {
+            return `
+                <div class="space-y-6 text-gray-200">
+                    <h2 class="text-3xl font-bold text-yellow-300 mb-4"><span class="section-title-icon">🛰️</span> Spacecraft/Probes Sent To Observe Sun</h2>
+                    <p class="text-lg leading-relaxed">
+                        Space-based missions are crucial for observing the Sun without the distortion of Earth's atmosphere, providing a continuous and comprehensive view across various wavelengths.
+                    </p>
+
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">Key Solar Space Missions <span class="section-title-icon">🚀</span></h3>
+                        <ul class="list-disc list-inside mt-3 space-y-2 styled-list spacecraft-list">
+                            <li><span class="font-medium text-yellow-200">Parker Solar Probe (NASA):</span> Launched in 2018, this mission is designed to "touch the Sun" by flying directly into its outer corona. It aims to understand the mechanisms that heat the corona and accelerate the solar wind.</li>
+                            <li><span class="font-medium text-yellow-200">Solar Orbiter (ESA/NASA):</span> Launched in 2020, it provides the first images of the Sun's poles and studies the Sun-heliosphere connection. Its unique orbit allows for observations from out of the ecliptic plane.</li>
+                            <li><span class="font-medium text-yellow-200">SOHO (Solar and Heliospheric Observatory, ESA/NASA):</span> Launched in 1995, SOHO has been a cornerstone of solar physics for decades. It provides continuous observations of the Sun from its deep interior, through its visible surface, and out to the solar wind, revolutionizing our understanding of solar dynamics and space weather.</li>
+                            <li><span class="font-medium text-yellow-200">STEREO (Solar Terrestrial Relations Observatory, NASA):</span> Launched in 2006, these twin spacecraft provide stereoscopic (3D) views of the Sun, especially useful for tracking coronal mass ejectios (CMEs) as they propagate through space.</li>
+                            <li><span class="font-medium text-yellow-200">Solar Dynamics Observatory (SDO, NASA):</span> Launched in 2010, SDO provides high-resolution images and data of the entire Sun in multiple wavelengths simultaneously, enabling scientists to study solar activity and its impact on Earth in unprecedented detail.</li>
+                            <li><span class="font-medium text-yellow-200">IBEX (Interstellar Boundary Explorer, NASA):</span> Launched in 2008, IBEX maps the boundary between our solar system and interstellar space (the heliosphere's edge) by detecting energetic neutral atoms (ENAs) that originate from this interaction region.</li>
+                            <li><span class="font-medium text-yellow-200">Voyager 1 & 2 (NASA):</span> Although not dedicated solar missions, these venerable probes (launched in 1977) have provided invaluable in-situ data as they crossed the heliopause into interstellar space (Voyager 1 in 2012, Voyager 2 in 2018), offering direct measurements of the conditions at the very edge of the heliosphere.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to render the Solar Observatories section
+        function renderSolarObservatories() {
+            return `
+                <div class="space-y-6 text-gray-200">
+                    <h2 class="text-3xl font-bold text-yellow-300 mb-4"><span class="section-title-icon">🔭</span> Solar Observatories (Ground-based)</h2>
+                    <p class="text-lg leading-relaxed">
+                        Ground-based solar observatories complement space missions by providing high-resolution, long-term observations of the Sun's surface and lower atmosphere, often focusing on specific phenomena.
+                    </p>
+
+                    <div class="bg-gray-700 bg-opacity-50 p-5 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold text-indigo-300 mb-2">Prominent Ground-based Solar Telescopes <span class="section-title-icon">🌍</span></h3>
+                        <ul class="list-disc list-inside mt-3 space-y-2 styled-list observatory-list">
+                            <li><span class="font-medium text-yellow-200">Daniel K. Inouye Solar Telescope (DKIST, Hawaii, USA):</span> The world's most powerful solar telescope, inaugurated in 2019. It provides unprecedented high-resolution images and spectroscopic data of the Sun's surface and atmosphere, revealing fine details of sunspots, flares, and prominences.</li>
+                            <li><span class="font-medium text-yellow-200">Big Bear Solar Observatory (BBSO, California, USA):</span> Known for its high-resolution observations of solar activity, including sunspots, active regions, and magnetic fields, using adaptive optics to overcome atmospheric blurring.</li>
+                            <li><span class="font-medium text-yellow-200">GONG (Global Oscillation Network Group):</span> A worldwide network of six solar observatories that continuously monitor the Sun's surface oscillations (helioseismology). This allows scientists to study the Sun's interior structure and dynamics.</li>
+                            <li><span class="font-medium text-yellow-200">Kitt Peak National Observatory (Arizona, USA):</span> Home to several solar telescopes, including the historically significant McMath-Pierce Solar Telescope, which was once the world's largest solar telescope and contributed greatly to solar spectroscopy.</li>
+                            <li><span class="font-medium text-yellow-200">Swedish 1-m Solar Telescope (SST, La Palma, Canary Islands):</span> Renowned for producing some of the sharpest images of the Sun's surface, revealing details down to about 70 km.</li>
+                            <li><span class="font-medium text-yellow-200">Udaipur Solar Observatory (USO, Rajasthan, India):</span> Located on an island in Lake Fateh Sagar, Udaipur, this observatory specializes in high-resolution observations of solar flares, prominences, and magnetic fields, benefiting from the stable atmospheric conditions over the lake.</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to update the content based on dropdown selection
+        function updateContent() {
+            const selectElement = document.getElementById('section-select');
+            const contentArea = document.getElementById('content-area');
+            const selectedValue = selectElement.value;
+
+            switch (selectedValue) {
+                case 'structure':
+                    contentArea.innerHTML = renderSunStructure();
+                    break;
+                case 'phenomena':
+                    contentArea.innerHTML = renderSolarPhenomena();
+                    break;
+                case 'timeline':
+                    contentArea.innerHTML = renderSolarTimeline();
+                    break;
+                case 'moving-forward':
+                    contentArea.innerHTML = renderMovingForward();
+                    break;
+                case 'spacecraft-probes':
+                    contentArea.innerHTML = renderSpacecraftProbes();
+                    break;
+                case 'solar-observatories':
+                    contentArea.innerHTML = renderSolarObservatories();
+                    break;
+                default:
+                    contentArea.innerHTML = renderSunStructure(); // Default to structure
+            }
+        }
+
+        // Event listener for dropdown change
+        document.addEventListener('DOMContentLoaded', () => {
+            const selectElement = document.getElementById('section-select');
+            selectElement.addEventListener('change', updateContent);
+
+            // Initial content load
+            updateContent();
+        });
+    </script>
+</body>
+</html>

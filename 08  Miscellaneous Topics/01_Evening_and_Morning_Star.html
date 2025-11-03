@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morning and Evening Star Infographic</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Three.js CDN for 3D graphics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        /* Custom CSS for the infographic */
+        :root {
+            --color-bg-dark: #0a0a2a; /* Dark space background */
+            --color-text-light: #e0e7ff; /* Light text for dark background */
+            --color-accent-blue: #3b82f6;
+            --color-accent-yellow: #facc15;
+            --color-accent-green: #22c55e;
+            --color-accent-red: #ef4444;
+            --color-accent-purple: #a855f7;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, var(--color-bg-dark), #1a1a4a); /* Dark space gradient */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 2rem;
+            color: var(--color-text-light); /* Light text color */
+            overflow-x: hidden; /* Prevent horizontal scrolling due to animations */
+        }
+
+        /* Responsive font sizing with clamp() */
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem); /* Smaller on mobile, larger on desktop */
+        }
+        h2 {
+            font-size: clamp(2rem, 6vw, 2.5rem);
+        }
+        p, li {
+            font-size: clamp(1rem, 3vw, 1.125rem);
+        }
+
+        /* Custom styles for arrows */
+        .arrow-right::after {
+            content: ' →';
+        }
+
+        /* Section Title Underline */
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-accent-blue);
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 70px; /* Longer underline */
+            height: 4px; /* Thicker underline */
+            background-color: var(--color-accent-yellow); /* Yellow underline */
+            border-radius: 9999px;
+        }
+
+        /* Scroll Animation Styles */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Tooltip Styles */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        .tooltip-text {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%; /* Position above the element */
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Canvas styling */
+        #solarSystemCanvas {
+            display: block;
+            width: 100%;
+            height: 400px; /* Fixed height for the canvas */
+            background-color: #000; /* Black background for space */
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.1), 0 0 20px rgba(var(--color-accent-blue), 0.5);
+            cursor: grab; /* Indicate interactivity */
+        }
+
+        /* Button styling for toggle */
+        .toggle-button {
+            @apply px-6 py-3 rounded-full font-semibold text-lg transition-all duration-300 ease-in-out shadow-lg;
+        }
+        .toggle-button-active {
+            @apply bg-blue-600 text-white hover:bg-blue-700;
+        }
+        .toggle-button-inactive {
+            @apply bg-gray-700 text-gray-300 hover:bg-gray-600;
+        }
+    </style>
+</head>
+<body class="text-gray-100">
+    <div class="bg-gray-900 rounded-3xl shadow-2xl p-8 md:p-12 max-w-5xl w-full border border-blue-700">
+        <!-- Main Title -->
+        <h1 class="font-extrabold text-center text-blue-400 mb-8 leading-tight">
+            <span class="text-yellow-300">🌟</span> MORNING AND EVENING STAR
+            <div class="text-xl md:text-2xl font-medium text-gray-400 mt-2">
+                Why Venus and Mercury shine at sunrise and sunset
+            </div>
+        </h1>
+
+        <!-- Interactive 3D Solar System Model -->
+        <div class="mb-10 animate-on-scroll">
+            <h2 class="text-3xl font-bold text-blue-300 mb-6 section-title">Interactive Solar System</h2>
+            <canvas id="solarSystemCanvas"></canvas>
+            <div class="flex justify-center gap-4 mt-4">
+                <button id="morningViewBtn" class="toggle-button toggle-button-active">Morning View</button>
+                <button id="eveningViewBtn" class="toggle-button toggle-button-inactive">Evening View</button>
+            </div>
+            <p class="text-center text-gray-400 mt-4 text-sm">Drag the canvas to rotate the view!</p>
+        </div>
+
+        <!-- Celestial Layout Section -->
+        <section class="mb-10 p-6 bg-blue-900 bg-opacity-30 rounded-2xl border border-blue-700 animate-on-scroll">
+            <h2 class="font-bold text-blue-300 mb-6 section-title">Celestial Layout</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <!-- Sun -->
+                <div class="flex flex-col items-center text-center p-4 bg-yellow-900 bg-opacity-30 rounded-xl shadow-lg border border-yellow-700 hover:scale-105 transition-transform duration-300">
+                    <!-- Custom SVG for Sun -->
+                    <svg class="w-20 h-20 mb-2 text-yellow-300" viewBox="0 0 24 24" fill="currentColor">
+                        <circle cx="12" cy="12" r="8" />
+                        <path d="M12 2v2m0 18v2m9.5-9.5h-2m-17 0h-2m15.07-7.07l-1.41 1.41m-10.65 10.65l-1.41 1.41m-7.07 15.07l1.41-1.41m10.65-10.65l1.41-1.41"/>
+                    </svg>
+                    <h3 class="text-2xl font-semibold text-yellow-300">SUN</h3>
+                    <p class="text-gray-300 mt-2">The central star of our solar system. All planets orbit around it.</p>
+                </div>
+
+                <!-- Planets (Mercury & Venus) -->
+                <div class="md:col-span-2 flex flex-col gap-6">
+                    <!-- Mercury -->
+                    <div class="p-5 bg-gray-800 bg-opacity-50 rounded-xl shadow-lg border border-gray-700 hover:scale-105 transition-transform duration-300">
+                        <h3 class="text-2xl font-semibold text-gray-300 mb-3 flex items-center">
+                            <!-- Custom SVG for Mercury -->
+                            <svg class="w-10 h-10 mr-2 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
+                                <circle cx="12" cy="12" r="6" />
+                            </svg> MERCURY
+                        </h3>
+                        <ul class="list-disc list-inside text-gray-300 space-y-2">
+                            <li>Near <span class="font-bold text-purple-400 tooltip-container">APOLLO<span class="tooltip-text">Ancient Greek name for Mercury as a morning star.</span></span> <span class="arrow-right"></span> Morning or evening view (depends on position)</li>
+                            <li>Near <span class="font-bold text-purple-400 tooltip-container">HESPERUS<span class="tooltip-text">Ancient Greek name for Mercury as an evening star.</span></span> <span class="arrow-right"></span> Evening view</li>
+                        </ul>
+                    </div>
+                    <!-- Venus -->
+                    <div class="p-5 bg-pink-900 bg-opacity-30 rounded-xl shadow-lg border border-pink-700 hover:scale-105 transition-transform duration-300">
+                        <h3 class="text-2xl font-semibold text-pink-300 mb-3 flex items-center">
+                            <!-- Custom SVG for Venus -->
+                            <svg class="w-10 h-10 mr-2 text-pink-400" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                                <path d="M12 6v6h6v-6h-6z"/>
+                            </svg> VENUS
+                        </h3>
+                        <ul class="list-disc list-inside text-gray-300 space-y-2">
+                            <li><span class="font-bold text-green-400 tooltip-container">PHOSPHORUS<span class="tooltip-text">Ancient Greek name for Venus as the Morning Star.</span></span> <span class="arrow-right"></span> Morning Star (seen before sunrise)</li>
+                            <li><span class="font-bold text-red-400 tooltip-container">HESPERUS<span class="tooltip-text">Ancient Greek name for Venus as the Evening Star.</span></span> <span class="arrow-right"></span> Evening Star (seen after sunset)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Earth's Rotation Section -->
+        <section class="mb-10 p-6 bg-green-900 bg-opacity-30 rounded-2xl border border-green-700 animate-on-scroll">
+            <h2 class="font-bold text-green-300 mb-6 section-title">Earth's Rotation</h2>
+            <div class="flex flex-col md:flex-row items-center justify-around gap-6 text-center">
+                <div class="flex flex-col items-center">
+                    <!-- Custom SVG for Earth -->
+                    <svg class="w-20 h-20 mb-2 text-blue-400" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                        <path d="M12 4a8 8 0 00-7.07 4H19.07A8 8 0 0012 4zM4 12a8 8 0 004 6.93V5.07A8 8 0 004 12zm16 0a8 8 0 00-4-6.93v13.86A8 8 0 0020 12z"/>
+                    </svg>
+                    <h3 class="text-2xl font-semibold text-green-300">EARTH LABELS</h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-300">
+                    <div class="p-3 bg-green-800 bg-opacity-50 rounded-lg shadow-sm border border-green-700">
+                        <span class="text-3xl mr-2">🌅</span> <span class="font-semibold">MORNING</span> <span class="arrow-right"></span> Side turning toward the Sun
+                    </div>
+                    <div class="p-3 bg-green-800 bg-opacity-50 rounded-lg shadow-sm border border-green-700">
+                        <span class="text-3xl mr-2">☀️</span> <span class="font-semibold">DAY</span> <span class="arrow-right"></span> Sunlit side of Earth
+                    </div>
+                    <div class="p-3 bg-green-800 bg-opacity-50 rounded-lg shadow-sm border border-green-700">
+                        <span class="text-3xl mr-2">🌃</span> <span class="font-semibold">NIGHT</span> <span class="arrow-right"></span> Dark side of Earth
+                    </div>
+                    <div class="p-3 bg-green-800 bg-opacity-50 rounded-lg shadow-sm border border-green-700">
+                        <span class="text-3xl mr-2">🌇</span> <span class="font-semibold">EVENING</span> <span class="arrow-right"></span> Side turning away from the Sun
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Explanation Box -->
+        <section class="mb-10 p-6 bg-purple-900 bg-opacity-30 rounded-2xl border border-purple-700 animate-on-scroll">
+            <h2 class="font-bold text-purple-300 mb-6 section-title">💡 WHY VENUS AND MERCURY APPEAR AT TWILIGHT</h2>
+            <ul class="list-disc list-inside text-gray-300 space-y-3">
+                <li>Venus and Mercury orbit closer to the Sun than Earth.</li>
+                <li>We only see them shortly before sunrise or after sunset because of their proximity to the Sun from our perspective.</li>
+                <li><span class="font-bold">Venus</span> = Morning Star (<span class="text-green-400">Phosphorus</span>) or Evening Star (<span class="text-red-400">Hesperus</span>)</li>
+                <li><span class="font-bold">Mercury</span> = Less often seen, but also appears at dawn or dusk, always close to the Sun.</li>
+            </ul>
+        </section>
+
+        <!-- Fun Fact Footer (Expandable) -->
+        <footer class="p-6 bg-indigo-900 bg-opacity-30 rounded-2xl border border-indigo-700 text-center shadow-inner animate-on-scroll">
+            <button id="toggleFunFact" class="text-xl font-bold text-indigo-300 mb-3 flex items-center justify-center w-full focus:outline-none hover:text-indigo-200 transition-colors duration-300">
+                <span class="text-3xl mr-2">📜</span> Did You Know?
+                <svg id="arrowIcon" class="w-6 h-6 ml-2 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="funFactContent" class="hidden text-lg text-gray-300 mt-4">
+                <p>
+                    In ancient times, Venus was thought to be two different stars—<span class="font-semibold">Phosphorus</span> and <span class="font-semibold">Hesperus</span>—before astronomers discovered they were the same planet! This highlights how observation and scientific inquiry lead to deeper understanding.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // --- 3D Solar System Model (Three.js) ---
+        let scene, camera, renderer, sun, earth, venus, mercury;
+        let earthOrbit, venusOrbit, mercuryOrbit;
+        // Declare orbit radius variables in a higher scope
+        let earthOrbitRadius = 70;
+        let venusOrbitRadius = 50;
+        let mercuryOrbitRadius = 30;
+
+        // Declare line objects in a higher scope
+        let sunToVenusLine, sunToMercuryLine, venusToEarthLine, mercuryToEarthLine;
+
+        let mouseX = 0, mouseY = 0;
+        let isDragging = false;
+        let previousMouseX = 0, previousMouseY = 0;
+        let targetRotationX = 0, targetRotationY = 0;
+        let currentRotationX = 0, currentRotationY = 0;
+        const rotationSpeed = 0.005;
+
+        // Function to initialize the 3D scene
+        function initThreeJS() {
+            const canvas = document.getElementById('solarSystemCanvas');
+            const width = canvas.clientWidth;
+            const height = canvas.clientHeight;
+
+            // Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x000000); // Black background for space
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            camera.position.set(0, 50, 100); // Adjust camera position for better view
+            camera.lookAt(0, 0, 0); // Look at the center of the scene
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x333333); // Soft ambient light
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xffffff, 1.5, 0); // Sun's light
+            pointLight.position.set(0, 0, 0);
+            scene.add(pointLight);
+
+            // --- Celestial Bodies ---
+
+            // Sun (large, bright sphere)
+            const sunGeometry = new THREE.SphereGeometry(10, 32, 32);
+            const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xfacc15 }); // Yellow
+            sun = new THREE.Mesh(sunGeometry, sunMaterial);
+            scene.add(sun);
+
+            // Earth
+            const earthGeometry = new THREE.SphereGeometry(2, 32, 32);
+            // Custom shader material for day/night
+            const earthMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    lightDirection: { value: new THREE.Vector3(1, 0, 0).normalize() }, // Light from the sun
+                    dayColor: { value: new THREE.Color(0x0077be) }, // Blue
+                    nightColor: { value: new THREE.Color(0x0a0a2a) } // Dark blue/purple
+                },
+                vertexShader: `
+                    uniform vec3 lightDirection; // Declared as uniform here
+                    varying vec3 vNormal;
+                    varying vec3 vLightDirection;
+                    void main() {
+                        vNormal = normalize(normalMatrix * normal);
+                        vLightDirection = normalize(lightDirection);
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    }
+                `,
+                fragmentShader: `
+                    uniform vec3 dayColor;
+                    uniform vec3 nightColor;
+                    varying vec3 vNormal;
+                    varying vec3 vLightDirection;
+                    void main() {
+                        float intensity = dot(vNormal, vLightDirection);
+                        vec3 color = mix(nightColor, dayColor, smoothstep(-0.1, 0.1, intensity));
+                        gl_FragColor = vec4(color, 1.0);
+                    }
+                `
+            });
+            earth = new THREE.Mesh(earthGeometry, earthMaterial);
+            scene.add(earth);
+
+            // Venus
+            const venusGeometry = new THREE.SphereGeometry(1.8, 32, 32);
+            const venusMaterial = new THREE.MeshLambertMaterial({ color: 0xfca5a5 }); // Light pink/peach
+            venus = new THREE.Mesh(venusGeometry, venusMaterial);
+            scene.add(venus);
+
+            // Mercury
+            const mercuryGeometry = new THREE.SphereGeometry(1.5, 32, 32);
+            const mercuryMaterial = new THREE.MeshLambertMaterial({ color: 0x9ca3af }); // Gray
+            mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
+            scene.add(mercury);
+
+            // --- Orbital Paths (Circles) ---
+            const orbitMaterial = new THREE.LineBasicMaterial({ color: 0x333333, transparent: true, opacity: 0.5 });
+
+            const earthPoints = [];
+            for (let i = 0; i <= 64; i++) {
+                const angle = (i / 64) * Math.PI * 2;
+                earthPoints.push(new THREE.Vector3(Math.cos(angle) * earthOrbitRadius, 0, Math.sin(angle) * earthOrbitRadius));
+            }
+            earthOrbit = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(earthPoints), orbitMaterial);
+            scene.add(earthOrbit);
+
+            const venusPoints = [];
+            for (let i = 0; i <= 64; i++) {
+                const angle = (i / 64) * Math.PI * 2;
+                venusPoints.push(new THREE.Vector3(Math.cos(angle) * venusOrbitRadius, 0, Math.sin(angle) * venusOrbitRadius));
+            }
+            venusOrbit = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(venusPoints), orbitMaterial);
+            scene.add(venusOrbit);
+
+            const mercuryPoints = [];
+            for (let i = 0; i <= 64; i++) {
+                const angle = (i / 64) * Math.PI * 2;
+                mercuryPoints.push(new THREE.Vector3(Math.cos(angle) * mercuryOrbitRadius, 0, Math.sin(angle) * mercuryOrbitRadius));
+            }
+            mercuryOrbit = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(mercuryPoints), orbitMaterial);
+            scene.add(mercuryOrbit);
+
+            // --- Visual Connection Lines (Sun to Planets, Planets to Earth) ---
+            const lightRayMaterial = new THREE.LineBasicMaterial({ color: 0xffa500, transparent: true, opacity: 0.7 });
+            const viewLineMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.7 });
+
+            sunToVenusLine = new THREE.Line(new THREE.BufferGeometry(), lightRayMaterial);
+            sunToMercuryLine = new THREE.Line(new THREE.BufferGeometry(), lightRayMaterial);
+            venusToEarthLine = new THREE.Line(new THREE.BufferGeometry(), viewLineMaterial);
+            mercuryToEarthLine = new THREE.Line(new THREE.BufferGeometry(), viewLineMaterial);
+
+            scene.add(sunToVenusLine, sunToMercuryLine, venusToEarthLine, mercuryToEarthLine);
+
+            // --- Mouse Controls for Camera ---
+            canvas.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                previousMouseX = e.clientX;
+                previousMouseY = e.clientY;
+                canvas.style.cursor = 'grabbing';
+            });
+
+            canvas.addEventListener('mouseup', () => {
+                isDragging = false;
+                canvas.style.cursor = 'grab';
+            });
+
+            canvas.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - previousMouseX;
+                const deltaY = e.clientY - previousMouseY;
+
+                targetRotationY += deltaX * rotationSpeed;
+                targetRotationX += deltaY * rotationSpeed;
+
+                // Clamp vertical rotation to prevent flipping
+                targetRotationX = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, targetRotationX));
+
+                previousMouseX = e.clientX;
+                previousMouseY = e.clientY;
+            });
+
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                previousMouseX = e.touches[0].clientX;
+                previousMouseY = e.touches[0].clientY;
+            });
+
+            canvas.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+
+            canvas.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.touches[0].clientX - previousMouseX;
+                const deltaY = e.touches[0].clientY - previousMouseY;
+
+                targetRotationY += deltaX * rotationSpeed;
+                targetRotationX += deltaY * rotationSpeed;
+
+                targetRotationX = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, targetRotationX));
+
+                previousMouseX = e.touches[0].clientX;
+                previousMouseY = e.touches[0].clientY;
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                const newWidth = canvas.clientWidth;
+                const newHeight = canvas.clientHeight;
+                camera.aspect = newWidth / newHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(newWidth, newHeight);
+            });
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Smooth camera rotation
+            currentRotationY += (targetRotationY - currentRotationY) * 0.1;
+            currentRotationX += (targetRotationX - currentRotationX) * 0.1;
+
+            camera.position.x = 100 * Math.sin(currentRotationY) * Math.cos(currentRotationX);
+            camera.position.y = 100 * Math.sin(currentRotationX);
+            camera.position.z = 100 * Math.cos(currentRotationY) * Math.cos(currentRotationX);
+            camera.lookAt(0, 0, 0);
+
+            // Planet orbits and rotation
+            const time = Date.now() * 0.0001; // Slower animation
+            const earthSpeed = 0.8;
+            const venusSpeed = 1.3;
+            const mercurySpeed = 2.0;
+
+            // Use the defined orbit radius variables
+            earth.position.x = Math.cos(time * earthSpeed) * earthOrbitRadius;
+            earth.position.z = Math.sin(time * earthSpeed) * earthOrbitRadius;
+            earth.rotation.y += 0.01; // Earth's self-rotation
+
+            venus.position.x = Math.cos(time * venusSpeed + Math.PI / 2) * venusOrbitRadius;
+            venus.position.z = Math.sin(time * venusSpeed + Math.PI / 2) * venusOrbitRadius;
+
+            mercury.position.x = Math.cos(time * mercurySpeed + Math.PI) * mercuryOrbitRadius;
+            mercury.position.z = Math.sin(time * mercurySpeed + Math.PI) * mercuryOrbitRadius;
+
+            // Update light direction for Earth's day/night shader
+            const lightDir = new THREE.Vector3().subVectors(sun.position, earth.position).normalize();
+            earth.material.uniforms.lightDirection.value.copy(lightDir);
+
+            // Update connection lines
+            const sunPos = sun.position;
+            const earthPos = earth.position;
+            const venusPos = venus.position;
+            const mercuryPos = mercury.position;
+
+            sunToVenusLine.geometry.setFromPoints([sunPos, venusPos]);
+            sunToMercuryLine.geometry.setFromPoints([sunPos, mercuryPos]);
+            venusToEarthLine.geometry.setFromPoints([venusPos, earthPos]);
+            mercuryToEarthLine.geometry.setFromPoints([mercuryPos, earthPos]);
+
+            renderer.render(scene, camera);
+        }
+
+        // --- Morning/Evening View Toggle ---
+        const morningViewBtn = document.getElementById('morningViewBtn');
+        const eveningViewBtn = document.getElementById('eveningViewBtn');
+
+        function setMorningView() {
+            // Adjust camera to show morning side of Earth and Venus/Mercury
+            targetRotationY = -Math.PI * 0.2; // Rotate slightly to the left
+            targetRotationX = 0;
+            camera.position.set(0, 50, 100); // Reset camera position
+            morningViewBtn.classList.add('toggle-button-active');
+            morningViewBtn.classList.remove('toggle-button-inactive');
+            eveningViewBtn.classList.remove('toggle-button-active');
+            eveningViewBtn.classList.add('toggle-button-inactive');
+        }
+
+        function setEveningView() {
+            // Adjust camera to show evening side of Earth and Venus/Mercury
+            targetRotationY = Math.PI * 0.2; // Rotate slightly to the right
+            targetRotationX = 0;
+            camera.position.set(0, 50, 100); // Reset camera position
+            eveningViewBtn.classList.add('toggle-button-active');
+            eveningViewBtn.classList.remove('toggle-button-inactive');
+            morningViewBtn.classList.remove('toggle-button-active');
+            morningViewBtn.classList.add('toggle-button-inactive');
+        }
+
+        morningViewBtn.addEventListener('click', setMorningView);
+        eveningViewBtn.addEventListener('click', setEveningView);
+
+        // --- Scroll Animations (Intersection Observer) ---
+        const sections = document.querySelectorAll('.animate-on-scroll');
+        const observerOptions = {
+            root: null, /* viewport */
+            rootMargin: '0px',
+            threshold: 0.1 /* 10% of element visible */
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- Expandable "Did You Know?" Section ---
+        const toggleFunFactBtn = document.getElementById('toggleFunFact');
+        const funFactContent = document.getElementById('funFactContent');
+        const arrowIcon = document.getElementById('arrowIcon');
+
+        toggleFunFactBtn.addEventListener('click', () => {
+            funFactContent.classList.toggle('hidden');
+            arrowIcon.classList.toggle('rotate-180'); // Rotate arrow on toggle
+        });
+
+
+        // Initialize Three.js and start animation when the window loads
+        window.onload = function() {
+            initThreeJS();
+            animate();
+            setMorningView(); // Set initial view
+        };
+    </script>
+</body>
+</html>
