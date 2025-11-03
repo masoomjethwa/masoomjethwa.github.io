@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi Zero Projects for Planetary Science Learning</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e0f7fa; /* Light cyan background */
+            color: #263238; /* Dark blue-gray text */
+        }
+        .container-wrapper {
+            background-color: #ffffff;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .project-card {
+            background-color: #f0f8ff; /* Lighter background for cards */
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid #b3e5fc; /* Light blue border */
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        .project-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .section-heading {
+            color: #00796b; /* Teal for main headings */
+        }
+        .list-item-strong {
+            font-weight: 600; /* Semi-bold for list item titles */
+            color: #004d40; /* Darker teal for list titles */
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container-wrapper">
+        <!-- Header Section -->
+        <header class="text-center mb-10 p-6 bg-gradient-to-r from-teal-600 to-cyan-700 text-white rounded-xl shadow-lg">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-2 flex items-center justify-center">
+                <span class="mr-3 text-5xl">🌍🔭</span> Raspberry Pi Zero Projects for Planetary Science Learning
+            </h1>
+            <p class="text-lg md:text-xl font-light">Hands-on, Fun, and Educational for Kids!</p>
+        </header>
+
+        <!-- Projects Section -->
+        <section class="mb-10">
+            <h2 class="text-3xl font-bold mb-6 text-center section-heading flex items-center justify-center">
+                <span class="mr-3 text-4xl">💡</span> Awesome Project Ideas!
+            </h2>
+
+            <!-- Project 1: Interactive Solar System Model -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🌞</span> 1. Interactive Solar System Model
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Planet order, rotation timing</span></li>
+                        <li><span class="list-item-strong">Basics of circuits and programming</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">How:</p>
+                    <p class="text-base leading-relaxed">
+                        Code Python scripts to turn LEDs on/off simulating planetary orbits.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center">
+                    <img src="https://placehold.co/400x250/80cbc4/ffffff?text=Solar+System+LEDs" alt="Interactive Solar System Model" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 2: Planetary Weather Station -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div class="md:order-2">
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🌡️</span> 2. Planetary Weather Station
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Atmospheric conditions on Earth vs other planets</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">How:</p>
+                    <p class="text-base leading-relaxed">
+                        Use sensors like DHT22 and BMP180 connected to Pi; display data on an LCD.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center md:order-1">
+                    <img src="https://placehold.co/400x250/4db6ac/ffffff?text=Weather+Station" alt="Planetary Weather Station" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 3: Moon Phase Calendar -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🌙</span> 3. Moon Phase Calendar
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Lunar cycle, phases of the Moon</span></li>
+                        <li><span class="list-item-strong">Calendar math</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">How:</p>
+                    <p class="text-base leading-relaxed">
+                        Fetch moon phase data from online API or calculate phases; show with a small screen.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center">
+                    <img src="https://placehold.co/400x250/26a69a/ffffff?text=Moon+Phases" alt="Moon Phase Calendar" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 4: Satellite Tracker -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div class="md:order-2">
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🛰️</span> 4. Satellite Tracker
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Orbital mechanics</span></li>
+                        <li><span class="list-item-strong">Satellite technology</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">How:</p>
+                    <p class="text-base leading-relaxed">
+                        Use Python libraries like pyephem or skyfield and display pass times on LCD or screen.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center md:order-1">
+                    <img src="https://placehold.co/400x250/00897b/ffffff?text=Satellite+Tracker" alt="Satellite Tracker" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 5: Mission Control Dashboard -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🚀</span> 5. Mission Control Dashboard
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Data visualization</span></li>
+                        <li><span class="list-item-strong">Spacecraft telemetry</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">How:</p>
+                    <p class="text-base leading-relaxed">
+                        Connect sensors or use simulated data streams; display graphs and stats with Python (e.g., Matplotlib).
+                    </p>
+                </div>
+                <div class="flex justify-center items-center">
+                    <img src="https://placehold.co/400x250/00796b/ffffff?text=Mission+Control" alt="Mission Control Dashboard" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 6: Star Map Projector -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div class="md:order-2">
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🌌</span> 6. Star Map Projector
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Star patterns</span></li>
+                        <li><span class="list-item-strong">Navigation by stars</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">How:</p>
+                    <p class="text-base leading-relaxed">
+                        Program Raspberry Pi to show star maps on a small screen or projector.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center md:order-1">
+                    <img src="https://placehold.co/400x250/00695c/ffffff?text=Star+Map" alt="Star Map Projector" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 7: Gravity Simulator with Accelerometer -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🪐</span> 7. Gravity Simulator with Accelerometer
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Gravity concepts, acceleration</span></li>
+                        <li><span class="list-item-strong">Sensors</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">How:</p>
+                    <p class="text-base leading-relaxed">
+                        Connect an accelerometer sensor (e.g., MPU6050) to Pi and visualize data.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center">
+                    <img src="https://placehold.co/400x250/004d40/ffffff?text=Gravity+Sim" alt="Gravity Simulator with Accelerometer" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 8: Radio Signal Detector -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div class="md:order-2">
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">📡</span> 8. Radio Signal Detector
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Electromagnetic waves</span></li>
+                        <li><span class="list-item-strong">Communication in space</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">How:</p>
+                    <p class="text-base leading-relaxed">
+                        Use software-defined radio (SDR) USB dongle with Pi; decode signals.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center md:order-1">
+                    <img src="https://placehold.co/400x250/37474f/ffffff?text=Radio+Detector" alt="Radio Signal Detector" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 9: Cosmic Ray Detector (Simplified) -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🌟</span> 9. Cosmic Ray Detector (Simplified)
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Cosmic rays</span></li>
+                        <li><span class="list-item-strong">Space radiation</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">How:</p>
+                    <p class="text-base leading-relaxed">
+                        Connect photodiode to Pi GPIO; log detected events over time.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center">
+                    <img src="https://placehold.co/400x250/546e7a/ffffff?text=Cosmic+Ray" alt="Cosmic Ray Detector" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 10: Planet Rover Simulator -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div class="md:order-2">
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🪐</span> 10. Planet Rover Simulator
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Robotics</span></li>
+                        <li><span class="list-item-strong">Remote exploration</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">How:</p>
+                    <p class="text-base leading-relaxed">
+                        Use Pi to control motors/wheels; program Python to navigate a small rover through obstacles.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center md:order-1">
+                    <img src="https://placehold.co/400x250/78909c/ffffff?text=Rover+Sim" alt="Planet Rover Simulator" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+        </section>
+
+        <!-- Suggested Materials -->
+        <section class="mb-10 p-6 bg-lime-50 rounded-xl shadow-md border border-lime-200">
+            <h2 class="text-3xl font-bold mb-4 flex items-center justify-center section-heading">
+                <span class="mr-3 text-4xl">🧰</span> Suggested Materials
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-lg">
+                <ul class="list-disc pl-6 space-y-1">
+                    <li>Raspberry Pi Zero W (for wireless)</li>
+                    <li>Breadboard and jumper wires</li>
+                    <li>LEDs, resistors</li>
+                    <li>Sensors: DHT22, BMP180, MPU6050, photodiode</li>
+                </ul>
+                <ul class="list-disc pl-6 space-y-1">
+                    <li>Small LCD/OLED display</li>
+                    <li>Motor driver board (for rover)</li>
+                    <li>USB SDR dongle (for radio detection)</li>
+                    <li>Mini rover chassis or robot kit</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Teaching Tips -->
+        <section class="p-6 bg-amber-50 rounded-xl shadow-md border border-amber-200">
+            <h2 class="text-3xl font-bold mb-4 flex items-center justify-center section-heading">
+                <span class="mr-3 text-4xl">🎯</span> Teaching Tips
+            </h2>
+            <ul class="list-disc pl-8 text-lg leading-relaxed space-y-2">
+                <li><span class="list-item-strong">Introduce Python basics before hardware control.</span></li>
+                <li><span class="list-item-strong">Connect each project to a real planetary science fact or mission.</span></li>
+                <li><span class="list-item-strong">Encourage kids to customize and add creative features.</span></li>
+                <li><span class="list-item-strong">Use online simulators or virtual Pi environments if hardware is limited.</span></li>
+            </ul>
+        </section>
+
+        <footer class="text-center mt-10 text-gray-600 text-lg">
+            <p>Would you like me to provide detailed step-by-step guides or sample Python code for any of these projects?</p>
+        </footer>
+    </div>
+</body>
+</html>

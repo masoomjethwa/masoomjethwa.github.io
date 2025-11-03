@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asteroids and Their Impact</title>
+    <!-- Google Fonts: Inter for body, Montserrat for headings -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- D3.js CDN for charts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        /* Custom font and enhanced color palette */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, #0a0e17, #1a202c); /* Deeper dark space gradient */
+            color: #e2e8f0; /* Off-white for body text */
+            line-height: 1.7; /* Improved line height for readability */
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+            position: relative; /* For positioning starfield */
+        }
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif; /* Secondary font for headings */
+            color: #e0e7ff; /* Lighter, slightly bluish-white for headings */
+        }
+        /* Main Title Specifics */
+        h1 {
+            font-size: 3.5rem; /* Larger font size */
+            font-weight: 900; /* Bolder weight */
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5); /* More prominent text shadow */
+            opacity: 0; /* Initial state for animation */
+            transform: scale(0.8); /* Initial state for animation */
+            animation: scaleInBounce 1.2s ease-out forwards; /* Apply scale-in animation */
+            animation-delay: 0.6s; /* Delay after image animation */
+            position: relative; /* Ensure it's above stars */
+            z-index: 10;
+        }
+        /* Custom styles for sections */
+        .section-heading {
+            border-bottom: 1px solid #3b455c; /* Slightly lighter border for contrast */
+            padding-bottom: 0.75rem;
+            margin-bottom: 2rem;
+            display: flex; /* For icon alignment */
+            align-items: center;
+            gap: 0.75rem; /* Space between icon and text */
+            opacity: 0; /* Initial state for scroll animation */
+            transform: translateX(-50px); /* Initial state for scroll animation */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Smooth transition */
+            position: relative; /* Ensure it's above stars */
+            z-index: 10;
+        }
+        .section-heading.animate-in {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .card {
+            background-color: #1f2937; /* Darker gray-blue for cards */
+            border-radius: 0.75rem; /* Rounded corners */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+            padding: 1.75rem; /* Increased padding */
+            margin-bottom: 2.5rem; /* Increased margin for better separation */
+            border: 1px solid #3b455c; /* Card border */
+            transition: all 0.3s ease-in-out; /* Transition for hover effect */
+            opacity: 0; /* Initial state for fade-in animation */
+            transform: translateY(20px); /* Initial state for fade-in animation */
+            animation: fadeInSlideUp 0.8s ease-out forwards; /* Apply fade-in animation */
+            position: relative; /* Ensure it's above stars */
+            z-index: 10;
+        }
+        .card:hover {
+            transform: translateY(-8px); /* More pronounced lift effect on hover */
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+        }
+        .list-item {
+            margin-bottom: 1rem; /* Increased margin for list items */
+            color: #a0aec0; /* Medium gray for list item text */
+            opacity: 0; /* Initial state for scroll animation */
+            transform: translateY(20px); /* Initial state for scroll animation */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Smooth transition */
+            position: relative; /* For nested animations */
+            z-index: 10;
+        }
+        .list-item:last-child {
+            margin-bottom: 0;
+        }
+        .list-item.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        strong {
+            color: #81e6d9; /* Teal accent color for strong text */
+        }
+
+        /* Custom list item markers */
+        ul.custom-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        ul.custom-list li {
+            position: relative;
+            padding-left: 1.5rem; /* Space for custom bullet */
+        }
+        ul.custom-list li::before {
+            content: '★'; /* Star emoji/character */
+            color: #81e6d9; /* Accent color for bullet */
+            position: absolute;
+            left: 0;
+            top: 0.2rem; /* Adjust vertical alignment */
+            font-size: 1rem;
+        }
+
+        ol.custom-decimal-list {
+            list-style-type: none;
+            padding-left: 0;
+            counter-reset: list-item; /* Reset counter for ordered list */
+        }
+        ol.custom-decimal-list li {
+            position: relative;
+            padding-left: 2rem; /* Space for custom number */
+            margin-bottom: 1rem;
+        }
+        ol.custom-decimal-list li::before {
+            content: counter(list-item) "."; /* Custom number */
+            counter-increment: list-item;
+            color: #81e6d9; /* Accent color for number */
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+            min-width: 1.5rem; /* Ensure consistent alignment for double-digit numbers */
+            text-align: right;
+        }
+
+        /* Fade-in animation for cards (initial load) */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Stagger animation for cards */
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; } /* Added for new section */
+        .card:nth-child(7) { animation-delay: 0.7s; } /* Added for new section */
+
+
+        /* Main Title Scale-in Bounce Animation */
+        @keyframes scaleInBounce {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.05); /* Slight overshoot */
+            }
+            80% {
+                transform: scale(0.98); /* Slight bounce back */
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Image Pulse Animation */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            50% {
+                transform: scale(1.01);
+                box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+        }
+        .image-pulse {
+            animation: pulse 3s infinite ease-in-out;
+            opacity: 0; /* Initial state for fade-in */
+            animation: fadeIn 1s ease-out forwards; /* Fade in animation */
+            position: relative; /* Ensure it's above stars */
+            z-index: 10;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Concept Animations */
+
+        /* Earth Rotation (for the Earth icon in section 1 heading) */
+        @keyframes rotateEarth {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-earth-rotation.animate-in svg {
+            animation: rotateEarth 10s linear infinite; /* Continuous rotation */
+        }
+
+        /* Shooting Star (for "Meteor or Shooting Star" list item) */
+        @keyframes shootingStar {
+            0% { transform: translateX(-100%) translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(200%) translateY(-50px) scale(0.8) rotate(20deg); opacity: 0; }
+        }
+        .shooting-star-icon {
+            position: absolute;
+            right: 0;
+            top: 0.5rem;
+            width: 20px;
+            height: 2px;
+            background-color: #fcd34d; /* Yellowish color */
+            border-radius: 2px;
+            box-shadow: 0 0 8px #fcd34d;
+            transform: translateX(-100%); /* Start off-screen */
+            opacity: 0;
+            animation: none; /* Controlled by JS */
+        }
+        .list-item.animate-in .shooting-star-icon {
+            animation: shootingStar 1.5s ease-out forwards;
+            animation-delay: var(--stagger-delay, 0s); /* Use staggered delay */
+        }
+
+        /* Crater Impact (for "Meteoritic Craters" list item) */
+        @keyframes craterImpact {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .crater-icon {
+            display: inline-block;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+            width: 20px;
+            height: 20px;
+            opacity: 0;
+            transform: scale(0.5);
+            animation: none; /* Controlled by JS */
+        }
+        .list-item.animate-in .crater-icon {
+            animation: craterImpact 0.8s ease-out forwards;
+            animation-delay: var(--stagger-delay, 0s); /* Use staggered delay */
+        }
+
+        /* Dust in Atmosphere (for "Meteoritic Dust in the Atmosphere" list item) */
+        @keyframes dustEffect {
+            0% { text-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+            50% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+            100% { text-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+        }
+        .dust-text {
+            display: inline-block;
+            animation: none; /* Controlled by JS */
+        }
+        .list-item.animate-in .dust-text {
+            animation: dustEffect 2s infinite alternate ease-in-out;
+            animation-delay: var(--stagger-delay, 0s); /* Use staggered delay */
+        }
+
+        /* Red Rain (for "Red Rain" list item) */
+        @keyframes redRainEffect {
+            0% { color: #a0aec0; }
+            50% { color: #ef4444; /* Tailwind red-500 */ }
+            100% { color: #a0aec0; }
+        }
+        .red-rain-text {
+            display: inline-block;
+            animation: none; /* Controlled by JS */
+        }
+        .list-item.animate-in .red-rain-text {
+            animation: redRainEffect 2s infinite alternate ease-in-out;
+            animation-delay: var(--stagger-delay, 0s); /* Use staggered delay */
+        }
+
+        /* Starfield Background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 0; /* Behind content */
+            pointer-events: none; /* Allow clicks through */
+        }
+
+        /* Starfield animation */
+        @keyframes animateStars {
+            from { background-position: 0 0; }
+            to { background-position: -10000px -10000px; }
+        }
+
+        /* Meteor Shower */
+        .meteor {
+            position: fixed;
+            top: -100px; /* Start above screen */
+            left: 50%;
+            width: 2px;
+            height: 50px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+            border-radius: 50%;
+            transform: rotate(45deg);
+            opacity: 0;
+            animation: meteorShower 8s infinite ease-in-out;
+            z-index: 5; /* Between stars and content */
+            pointer-events: none;
+        }
+
+        /* Meteor shower animation */
+        @keyframes meteorShower {
+            0% {
+                transform: translateX(0) translateY(0) rotate(45deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(500px) translateY(500px) rotate(45deg);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(1000px) translateY(1000px) rotate(45deg); /* Ensure it goes off screen */
+                opacity: 0;
+            }
+        }
+        /* Stagger meteors */
+        .meteor:nth-child(1) { animation-delay: 0s; left: 10%; }
+        .meteor:nth-child(2) { animation-delay: 2s; left: 30%; height: 60px; width: 3px;}
+        .meteor:nth-child(3) { animation-delay: 4s; left: 70%; height: 40px; }
+        .meteor:nth-child(4) { animation-delay: 6s; left: 90%; width: 2px; height: 70px; }
+
+
+        /* Responsive font sizes for smaller screens */
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 1.75rem;
+            }
+            .card {
+                padding: 1.25rem;
+            }
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* D3 Chart Specific Styles */
+        .chart-container {
+            width: 100%;
+            height: 300px; /* Default height for charts */
+            margin-top: 1.5rem;
+            background-color: #10151f; /* Even darker background for charts */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5); /* More pronounced inner shadow */
+        }
+        .axis text {
+            fill: #a0aec0; /* Axis label color */
+            font-size: 0.8rem;
+        }
+        .axis path, .axis line {
+            stroke: #4a5568; /* Axis line color */
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: auto;
+            height: auto;
+            padding: 8px;
+            font: 12px sans-serif;
+            background: #333;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8 lg:p-10">
+    <!-- Starfield Background -->
+    <div class="stars" id="stars-background"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+
+    <div class="max-w-5xl mx-auto rounded-xl p-6 sm:p-8 md:p-10 lg:p-12 relative z-10">
+        <!-- Image/Illustration Integration -->
+        <div class="mb-10 text-center">
+            <img src="https://placehold.co/800x200/1f2937/81e6d9?text=Cosmic+Impacts" alt="Cosmic Impacts Illustration" class="w-full rounded-lg shadow-xl image-pulse">
+        </div>
+
+        <!-- Main Title -->
+        <h1 class="text-center mb-12 leading-tight">
+            Asteroids and Their Impact
+        </h1>
+
+        <!-- 1. Introduction -->
+        <div class="card">
+            <h2 class="text-2xl font-bold section-heading animate-earth-rotation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="2" x2="12" y2="22"></line>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M20 7.07A10 10 0 0 0 12 2a10 10 0 0 0-8 5.07"></path>
+                    <path d="M4 16.93A10 10 0 0 0 12 22a10 10 0 0 0 8-5.07"></path>
+                </svg>
+                1. Introduction
+            </h2>
+            <p class="text-gray-400 mb-4">
+                The study of asteroids and their impacts is crucial for understanding the history and evolution of our solar system. These celestial objects, ranging in size from small rocks to dwarf planets, have played a significant role in shaping planetary surfaces.
+            </p>
+            <div class="list-item">
+                <strong class="text-blue-400">International Astronomical Union (IAU):</strong> In 1961, the IAU provided critical definitions and classifications for celestial objects, establishing the basis for understanding asteroids, meteoroids, and other space phenomena.
+            </div>
+        </div>
+
+        <!-- 2. Diagrammatic Representation -->
+        <div class="card">
+            <h2 class="text-2xl font-bold section-heading">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M16.24 7.76a6 6 0 0 0-8.48 0"></path>
+                    <path d="M14.12 9.88a3 3 0 0 0-4.24 0"></path>
+                </svg>
+                2. Diagrammatic Representation
+            </h2>
+            <p class="text-gray-400 mb-4">
+                The diagram visually explains key terms related to objects in space and their interaction with Earth.
+            </p>
+            <ul class="custom-list">
+                <li class="list-item">
+                    <strong class="text-blue-400">Earth:</strong> Central body in the diagram, where the effects of meteoritic impact are most clearly observed.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Meteor or Shooting Star:</strong> A meteoroid entering Earth’s atmosphere at an average speed of 12 km/second, producing a bright streak of light as it burns up due to atmospheric friction.
+                    <span class="shooting-star-icon"></span>
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Meteoroids:</strong> Smaller particles traveling at 12 km/second, often originating from the breakup of asteroids. These are the parent bodies of meteors.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Tektites:</strong> Glassy objects formed from terrestrial debris, which are ejected during large meteorite impacts and can be found around impact sites.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Meteorite:</strong> A meteoroid that survives its passage through Earth's atmosphere and lands on the surface, causing potential damage depending on its size.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Bolide:</strong> A large, bright meteor that often explodes in the atmosphere, releasing immense energy and creating shockwaves.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 3. Impact of Meteoritic Fall on Earth -->
+        <div class="card">
+            <h2 class="text-2xl font-bold section-heading">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400">
+                    <path d="M12 22c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z"></path>
+                    <path d="M12 2v10"></path>
+                    <path d="M18.36 17.64L12 11.28l-6.36 6.36"></path>
+                </svg>
+                3. Impact of Meteoritic Fall on Earth
+            </h2>
+            <p class="text-gray-400 mb-4">
+                The fall of meteoroids and meteorites onto Earth can have various short-term and long-term effects, including:
+            </p>
+            <ol class="custom-decimal-list">
+                <li class="list-item">
+                    <strong class="text-blue-400 dust-text">Meteoritic Dust in the Atmosphere:</strong> Increases the density of the atmosphere and can cause significant changes in climate by blocking sunlight.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400 red-rain-text">Red Rain:</strong> Caused by meteoritic dust or other atmospheric particles. The phenomenon is particularly associated with larger meteoritic impacts that release fine particles into the air.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Meteoritic Craters:</strong> Impact sites from meteorites and asteroids form large craters.
+                    <svg class="crater-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M14.5 9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
+                        <path d="M12 2v2"></path>
+                        <path d="M12 20v2"></path>
+                        <path d="M20 12h2"></path>
+                        <path d="M2 12h2"></path>
+                    </svg>
+                    Notable examples include:
+                    <ul class="custom-list pl-5 mt-2">
+                        <li>Lonar Lake in Maharashtra, India (formed by an impact crater in basalt)</li>
+                        <li>Metals, Africa (likely referring to impact structures or deposits)</li>
+                        <li>Meteor Crater in Arizona, USA (famous for its well-preserved structure)</li>
+                    </ul>
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Rise in Ocean Water:</strong> Large impacts could cause a rise in ocean levels through the melting of ice sheets or displacement of water.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Increase in Earth's Mass:</strong> Every meteorite that impacts Earth adds material from space, contributing to the Earth's overall mass.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Axial Speed Decrease:</strong> Large meteoritic impacts can alter Earth's rotation, slowing it down over time due to the transfer of momentum.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Axial Tilt Changes:</strong> Over long timescales (e.g., 41,000 years), the Earth's axial tilt can change, impacting the climate. Impacts are considered a factor in contributing to these changes, although they are part of a broader astronomical cycle of obliquity.
+                </li>
+            </ol>
+        </div>
+
+        <!-- 4. Impact of Meteoritic Fall on Other Celestial Bodies -->
+        <div class="card">
+            <h2 class="text-2xl font-bold section-heading">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 2a10 10 0 0 0-9 5.07A10 10 0 0 1 12 22a10 10 0 0 0 9-5.07"></path>
+                </svg>
+                4. Impact of Meteoritic Fall on Other Celestial Bodies
+            </h2>
+            <p class="text-gray-400 mb-4">
+                While Earth is the most studied, meteoritic impacts are observed across the Solar System:
+            </p>
+            <ul class="custom-list">
+                <li class="list-item">
+                    <strong class="text-blue-400">Moon:</strong> The Moon’s surface is covered with numerous craters formed by impacts from asteroids and comets.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Mars:</strong> Like the Moon, Mars is heavily cratered, revealing a long history of meteoritic impacts.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Jupiter:</strong> As a gas giant, Jupiter does not form solid impact craters in the traditional sense. However, impacts such as the Shoemaker-Levy 9 event in 1994, where fragments of a comet impacted Jupiter’s atmosphere, are significant in understanding the dynamics of such collisions.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 5. Conclusion -->
+        <div class="card">
+            <h2 class="text-2xl font-bold section-heading">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400">
+                    <path d="M12 22c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z"></path>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                </svg>
+                5. Conclusion
+            </h2>
+            <p class="text-gray-400">
+                This infographic serves as a detailed overview of the various stages and consequences of asteroid and meteoroid impacts, emphasizing the different phenomena and their effects on Earth and other celestial bodies. Understanding these impacts is crucial for advancing our knowledge of planetary science, atmospheric changes, and the role of extraterrestrial material in shaping the evolution of planets.
+            </p>
+        </div>
+
+        <!-- 6. Scientifically Studied Asteroids -->
+        <div class="card">
+            <h2 class="text-2xl font-bold section-heading">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400">
+                    <path d="M14.5 4l-5 5-5 5 5 5 5-5 5-5-5-5z"></path>
+                    <path d="M9.5 9.5l5 5"></path>
+                    <path d="M9.5 14.5l5-5"></path>
+                </svg>
+                6. Scientifically Studied Asteroids
+            </h2>
+            <p class="text-gray-400 mb-4">
+                Numerous asteroids have been the subject of extensive scientific study, providing invaluable insights into the early solar system, planetary formation, and the potential for life beyond Earth.
+            </p>
+            <ul class="custom-list">
+                <li class="list-item">
+                    <strong class="text-blue-400">Ceres:</strong> Classified as a dwarf planet, Ceres is the largest object in the asteroid belt and was visited by NASA's Dawn spacecraft. Studies revealed its icy mantle and potential for subsurface water, making it a prime target for astrobiological research.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Vesta:</strong> The second-largest object in the asteroid belt, Vesta was also visited by the Dawn spacecraft. It is unique for its differentiated interior, suggesting it's a protoplanet that formed very early in the solar system's history.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Bennu:</strong> A carbonaceous asteroid, Bennu was the target of NASA's OSIRIS-REx mission, which successfully collected a sample and is returning it to Earth. Its primitive composition offers clues about the origin of water and organic molecules in the solar system.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Ryugu:</strong> Another carbonaceous asteroid, Ryugu was studied by JAXA's Hayabusa2 mission, which also collected samples. Similar to Bennu, Ryugu provides insights into the building blocks of planets and the delivery of water to early Earth.
+                </li>
+                <li class="list-item">
+                    <strong class="text-blue-400">Psyche:</strong> A unique, metal-rich asteroid that NASA's Psyche mission is currently en route to visit. It is thought to be the exposed core of an early planetesimal, offering a rare opportunity to study a planetary core directly.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 7. Key Data Visualizations -->
+        <div class="card">
+            <h2 class="text-2xl font-bold section-heading">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400">
+                    <path d="M3 3v18h18"></path>
+                    <path d="M18.7 8.3L12 15l-3.3-3.3L3 17"></path>
+                </svg>
+                7. Key Data Visualizations
+            </h2>
+            <p class="text-gray-400 mb-4">
+                Explore some key planetary science data through interactive charts.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-300 mb-2 mt-6">Earth's Axial Tilt Variation (Conceptual)</h3>
+            <div id="axial-tilt-chart" class="chart-container"></div>
+
+            <h3 class="text-xl font-bold text-gray-300 mb-2 mt-6">Relative Impact Frequency on Celestial Bodies</h3>
+            <div id="impact-frequency-chart" class="chart-container"></div>
+        </div>
+
+        <!-- Footer with Credits -->
+        <footer class="text-center text-gray-500 text-sm mt-12 pt-6 border-t border-gray-700">
+            &copy; 2025 Planetary Science Insights. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        // Function to generate random stars for background
+        function generateStars() {
+            const numStars = 200; // Number of stars
+            let stars = '';
+            for (let i = 0; i < numStars; i++) {
+                const x = Math.random() * 100; // % from left
+                const y = Math.random() * 100; // % from top
+                const size = Math.random() * 1.5 + 0.5; // Star size between 0.5px and 2px
+                const opacity = Math.random() * 0.8 + 0.2; // Star opacity
+                stars += `${x}vw ${y}vh 0 ${size}px rgba(255, 255, 255, ${opacity}),`;
+            }
+            // Remove trailing comma
+            return stars.slice(0, -1);
+        }
+
+        // D3 Chart Rendering Functions
+        function createAxialTiltChart(containerId) {
+            const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+            const container = document.getElementById(containerId);
+            const width = container.clientWidth - margin.left - margin.right;
+            const height = container.clientHeight - margin.top - margin.bottom;
+
+            // Clear previous SVG if any
+            d3.select(`#${containerId} svg`).remove();
+
+            const svg = d3.select(`#${containerId}`)
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            // Generate conceptual data for axial tilt over 41,000 years
+            const data = [];
+            const minTilt = 21.1;
+            const maxTilt = 24.5;
+            const period = 41000;
+            const numPoints = 100; // Number of data points for the curve
+
+            for (let i = 0; i <= numPoints; i++) {
+                const year = (i / numPoints) * period;
+                // Simulate a sinusoidal variation
+                const tilt = minTilt + (maxTilt - minTilt) / 2 * (1 + Math.sin(2 * Math.PI * (year / period - 0.25))); // -0.25 to start at min
+                data.push({ year: year, tilt: tilt });
+            }
+
+            const x = d3.scaleLinear()
+                .domain([0, period])
+                .range([0, width]);
+
+            const y = d3.scaleLinear()
+                .domain([minTilt - 0.5, maxTilt + 0.5]) // Add some padding to the y-axis
+                .range([height, 0]);
+
+            const line = d3.line()
+                .x(d => x(d.year))
+                .y(d => y(d.tilt));
+
+            // Add the X Axis
+            svg.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x).tickFormat(d3.format(".0f")).ticks(5))
+                .attr("class", "axis");
+
+            // Add the Y Axis
+            svg.append("g")
+                .call(d3.axisLeft(y).tickFormat(d => `${d}°`))
+                .attr("class", "axis");
+
+            // Add the line path
+            svg.append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "#81e6d9") /* Teal accent */
+                .attr("stroke-width", 2)
+                .attr("d", line);
+
+            // Add tooltip
+            const tooltip = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
+            svg.selectAll(".dot")
+                .data(data)
+                .enter().append("circle")
+                .attr("class", "dot")
+                .attr("cx", d => x(d.year))
+                .attr("cy", d => y(d.tilt))
+                .attr("r", 4)
+                .attr("fill", "#81e6d9")
+                .on("mouseover", function(event, d) {
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    tooltip.html(`Year: ${d3.format(".0f")(d.year)}<br/>Tilt: ${d.tilt.toFixed(2)}°`)
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", function(d) {
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
+
+            // Add chart title
+            svg.append("text")
+                .attr("x", (width / 2))
+                .attr("y", 0 - (margin.top / 2) + 10)
+                .attr("text-anchor", "middle")
+                .style("font-size", "1rem")
+                .style("fill", "#e0e7ff")
+                .text("Earth's Axial Tilt Over 41,000 Years");
+
+            // Add X axis label
+            svg.append("text")
+                .attr("transform", `translate(${width / 2}, ${height + margin.bottom - 5})`)
+                .style("text-anchor", "middle")
+                .style("fill", "#a0aec0")
+                .text("Years (Conceptual Cycle)");
+
+            // Add Y axis label
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0 - margin.left + 15)
+                .attr("x", 0 - (height / 2))
+                .attr("dy", "1em")
+                .style("text-anchor", "middle")
+                .style("fill", "#a0aec0")
+                .text("Axial Tilt (°)");
+        }
+
+        function createImpactFrequencyChart(containerId) {
+            const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+            const container = document.getElementById(containerId);
+            const width = container.clientWidth - margin.left - margin.right;
+            const height = container.clientHeight - margin.top - margin.bottom;
+
+            // Clear previous SVG if any
+            d3.select(`#${containerId} svg`).remove();
+
+            const svg = d3.select(`#${containerId}`)
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const data = [
+                { body: "Moon", frequency: 5, description: "Heavily cratered, no atmosphere." },
+                { body: "Mars", frequency: 4, description: "Thin atmosphere, many craters." },
+                { body: "Earth", frequency: 3, description: "Thick atmosphere burns up most objects." },
+                { body: "Jupiter", frequency: 1, description: "Gas giant, impacts are atmospheric events." }
+            ];
+
+            const x = d3.scaleBand()
+                .range([0, width])
+                .padding(0.1)
+                .domain(data.map(d => d.body));
+
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.frequency) + 1]) // Add padding to max
+                .range([height, 0]);
+
+            // Add the X Axis
+            svg.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x))
+                .attr("class", "axis");
+
+            // Add the Y Axis
+            svg.append("g")
+                .call(d3.axisLeft(y).ticks(5))
+                .attr("class", "axis");
+
+            // Add tooltip
+            const tooltip = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
+            // Add the bars
+            svg.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", d => x(d.body))
+                .attr("y", d => y(d.frequency))
+                .attr("width", x.bandwidth())
+                .attr("height", d => height - y(d.frequency))
+                .attr("fill", "#81e6d9") /* Teal accent */
+                .on("mouseover", function(event, d) {
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    tooltip.html(`Body: ${d.body}<br/>Frequency: ${d.frequency} (Relative)<br/>${d.description}`)
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", function(d) {
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
+
+            // Add chart title
+            svg.append("text")
+                .attr("x", (width / 2))
+                .attr("y", 0 - (margin.top / 2) + 10)
+                .attr("text-anchor", "middle")
+                .style("font-size", "1rem")
+                .style("fill", "#e0e7ff")
+                .text("Relative Meteoritic Impact Frequency");
+
+            // Add X axis label
+            svg.append("text")
+                .attr("transform", `translate(${width / 2}, ${height + margin.bottom - 5})`)
+                .style("text-anchor", "middle")
+                .style("fill", "#a0aec0")
+                .text("Celestial Body");
+
+            // Add Y axis label
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0 - margin.left + 15)
+                .attr("x", 0 - (height / 2))
+                .attr("dy", "1em")
+                .style("text-anchor", "middle")
+                .style("fill", "#a0aec0")
+                .text("Relative Frequency");
+        }
+
+
+        // Intersection Observer for animating elements on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up starfield background
+            const starsBackground = document.getElementById('stars-background');
+            if (starsBackground) {
+                starsBackground.style.boxShadow = generateStars();
+                // Apply animation to stars
+                starsBackground.style.animation = 'animateStars 100s linear infinite';
+            }
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            };
+
+            const chartObserverOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2 // Trigger when 20% of the chart container is visible
+            };
+
+            const animateOnScroll = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                        // For list items, apply staggered delay
+                        if (entry.target.classList.contains('list-item')) {
+                            const parentUl = entry.target.closest('ul.custom-list, ol.custom-decimal-list');
+                            if (parentUl) {
+                                Array.from(parentUl.children).forEach((item, index) => {
+                                    if (!item.classList.contains('animate-in')) { // Only animate if not already animated
+                                        item.style.setProperty('--stagger-delay', `${index * 0.1}s`); // Set CSS variable for delay
+                                        item.classList.add('animate-in');
+                                    }
+                                });
+                            }
+                        }
+                        // For section headings, add rotation if it's the Earth icon
+                        if (entry.target.classList.contains('section-heading') && entry.target.classList.contains('animate-earth-rotation')) {
+                            entry.target.querySelector('svg').style.animationPlayState = 'running'; // Start rotation
+                        }
+
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    } else {
+                        // Optionally reset animation if element scrolls out of view
+                        if (entry.target.classList.contains('section-heading') && entry.target.classList.contains('animate-earth-rotation')) {
+                            entry.target.querySelector('svg').style.animationPlayState = 'paused'; // Pause rotation
+                        }
+                    }
+                });
+            };
+
+            const chartRenderObserver = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (entry.target.id === 'axial-tilt-chart') {
+                            createAxialTiltChart('axial-tilt-chart');
+                        } else if (entry.target.id === 'impact-frequency-chart') {
+                            createImpactFrequencyChart('impact-frequency-chart');
+                        }
+                        observer.unobserve(entry.target); // Render once
+                    }
+                });
+            };
+
+
+            const contentObserver = new IntersectionObserver(animateOnScroll, observerOptions);
+            const chartObserver = new IntersectionObserver(chartRenderObserver, chartObserverOptions);
+
+            // Observe section headings
+            document.querySelectorAll('.section-heading').forEach(heading => {
+                contentObserver.observe(heading);
+            });
+
+            // Observe list items (initial observation, staggering handled inside callback)
+            document.querySelectorAll('.list-item').forEach(item => {
+                contentObserver.observe(item);
+            });
+
+            // Observe chart containers to render them when visible
+            document.querySelectorAll('.chart-container').forEach(chartDiv => {
+                chartObserver.observe(chartDiv);
+            });
+
+            // Ensure Earth icon animation starts paused and is controlled by observer
+            const earthIconSvg = document.querySelector('.animate-earth-rotation svg');
+            if (earthIconSvg) {
+                earthIconSvg.style.animationPlayState = 'paused';
+            }
+
+            // Add resize listener for charts
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    // Re-render charts on resize to make them responsive
+                    if (document.getElementById('axial-tilt-chart').classList.contains('animate-in')) {
+                         createAxialTiltChart('axial-tilt-chart');
+                    }
+                    if (document.getElementById('impact-frequency-chart').classList.contains('animate-in')) {
+                        createImpactFrequencyChart('impact-frequency-chart');
+                    }
+                }, 250); // Debounce resize events
+            });
+        });
+    </script>
+</body>
+</html>

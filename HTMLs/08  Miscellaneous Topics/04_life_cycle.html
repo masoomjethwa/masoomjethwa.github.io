@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Life Cycle of a Star</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #001F3F;
+            color: #F0F8FF;
+        }
+        .bg-glass {
+            background-color: rgba(0, 31, 63, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 116, 217, 0.2);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .flow-line {
+            width: 2px;
+            background-color: #0074D9;
+            position: relative;
+        }
+        .flow-line::after {
+            content: '▼';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #7FDBFF;
+            font-size: 1.25rem;
+        }
+        .flow-line-horizontal {
+            height: 2px;
+            background-color: #0074D9;
+        }
+        .flow-node {
+            border-color: #0074D9;
+            background-color: #001F3F;
+        }
+        .big-stat-number {
+            font-size: 4rem;
+            line-height: 1;
+            font-weight: 900;
+            color: #7FDBFF;
+            text-shadow: 0 0 15px rgba(127, 219, 255, 0.5);
+        }
+         .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 2rem;
+        }
+        .timeline-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0.5rem;
+            bottom: -0.5rem;
+            width: 2px;
+            background-color: #0074D9;
+        }
+        .timeline-marker {
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            height: 1rem;
+            width: 1rem;
+            background-color: #7FDBFF;
+            border-radius: 9999px;
+            border: 2px solid #001F3F;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center my-8 md:my-12">
+            <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight">The Life of a Star</h1>
+            <p class="mt-4 text-lg md:text-xl text-sky-200 max-w-3xl mx-auto">From cosmic dust to brilliant giants and dark mysteries, journey through the epic life cycle that powers the universe.</p>
+        </header>
+
+        <main class="space-y-12">
+
+            <section id="birth" class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="bg-glass rounded-xl shadow-2xl p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-sky-300 mb-2">The Cosmic Nursery</h2>
+                    <h3 class="text-4xl font-black mb-4">A Star is Born</h3>
+                    <p class="text-base text-sky-100">
+                        A star's journey begins within a vast, cold cloud of gas and dust known as a nebula. These stellar nurseries are disturbed by cosmic events, like shockwaves from a nearby supernova, causing regions to compress and collapse under their own gravity. This gravitational collapse marks the first step towards creating a new star.
+                    </p>
+                </div>
+                <div class="bg-glass rounded-xl shadow-2xl p-6 md:p-8 text-center">
+                    <h3 class="text-xl font-bold text-sky-300 mb-2">Embryo Star Formation</h3>
+                    <p class="big-stat-number">10x</p>
+                    <p class="mt-2 text-lg text-sky-100 font-semibold">As the cloud collapses, a dense, hot core called an embryo star forms, growing up to ten times the size of our Sun.</p>
+                </div>
+            </section>
+            
+            <section id="main-sequence" class="space-y-8">
+                 <div class="text-center max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-black text-white">Ignition and Maturity</h2>
+                    <p class="mt-3 text-lg text-sky-200">After its initial formation, the young star enters the longest and most stable phase of its life, fueled by the immense energy of nuclear fusion.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                    <div class="bg-glass rounded-xl shadow-2xl p-6 md:p-8 lg:col-span-1">
+                        <h3 class="text-2xl font-bold text-sky-300 mb-4">From Embryo to Star</h3>
+                         <div class="relative">
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <h4 class="font-bold text-sky-200">Gas Cloud Collapse</h4>
+                                <p class="text-sm text-sky-100">The process begins.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <h4 class="font-bold text-sky-200">50,000 Years</h4>
+                                <p class="text-sm text-sky-100">Nuclear fusion ignites at the core, marking the star's official birth.</p>
+                            </div>
+                            <div class="timeline-item">
+                                 <div class="timeline-marker"></div>
+                                <h4 class="font-bold text-sky-200">10 Billion Years</h4>
+                                <p class="text-sm text-sky-100">The star enters a long, stable maturity phase on the Main Sequence.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-glass rounded-xl shadow-2xl p-6 md:p-8 lg:col-span-2">
+                        <h3 class="text-2xl font-bold text-sky-300 mb-4 text-center">Main Sequence: The Engine of a Star</h3>
+                         <p class="text-center text-sky-100 mb-4">During maturity, a star is in perfect balance, with the outward pressure from nuclear fusion countering the inward pull of gravity. In its core, it continuously fuses hydrogen into helium, releasing vast amounts of energy.</p>
+                        <div class="chart-container h-64 md:h-72">
+                            <canvas id="coreCompositionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="the-fork" class="text-center py-8">
+                <h2 class="text-3xl md:text-4xl font-black text-white">The Fork in the Road</h2>
+                <p class="mt-3 text-lg text-sky-200 max-w-3xl mx-auto">After exhausting its core hydrogen, a star's fate is sealed by a single crucial factor: its initial mass. This determines whether its end will be a quiet fade or a violent, cosmic explosion.</p>
+                
+                <div class="mt-8 flex flex-col items-center">
+                    <div class="flow-node border-2 rounded-lg p-4 font-bold text-xl">Main Sequence Star</div>
+                    <div class="h-8 flow-line"></div>
+                    <div class="flex flex-col md:flex-row gap-8 w-full max-w-4xl justify-center items-center">
+                        <div class="md:hidden h-8 flow-line"></div>
+                        <div class="hidden md:block w-full flow-line-horizontal"></div>
+                    </div>
+                    <div class="flex flex-col md:flex-row w-full max-w-4xl justify-around items-stretch">
+                        <div class="flex flex-col items-center p-4">
+                            <div class="h-8 flow-line"></div>
+                            <div class="flow-node border-2 rounded-lg p-4 font-bold text-lg">Low-Mass Star Path</div>
+                            <p class="text-sm mt-2 text-sky-200">(e.g. Our Sun)</p>
+                        </div>
+                        <div class="flex flex-col items-center p-4">
+                            <div class="h-8 flow-line"></div>
+                            <div class="flow-node border-2 rounded-lg p-4 font-bold text-lg">High-Mass Star Path</div>
+                             <p class="text-sm mt-2 text-sky-200">(> 8x Sun's Mass)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="stellar-fates" class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                 <div class="bg-glass rounded-xl shadow-2xl p-6 md:p-8 space-y-6">
+                    <h3 class="text-2xl font-bold text-sky-300">The Gentle Fade: Low-Mass Stars</h3>
+                    <p class="text-sky-100">Stars like our Sun swell into a Red Giant. After exhausting its fuel, it gently sheds its outer layers to form a beautiful Planetary Nebula, leaving behind a dense core.</p>
+                    <div class="bg-glass rounded-xl shadow-2xl p-6 md:p-8 text-center border-t-2 border-sky-400">
+                        <h4 class="text-xl font-bold text-sky-300 mb-2">The Sun's Future</h4>
+                        <p class="big-stat-number">5B</p>
+                        <p class="mt-2 text-lg text-sky-100 font-semibold">Years until our Sun expands into a Red Giant, beginning the final stages of its life.</p>
+                    </div>
+                 </div>
+
+                 <div class="bg-glass rounded-xl shadow-2xl p-6 md:p-8 space-y-6">
+                    <h3 class="text-2xl font-bold text-sky-300">The Violent End: High-Mass Stars</h3>
+                    <p class="text-sky-100">Massive stars live fast and die young. They become huge Red Supergiants before ending in a cataclysmic supernova explosion, an event so bright it can briefly outshine an entire galaxy.</p>
+                     <div class="chart-container">
+                        <canvas id="supernovaChart"></canvas>
+                    </div>
+                    <p class="text-center text-sm text-sky-200">The area chart illustrates the immense and rapid release of energy during a supernova explosion.</p>
+                 </div>
+            </section>
+
+             <section id="remnants">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-black text-white">Cosmic Remnants</h2>
+                    <p class="mt-3 text-lg text-sky-200">After a star's death, its core remains. The final form is dictated by the mass that survives the star's final moments.</p>
+                </div>
+                <div class="mt-8 bg-glass rounded-xl shadow-2xl p-6 md:p-8">
+                     <h3 class="text-2xl font-bold text-sky-300 mb-4 text-center">Final State by Mass Threshold</h3>
+                     <p class="text-center text-sky-100 mb-6 max-w-3xl mx-auto">This chart shows the critical core mass thresholds, measured in solar masses (M☉), that determine whether a remnant becomes a White Dwarf, a Neutron Star, or a Black Hole.</p>
+                    <div class="chart-container h-80 md:h-96">
+                         <canvas id="remnantMassChart"></canvas>
+                    </div>
+                </div>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-glass rounded-lg p-4">
+                        <h4 class="font-bold text-lg text-sky-300">White Dwarf</h4>
+                        <p class="text-sm text-sky-100">The hot, dense core of a low-mass star. It cools over trillions of years to become a theoretical Black Dwarf.</p>
+                    </div>
+                     <div class="bg-glass rounded-lg p-4">
+                        <h4 class="font-bold text-lg text-sky-300">Neutron Star</h4>
+                        <p class="text-sm text-sky-100">An incredibly dense object left by a supernova. Some spin rapidly, emitting beams of radiation as pulsars.</p>
+                    </div>
+                     <div class="bg-glass rounded-lg p-4">
+                        <h4 class="font-bold text-lg text-sky-300">Black Hole</h4>
+                        <p class="text-sm text-sky-100">Formed from the most massive stars. Its gravity is so intense that nothing, not even light, can escape.</p>
+                    </div>
+                </div>
+             </section>
+
+             <section id="recycling" class="text-center py-8">
+                <h2 class="text-3xl md:text-4xl font-black text-white">The Cycle Begins Anew</h2>
+                <p class="mt-3 text-lg text-sky-200 max-w-3xl mx-auto">A star's death is not an end, but a new beginning. The material cast off by supernovae and planetary nebulae enriches the cosmos with heavy elements, forming new clouds of gas and dust that will eventually collapse to create the next generation of stars and planets.</p>
+             </section>
+
+        </main>
+        
+        <footer class="text-center mt-12 py-6 border-t border-sky-800">
+            <p class="text-sky-300">Infographic created with data on stellar evolution.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const chartTextColor = '#F0F8FF';
+            const gridColor = 'rgba(127, 219, 255, 0.2)';
+            const brilliantBlue = '#0074D9';
+            const skyBlue = '#7FDBFF';
+            const teal = '#39CCCC';
+
+            const wrapLabel = (str, maxLen) => {
+                if (str.length <= maxLen) return str;
+                const words = str.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + word).length > maxLen) {
+                        lines.push(currentLine.trim());
+                        currentLine = '';
+                    }
+                    currentLine += word + ' ';
+                }
+                lines.push(currentLine.trim());
+                return lines;
+            };
+
+            const sharedTooltipOptions = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    }
+                }
+            };
+            
+            const sharedChartOptions = {
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: chartTextColor },
+                        grid: { color: gridColor }
+                    },
+                    x: {
+                        ticks: { color: chartTextColor },
+                        grid: { color: gridColor, drawOnChartArea: false }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: chartTextColor }
+                    },
+                     tooltip: sharedTooltipOptions.plugins.tooltip
+                }
+            };
+
+            const coreCompositionCtx = document.getElementById('coreCompositionChart');
+            if (coreCompositionCtx) {
+                new Chart(coreCompositionCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Hydrogen Fuel', 'Helium Product'],
+                        datasets: [{
+                            label: 'Core Composition',
+                            data: [70, 30],
+                            backgroundColor: [brilliantBlue, skyBlue],
+                            borderColor: '#001F3F',
+                            borderWidth: 4,
+                            hoverOffset: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: { color: chartTextColor, font: {size: 14} }
+                            },
+                             tooltip: sharedTooltipOptions.plugins.tooltip
+                        }
+                    }
+                });
+            }
+
+            const supernovaCtx = document.getElementById('supernovaChart');
+            if(supernovaCtx) {
+                 new Chart(supernovaCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Pre-Collapse', 'Core Collapse', 'Explosion', 'Fade Out'],
+                        datasets: [{
+                            label: 'Energy Release',
+                            data: [10, 50, 1000, 200],
+                            fill: true,
+                            backgroundColor: 'rgba(0, 116, 217, 0.5)',
+                            borderColor: skyBlue,
+                            tension: 0.3,
+                            pointRadius: 0
+                        }]
+                    },
+                    options: {
+                        ...sharedChartOptions,
+                        scales: {
+                            y: { ...sharedChartOptions.scales.y, display: false},
+                            x: { ...sharedChartOptions.scales.x, display: false}
+                        },
+                         plugins: {
+                            legend: { display: false },
+                             tooltip: sharedTooltipOptions.plugins.tooltip
+                        }
+                    }
+                });
+            }
+
+            const remnantMassCtx = document.getElementById('remnantMassChart');
+            if (remnantMassCtx) {
+                 new Chart(remnantMassCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            wrapLabel('White Dwarf (< 1.4 M☉)', 16),
+                            wrapLabel('Neutron Star (1.4 - 3 M☉)', 16),
+                            wrapLabel('Black Hole (> 3 M☉)', 16)
+                        ],
+                        datasets: [{
+                            label: 'Max Solar Mass (M☉)',
+                            data: [1.4, 3, 20],
+                            backgroundColor: [brilliantBlue, skyBlue, teal],
+                            borderColor: '#001F3F',
+                            borderWidth: 2,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                         ...sharedChartOptions,
+                         indexAxis: 'y',
+                          scales: {
+                            y: { ...sharedChartOptions.scales.y, grid: { drawOnChartArea: false } },
+                            x: { ...sharedChartOptions.scales.x, grid: { color: gridColor }, title: { display: true, text: 'Solar Masses (M☉)', color: chartTextColor} }
+                        },
+                         plugins: {
+                            legend: { display: false },
+                             tooltip: sharedTooltipOptions.plugins.tooltip
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
