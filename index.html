@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Planetary Scientist | Computational Astrophysics | Open Science Advocate | Educator">
+    <meta name="author" content="Masoom Jethwa">
+    <meta name="keywords" content="planetary science, astronomy, space research, Python, computational astrophysics, educator, GitHub">
+    <title>Masoom Jethwa - Planetary Science & Space Systems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #0d47a1;
+            --secondary-color: #1565c0;
+            --accent-color: #42a5f5;
+            --text-dark: #212121;
+            --text-light: #757575;
+            --bg-light: #fafafa;
+            --bg-white: #ffffff;
+            --border-color: #e0e0e0;
+            --success-color: #2e7d32;
+            --warning-color: #f57c00;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: opacity 0.3s ease;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+            nav {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .hero .tagline {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            margin-bottom: 2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-size: 0.95rem;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border-color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Section Styling */
+        section {
+            background: var(--bg-white);
+            padding: 3rem 0;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        section h3 {
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        section h4 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        section p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        /* Intro Section */
+        .intro-content {
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .intro-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .intro-content strong {
+            color: var(--primary-color);
+        }
+
+        /* Current Focus Box */
+        .current-focus-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .current-focus-box h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .current-focus-box p {
+            color: var(--text-dark);
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+
+        .stat-card a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+            display: block;
+            margin-top: 1rem;
+        }
+
+        .stat-card a:hover {
+            opacity: 0.8;
+        }
+
+        /* Research Grid - 3 cols x 2 rows */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .research-card {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .research-card h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        /* Publication Cards */
+        .publication-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .publication-card {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pub-source {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            width: fit-content;
+        }
+
+        .pub-source.wordpress {
+            background: #0073aa;
+        }
+
+        .pub-source.medium {
+            background: #000;
+        }
+
+        .pub-source.devto {
+            background: #000;
+        }
+
+        .publication-card h4 {
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            color: var(--primary-color);
+        }
+
+        .publication-card p {
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-light);
+            flex-grow: 1;
+        }
+
+        .pub-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin: 0.8rem 0;
+            flex-wrap: wrap;
+        }
+
+        .pub-stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .pub-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .pub-link:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Certifications */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .cert-card {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .cert-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .cert-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cert-card h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .cert-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .cert-view {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .cert-view:hover {
+            color: var(--secondary-color);
+        }
+
+        /* GitHub Repositories Grid */
+        .github-repos-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .github-repos-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .github-repos-grid::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+
+        .github-repos-grid::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        .github-repos-grid::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+
+        .repo-tile {
+            background: var(--bg-light);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            font-size: 0.85rem;
+        }
+
+        .repo-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .repo-tile:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+        }
+
+        .repo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .repo-name {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            word-break: break-word;
+            flex: 1;
+        }
+
+        .repo-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .repo-description {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+            flex-grow: 1;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .repo-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .repo-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .repo-language {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .repo-updated {
+            font-size: 0.85rem;
+            color: var(--warning-color);
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .repo-link {
+            display: inline-block;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            margin-top: auto;
+            padding-top: 0.5rem;
+        }
+
+        .repo-link:hover {
+            color: var(--secondary-color);
+        }
+
+        .repo-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+
+        .repo-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* GitHub Loading State */
+        .github-loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Filter/Sort Options */
+        .repo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .sort-option {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border-color);
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+        }
+
+        .sort-option.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .sort-option:hover {
+            border-color: var(--accent-color);
+        }
+
+        /* Resources Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .resource-card {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .resource-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .resource-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .resource-card a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .resource-card a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-card {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .contact-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .contact-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            word-break: break-all;
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        .contact-card a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .research-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .github-repos-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .contact-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .research-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .github-repos-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .repo-count {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <nav class="container" style="max-width: 1200px;">
+            <div class="logo">Masoom Jethwa</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#publications">Publications</a></li>
+                <li><a href="#repositories">Repos</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1 style="color: white;">Planetary Science & Space Systems</h1>
+            <p class="subtitle" style="color: white;">Research | Computational Astrophysics | Open Science</p>
+            <p class="tagline" style="color: white;">Planetary Scientist | Systems Programmer | Educator | AI Generalist | Open-Source Advocate</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2>About My Research</h2>
+            
+            <div class="intro-content">
+                <p>I specialize in <strong>observational astronomy</strong> and <strong>planetary systems analysis</strong>, with expertise in computational methods for space science research. My research focuses on airglow and auroral emissions, atmospheric science, and data analysis of space-based observations.</p>
+
+                <p>I am committed to <strong>open science principles</strong>, reproducible research workflows, and developing long-lived scientific software. My work emphasizes rigorous computational methods, transparent data analysis, and making research accessible to the broader scientific community.</p>
+
+                <p>Currently transitioning from MATLAB to Python for scientific computing, developing atmospheric science models, analyzing space mission data (NASA, ESA, ISRO, JAXA), and creating educational resources for students and researchers interested in planetary science.</p>
+
+                <p>Active science communicator through blogging on WordPress and Medium, sharing insights on planetary science, space missions, and computational methods. Committed to making complex scientific concepts accessible to diverse audiences.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Focus Areas -->
+    <section id="research">
+        <div class="container">
+            <h2>Research Focus Areas</h2>
+            
+            <div class="research-grid">
+                <div class="research-card">
+                    <h4>🌌 Airglow & Auroral Emissions</h4>
+                    <p>Investigation of upper atmospheric light emissions, their spectral characteristics, and physical processes. Analysis of observational data from multiple space missions and ground-based observations.</p>
+                </div>
+
+                <div class="research-card">
+                    <h4>🪐 Atmospheric Science</h4>
+                    <p>Modeling and characterization of planetary atmospheric phenomena. Study of chemical composition, thermal structure, and dynamics. Application to exoplanet science and comparative planetology.</p>
+                </div>
+
+                <div class="research-card">
+                    <h4>🛰️ Space Mission Data Analysis</h4>
+                    <p>Processing and analysis of data from NASA, ESA, ISRO, and JAXA missions. Development of algorithms for data reduction, quality assurance, and scientific interpretation.</p>
+                </div>
+
+                <div class="research-card">
+                    <h4>💻 Computational Science</h4>
+                    <p>High-performance numerical methods, scientific visualization, machine learning applications in astronomy, and development of reproducible computational workflows.</p>
+                </div>
+
+                <div class="research-card">
+                    <h4>🎓 Science Education</h4>
+                    <p>Advocating for open-source software in research, creating teaching materials, mentoring students, and promoting computational literacy in planetary science.</p>
+                </div>
+
+                <div class="research-card">
+                    <h4>📊 Data Visualization & Analysis</h4>
+                    <p>Advanced techniques in data science, interactive visualizations, and statistical analysis for understanding complex astronomical phenomena and research patterns.</p>
+                </div>
+            </div>
+
+            <div class="current-focus-box">
+                <h3>🎯 Current Focus</h3>
+                <p>I am a scientist currently focusing on <strong>educational research</strong>, <strong>curriculum development</strong>, <strong>AI-enabled teaching and learning</strong>, and <strong>astronomy education</strong>, with a strong commitment to community-based, equitable, and inclusive education. My work integrates empirical research with the design of physical and digital teaching and learning materials (TLMs), prioritizing access and impact for underprivileged learners and educators.</p>
+            </div>
+
+            <h3 style="margin-top: 3rem;">Live Statistics from Google Scholar</h3>
+            <p style="color: var(--text-light); margin-bottom: 1.5rem;">Real-time metrics of my research impact and academic contributions:</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="citations-count">—</div>
+                    <div class="stat-label">Total Citations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="h-index-count">—</div>
+                    <div class="stat-label">H-Index</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="i10-index-count">—</div>
+                    <div class="stat-label">i10-Index</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="publications-count">—</div>
+                    <div class="stat-label">Publications</div>
+                </div>
+            </div>
+            <p style="text-align: center; color: var(--text-light); margin-top: 1.5rem; font-size: 0.9rem;">
+                <a href="https://scholar.google.com/citations?user=-wlEzlYAAAAJ&hl=en" target="_blank" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">View My Google Scholar Profile →</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section id="publications">
+        <div class="container">
+            <h2>Publications & Articles</h2>
+            <p style="color: var(--text-light); margin-bottom: 2rem;">Latest research and educational content from across platforms:</p>
+            
+            <div class="publication-grid">
+                <div class="publication-card">
+                    <span class="pub-source devto">DEV COMMUNITY</span>
+                    <h4>Technical Tutorials & Articles</h4>
+                    <p>Comprehensive articles on Python, computational methods, data science, and astronomical research. Explore practical tutorials and in-depth technical discussions on transforming data into insights.</p>
+                    <div class="pub-stats">
+                        <div class="pub-stat-item">📝 Active Contributor</div>
+                        <div class="pub-stat-item">💬 Community Engaged</div>
+                    </div>
+                    <a href="https://dev.to/masoomjethwa" target="_blank" class="pub-link">Visit DEV.to Profile →</a>
+                </div>
+
+                <div class="publication-card">
+                    <span class="pub-source">GOOGLE SCHOLAR</span>
+                    <h4>Peer-Reviewed Research</h4>
+                    <p>Browse my complete publication list including journal articles, conference proceedings, and research papers on planetary science and atmospheric phenomena.</p>
+                    <div class="pub-stats">
+                        <div class="pub-stat-item">📚 Peer-Reviewed</div>
+                        <div class="pub-stat-item">🎓 Academic</div>
+                    </div>
+                    <a href="https://scholar.google.com/citations?user=-wlEzlYAAAAJ&hl=en" target="_blank" class="pub-link">View All Publications →</a>
+                </div>
+
+                <div class="publication-card">
+                    <span class="pub-source medium">MEDIUM</span>
+                    <h4>Technical Articles & Tutorials</h4>
+                    <p>In-depth articles on Python for astronomy, computational methods, space missions, and data analysis. Accessible tutorials for learners interested in planetary science.</p>
+                    <div class="pub-stats">
+                        <div class="pub-stat-item">✍️ Writer</div>
+                        <div class="pub-stat-item">👥 Popular Content</div>
+                    </div>
+                    <a href="https://medium.com/@masoomjethwa" target="_blank" class="pub-link">Read on Medium →</a>
+                </div>
+
+                <div class="publication-card">
+                    <span class="pub-source wordpress">WORDPRESS BLOG</span>
+                    <h4>Science Communication & Outreach</h4>
+                    <p>Educational blog posts exploring planetary science, space missions (Venus, Mercury, asteroids), astronomical observations, and the intersection of science and society.</p>
+                    <div class="pub-stats">
+                        <div class="pub-stat-item">🌍 Science Writing</div>
+                        <div class="pub-stat-item">📡 Outreach</div>
+                    </div>
+                    <a href="https://mpjethwa.wordpress.com" target="_blank" class="pub-link">Visit Blog →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications">
+        <div class="container">
+            <h2>Certifications & Credentials</h2>
+            <p style="color: var(--text-light); margin-bottom: 2rem;">Professional certifications and formal qualifications demonstrating expertise in space science and computational methods:</p>
+            
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">🎓</div>
+                    <h4>PhD in Planetary Atmospheres</h4>
+                    <p>Advanced knowledge in observational astronomy, computational methods, and space science research.</p>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">🔬</div>
+                    <h4>Planetary Scientist & Data Analyst</h4>
+                    <p>Multiple years analyzing space mission data, publishing peer-reviewed research, and developing scientific software.</p>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-icon">💻</div>
+                    <h4>Python & Computational Science</h4>
+                    <p>Digital PDF certificates will appear here once uploaded to the certifications folder.</p>
+                </div>
+            </div>
+
+            <p style="color: var(--text-light); margin-top: 2rem; font-size: 0.9rem;">
+                <strong>To add your digital certificates:</strong><br>
+                Create a <code>/certifications</code> folder in your repository and upload PDF files (e.g., <code>Python-Certification.pdf</code>)
+            </p>
+        </div>
+    </section>
+
+    <!-- GitHub Repositories Section -->
+    <section id="repositories">
+        <div class="container">
+            <h2>GitHub Repositories <span class="repo-count" id="repo-total-count">Loading...</span></h2>
+            <p style="color: var(--text-light); margin-bottom: 1.5rem;">My latest open-source projects and research code. Updated in real-time from GitHub.</p>
+            
+            <div class="repo-controls">
+                <button class="sort-option active" onclick="sortRepos('updated')">Most Recent</button>
+                <button class="sort-option" onclick="sortRepos('stars')">Most Starred</button>
+                <button class="sort-option" onclick="sortRepos('language')">By Language</button>
+            </div>
+
+            <div id="github-repos-container" class="github-repos-grid">
+                <div class="github-loading">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top: 1rem;">Loading repositories from GitHub...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources">
+        <div class="container">
+            <h2>HTML Resources & Educational Materials</h2>
+            <p style="color: var(--text-light); margin-bottom: 2rem;">Organized educational and research materials for learning and exploration:</p>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h4>01. General Astronomy & Space Exploration</h4>
+                    <p>Introduction to astronomy, space missions, observational techniques, and fundamental concepts in astrophysics.</p>
+                    <a href="01%20General%20Astronomy%20%26%20Space%20Exploration/index.html">Browse Resources →</a>
+                </div>
+
+                <div class="resource-card">
+                    <h4>02. Solar System</h4>
+                    <p>Comprehensive study of planets, moons, asteroids, and phenomena within our solar system. Planetary science fundamentals.</p>
+                    <a href="02%20Solar%20System/index.html">Browse Resources →</a>
+                </div>
+
+                <div class="resource-card">
+                    <h4>03. Space-Related Topics</h4>
+                    <p>Specialized topics in space science including atmospheres, magnetospheres, space weather, and satellite systems.</p>
+                    <a href="03%20Space-Related%20Topics/index.html">Browse Resources →</a>
+                </div>
+
+                <div class="resource-card">
+                    <h4>04. Arduino & Microcontroller Projects</h4>
+                    <p>Hands-on projects using Arduino and embedded systems. From basics to advanced sensor integration and data collection.</p>
+                    <a href="04%20Arduino%20%26%20Microcontroller%20Projects/index.html">Browse Resources →</a>
+                </div>
+
+                <div class="resource-card">
+                    <h4>05. Raspberry Pi Projects</h4>
+                    <p>Raspberry Pi-based projects for science education, data logging, automation, and real-world computational applications.</p>
+                    <a href="05%20Raspberry%20Pi%20Projects/index.html">Browse Resources →</a>
+                </div>
+
+                <div class="resource-card">
+                    <h4>06. STEM Activities & Challenges</h4>
+                    <p>Classroom-ready activities, experiments, and challenges for K-12 STEM education. Hands-on learning approaches.</p>
+                    <a href="06%20STEM%20Activities%20%26%20Challenges/index.html">Browse Resources →</a>
+                </div>
+
+                <div class="resource-card">
+                    <h4>07. Educational Games</h4>
+                    <p>Interactive games and simulations for learning astronomy, space science, and computational thinking.</p>
+                    <a href="07%20Educational%20Games/index.html">Browse Resources →</a>
+                </div>
+
+                <div class="resource-card">
+                    <h4>08. Miscellaneous Topics</h4>
+                    <p>Additional resources covering diverse topics in science education, technology, and research methodology.</p>
+                    <a href="08%20%20Miscellaneous%20Topics/index.html">Browse Resources →</a>
+                </div>
+
+                <div class="resource-card">
+                    <h4>09. Code Repository</h4>
+                    <p>Python scripts, MATLAB code, and computational tools for data analysis, visualization, and scientific computing.</p>
+                    <a href="09%20Codes/index.html">Browse Resources →</a>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <h3>Additional HTML Resources</h3>
+                <p style="color: var(--text-light); margin-bottom: 1.5rem;">A collection of curated HTML demonstrations, tutorials, and interactive tools:</p>
+                <div class="resource-card">
+                    <h4>Interactive Demonstrations & Tutorials</h4>
+                    <p>Live simulations, interactive visualizations, and hands-on demonstrations for understanding complex concepts in astronomy and space science.</p>
+                    <a href="HTMLs/index.html">View Demonstrations →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Connect & Collaborate</h2>
+            <p style="color: var(--text-light); margin-bottom: 2rem; text-align: center;">Interested in collaboration, research partnerships, or educational initiatives? Get in touch.</p>
+            
+            <div class="contact-content">
+                <div class="contact-card">
+                    <h4>📧 Email</h4>
+                    <p>For research inquiries and collaboration</p>
+                    <a href="mailto:masoomjethwa@gmail.com">masoomjethwa@gmail.com</a>
+                </div>
+
+                <div class="contact-card">
+                    <h4>🐙 GitHub</h4>
+                    <p>View code and projects</p>
+                    <a href="https://github.com/masoomjethwa" target="_blank">@masoomjethwa</a>
+                </div>
+
+                <div class="contact-card">
+                    <h4>💼 LinkedIn</h4>
+                    <p>Professional profile & updates</p>
+                    <a href="https://www.linkedin.com/in/masoomjethwa/" target="_blank">linkedin.com/in/masoomjethwa</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Masoom Jethwa. All rights reserved.</p>
+            <p style="font-size: 0.85rem;">
+                Planetary Scientist | Systems Programmer | Open Science Advocate<br>
+                <a href="https://github.com/masoomjethwa/masoomjethwa.github.io" target="_blank">Website Repository</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        let allRepos = [];
+        let currentSort = 'updated';
+
+        // Fetch GitHub repositories dynamically
+        async function fetchGitHubRepos() {
+            try {
+                const response = await fetch('https://api.github.com/users/masoomjethwa/repos?per_page=100&sort=updated');
+                const repos = await response.json();
+                
+                if (Array.isArray(repos)) {
+                    allRepos = repos
+                        .filter(repo => !repo.fork) // Exclude forks
+                        .map(repo => ({
+                            name: repo.name,
+                            description: repo.description || 'No description available',
+                            url: repo.html_url,
+                            language: repo.language || 'N/A',
+                            stars: repo.stargazers_count || 0,
+                            updated: new Date(repo.updated_at),
+                            topics: repo.topics || []
+                        }))
+                        .sort((a, b) => b.updated - a.updated);
+                    
+                    document.getElementById('repo-total-count').textContent = allRepos.length;
+                    renderRepos(allRepos);
+                } else {
+                    showError('Unable to fetch repositories');
+                }
+            } catch (error) {
+                console.error('Error fetching repos:', error);
+                showError('Error loading repositories. Please try again later.');
+            }
+        }
+
+        function renderRepos(repos) {
+            const container = document.getElementById('github-repos-container');
+            
+            if (repos.length === 0) {
+                container.innerHTML = '<p class="github-loading">No repositories found.</p>';
+                return;
+            }
+
+            container.innerHTML = repos.map(repo => {
+                const lastUpdated = formatDate(repo.updated);
+                const languageColor = getLanguageColor(repo.language);
+                
+                return `
+                    <div class="repo-tile">
+                        <div class="repo-header">
+                            <div class="repo-name">${escapeHtml(repo.name)}</div>
+                            <div class="repo-icon">📦</div>
+                        </div>
+                        
+                        <p class="repo-description">${escapeHtml(repo.description)}</p>
+                        
+                        ${repo.language ? `<span class="repo-language" style="background-color: ${languageColor};">${escapeHtml(repo.language)}</span>` : ''}
+                        
+                        <div class="repo-meta">
+                            ${repo.stars > 0 ? `<div class="repo-meta-item">⭐ ${repo.stars} stars</div>` : ''}
+                            <div class="repo-meta-item">🕐 Updated</div>
+                        </div>
+                        
+                        <div class="repo-updated">${lastUpdated}</div>
+                        
+                        <div class="repo-stats">
+                            <div class="repo-stat">📊 Repository</div>
+                        </div>
+                        
+                        <a href="${repo.url}" target="_blank" class="repo-link">View on GitHub →</a>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function sortRepos(sortType) {
+            currentSort = sortType;
+            
+            // Update button states
+            document.querySelectorAll('.sort-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            let sorted = [...allRepos];
+            
+            if (sortType === 'updated') {
+                sorted.sort((a, b) => b.updated - a.updated);
+            } else if (sortType === 'stars') {
+                sorted.sort((a, b) => b.stars - a.stars);
+            } else if (sortType === 'language') {
+                sorted.sort((a, b) => {
+                    if (!a.language) return 1;
+                    if (!b.language) return -1;
+                    return a.language.localeCompare(b.language);
+                });
+            }
+            
+            renderRepos(sorted);
+        }
+
+        function formatDate(date) {
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 1) return 'Today';
+            if (diffDays === 2) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+            if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+            
+            return `${Math.floor(diffDays / 365)} years ago`;
+        }
+
+        function getLanguageColor(language) {
+            const colors = {
+                'Python': '#3776ab',
+                'JavaScript': '#f7df1e',
+                'HTML': '#e34c26',
+                'CSS': '#563d7c',
+                'Java': '#007396',
+                'C++': '#00599c',
+                'C': '#a9187f',
+                'R': '#276dc3',
+                'MATLAB': '#0076a8',
+                'Shell': '#4ee748',
+                'Jupyter Notebook': '#f37726'
+            };
+            return colors[language] || '#0d47a1';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showError(message) {
+            const container = document.getElementById('github-repos-container');
+            container.innerHTML = `<p class="github-loading">⚠️ ${message}</p>`;
+        }
+
+        // Load repositories on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchGitHubRepos();
+            
+            // Smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href !== '#' && document.querySelector(href)) {
+                        e.preventDefault();
+                        document.querySelector(href).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Refresh repos every 30 minutes
+        setInterval(fetchGitHubRepos, 30 * 60 * 1000);
+    </script>
+
+</body>
+</html>
