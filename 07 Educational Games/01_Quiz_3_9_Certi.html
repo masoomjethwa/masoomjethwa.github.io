@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Challenge: The Ultimate Astronomy Quiz!</title>
+    <!-- html2canvas library for capturing screenshots -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .camp-selector {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+        }
+
+        .camp-btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(5px);
+        }
+
+        .camp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .camp-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00f5ff, #0066ff);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #00f5ff;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: rgba(0, 245, 255, 0.3);
+            border-color: #00f5ff;
+        }
+
+        .option.correct {
+            background: rgba(0, 255, 0, 0.3);
+            border-color: #00ff00;
+        }
+
+        .option.incorrect {
+            background: rgba(255, 0, 0, 0.3);
+            border-color: #ff0000;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .score-display {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .performance-analysis {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .topic-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .topic-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .topic-card h4 {
+            margin-bottom: 10px;
+        }
+
+        .topic-score-bar-container {
+            width: 100%;
+            height: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 7.5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .topic-score-bar {
+            height: 100%;
+            border-radius: 7.5px;
+            transition: width 0.5s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Category Colors */
+        .basic-color { background-color: #87CEEB; } /* Sky Blue */
+        .solar-color { background-color: #FFD700; } /* Gold */
+        .tech-color { background-color: #32CD32; } /* Lime Green */
+        .advanced-color { background-color: #8A2BE2; } /* Blue Violet */
+
+
+        .educator-insights {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 4px solid #ffd700;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00f5ff;
+        }
+
+        .timer {
+            font-size: 1.2em;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        /* Pre-quiz form styling */
+        .user-info-form {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .user-info-form h2 {
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .user-info-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            text-align: left;
+            color: #e0e0e0;
+        }
+
+        .user-info-form input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .user-info-form input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .user-info-form input[type="text"]:focus {
+            border-color: #00f5ff;
+        }
+
+        .user-info-form .start-btn {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #00f5ff, #0066ff);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .user-info-form .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        /* Certificate Styling */
+        .certificate-container {
+            /* Updated background to remove text and provide a clean astronomy theme */
+            background: radial-gradient(circle at center, rgba(0, 0, 51, 0.9) 0%, rgba(0, 0, 20, 0.95) 100%),
+                        url('https://placehold.co/1200x800/000033/000033') no-repeat center center; /* Solid dark blue for background */
+            background-size: cover;
+            border: 10px solid #ffd700; /* Gold border */
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            color: #fff;
+            max-width: 800px;
+            width: 100%;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certificate-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2); /* Slightly lighter overlay for text readability */
+            z-index: 1;
+        }
+
+        .certificate-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .certificate-content h2 {
+            font-family: 'Georgia', serif;
+            font-size: 3.5em;
+            color: #00f5ff; /* Aqua */
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+        }
+
+        .certificate-content p {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .certificate-content .name {
+            font-family: 'Brush Script MT', cursive; /* Elegant script font */
+            font-size: 2.8em;
+            color: #ffd700; /* Gold */
+            margin: 25px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .certificate-content .details {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+
+        .certificate-footer {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 40px;
+            padding: 0 20px;
+        }
+
+        .certificate-date, .astronomy-lab {
+            font-size: 1em;
+            color: #ccc;
+        }
+
+        /* New button container for buttons outside certificate */
+        .main-buttons-container {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .camp-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .quiz-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .certificate-container {
+                padding: 30px;
+                min-height: 500px;
+            }
+
+            .certificate-content h2 {
+                font-size: 2.5em;
+            }
+
+            .certificate-content .name {
+                font-size: 2em;
+            }
+
+            .certificate-content p, .certificate-content .details {
+                font-size: 1em;
+            }
+
+            .certificate-footer {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .main-buttons-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Cosmic Challenge: The Ultimate Astronomy Quiz!</h1>
+            <p>Unleash Your Expertise: A Masters-Level Assessment for STEM Educators</p>
+        </div>
+
+        <!-- User Information Form -->
+        <div id="userInfoForm" class="user-info-form">
+            <h2>Enter Your Details</h2>
+            <label for="candidateName">Full Name:</label>
+            <input type="text" id="candidateName" placeholder="e.g., Dr. Jane Doe">
+
+            <label for="candidateDesignation">Designation:</label>
+            <input type="text" id="candidateDesignation" placeholder="e.g., Lead Educator">
+
+            <label for="candidateDepartment">Department:</label>
+            <input type="text" id="candidateDepartment" placeholder="e.g., STEM Outreach">
+
+            <button class="start-btn" onclick="startQuiz()">Start Quiz ➡️</button>
+        </div>
+
+        <div class="quiz-container hidden" id="quizContainer">
+            <div class="quiz-header">
+                <div>
+                    <h2 id="currentTopic">Fundamentals & Solar System</h2>
+                    <p id="questionCounter">Question 1 of 75</p>
+                </div>
+                <div>
+                    <div class="timer" id="timer">⏱️ 00:00</div>
+                </div>
+            </div>
+
+            <div id="quizContent">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-text" id="questionText">Loading...</div>
+                    <div class="options" id="optionsContainer"></div>
+                </div>
+
+                <div class="navigation">
+                    <button class="nav-btn" id="prevBtn" onclick="previousQuestion()" disabled>⬅️ Previous</button>
+                    <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">Next ➡️</button>
+                    <button class="nav-btn hidden" id="submitBtn" onclick="submitQuiz()">Submit Quiz 📊</button>
+                </div>
+            </div>
+
+            <div id="resultsContainer" class="hidden">
+                <div class="results">
+                    <h2>🎯 Quiz Results</h2>
+                    <div class="score-display" id="scoreDisplay">0%</div>
+
+                    <div class="stats-grid" id="stats-grid-original">
+                        <div class="stat-card">
+                            <div class="stat-value" id="correctAnswers">0</div>
+                            <div>Correct</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="incorrectAnswers">0</div>
+                            <div>Incorrect</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalTime">0:00</div>
+                            <div>Time</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="averageTime">0s</div>
+                            <div>Avg/Question</div>
+                        </div>
+                    </div>
+
+                    <div class="educator-insights">
+                        <h3>🎓 Educator Insights</h3>
+                        <div id="educatorInsights"></div>
+                    </div>
+
+                    <div class="topic-breakdown" id="topic-breakdown-original">
+                        <!-- Topic cards will be dynamically inserted here -->
+                    </div>
+
+                    <!-- Moved these buttons outside the certificate container -->
+                    <div class="main-buttons-container">
+                        <button class="nav-btn" onclick="restartQuiz()">🔄 Restart Quiz</button>
+                        <button class="nav-btn" onclick="generateCertificate()">🏅 Generate Certificate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate Container -->
+        <div id="certificateContainer" class="certificate-container hidden">
+            <div class="certificate-content">
+                <h2>Certificate of Stellar Achievement</h2>
+                <p>This certifies that</p>
+                <p class="name" id="certName"></p>
+                <p class="details" id="certDesignation"></p>
+                <p class="details" id="certDepartment"></p>
+                <p>has successfully completed the</p>
+                <p style="font-size: 1.8em; font-weight: bold; color: #00f5ff; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">Cosmic Challenge: The Ultimate Astronomy Quiz!</p>
+                <p id="certFeedback" style="font-size: 1.2em; margin-top: 20px; color: #e0e0e0;"></p>
+            </div>
+            <div class="certificate-footer">
+                <span class="certificate-date" id="certDate"></span>
+                <span class="astronomy-lab">Astronomy Lab</span>
+            </div>
+            <!-- Removed certificate-buttons from here -->
+        </div>
+
+        <!-- New container for download/restart buttons, always visible after certificate generation -->
+        <div id="postCertificateButtons" class="main-buttons-container hidden">
+            <button class="nav-btn" onclick="downloadCertificatePng()">⬇️ Download Certificate as PNG</button>
+            <button class="nav-btn" onclick="restartQuiz()">🔄 Restart Quiz</button>
+        </div>
+
+    </div>
+
+    <script>
+        // Quiz data structure for each concept
+        const quizConcepts = [
+            {
+                name: "Fundamentals & Solar System",
+                questions: [
+                    {
+                        question: "Despite being farther from the Sun, Venus is hotter than Mercury. What is the primary reason for Venus's extreme surface temperature?",
+                        options: ["Higher internal heat", "Stronger solar winds", "Lack of an atmosphere", "Runaway greenhouse effect due to a dense CO2 atmosphere"],
+                        correct: 3,
+                        category: "solar",
+                        difficulty: "challenging",
+                        explanation: "Venus's incredibly dense atmosphere, composed primarily of carbon dioxide, traps heat effectively through a runaway greenhouse effect, leading to surface temperatures hot enough to melt lead."
+                    },
+                    {
+                        question: "An astronomical unit (AU) is used for distances within our solar system. For interstellar distances, a light-year is commonly used. What does one light-year represent?",
+                        options: ["The time it takes for light to travel from the Sun to Earth.", "The amount of light a star emits in one Earth year.", "The distance light travels in a vacuum in one Earth year.", "The orbital period of a planet around a distant star."],
+                        correct: 2,
+                        category: "advanced",
+                        difficulty: "moderate",
+                        explanation: "A light-year is a unit of distance, not time, representing the distance light travels in a vacuum in one Julian year (365.25 days), which is approximately 9.46 trillion kilometers or 5.88 trillion miles."
+                    },
+                    {
+                        question: "Our Solar System resides within the Milky Way Galaxy. What type of galaxy is the Milky Way classified as?",
+                        options: ["Elliptical galaxy", "Irregular galaxy", "Barred spiral galaxy", "Lenticular galaxy"],
+                        correct: 2,
+                        category: "basic",
+                        difficulty: "moderate",
+                        explanation: "The Milky Way is classified as a barred spiral galaxy, characterized by a central bar-shaped structure composed of stars, from which spiral arms extend."
+                    },
+                    {
+                        question: "ISRO is India's national space agency, known for its cost-effective missions. What does the acronym ISRO stand for?",
+                        options: ["International Space Research Organization", "Indian Satellite Research Operations", "Interstellar Space Robotics Observatory", "Indian Space Research Organisation"],
+                        correct: 3,
+                        category: "tech",
+                        difficulty: "moderate",
+                        explanation: "ISRO stands for Indian Space Research Organisation, India's premier space agency responsible for space exploration and related technologies."
+                    },
+                    {
+                        question: "Stars exhibit a wide range of colors. What property of a star is primarily indicated by its color?",
+                        options: ["Its age", "Its distance from Earth", "Its chemical composition", "Its surface temperature"],
+                        correct: 3,
+                        category: "advanced",
+                        difficulty: "challenging",
+                        explanation: "A star's color is directly related to its surface temperature. Hotter stars tend to appear blue or white, while cooler stars appear orange or red."
+                    },
+                    {
+                        question: "Earth experiences distinct seasons throughout the year. What is the primary astronomical factor responsible for the Earth's seasons?",
+                        options: ["Variations in Earth's distance from the Sun.", "The Sun's varying energy output.", "Changes in the Moon's gravitational pull.", "The tilt of Earth's rotational axis relative to its orbital plane."],
+                        correct: 3,
+                        category: "basic",
+                        difficulty: "moderate",
+                        explanation: "The Earth's axial tilt of approximately 23.5 degrees, combined with its revolution around the Sun, causes different parts of the Earth to receive more direct sunlight at various times of the year, leading to seasons."
+                    },
+                    {
+                        question: "Even though stars are always in the sky, we typically cannot see them during the day. What phenomenon explains this inability to observe stars during daylight hours?",
+                        options: ["Stars move to the other side of the Earth.", "The Earth's atmosphere absorbs all starlight.", "The Moon's brightness outshines them.", "The scattering of sunlight by Earth's atmosphere."],
+                        correct: 3,
+                        category: "basic",
+                        difficulty: "moderate",
+                        explanation: "During the day, sunlight is scattered by particles in Earth's atmosphere, making the sky bright blue and overwhelming the faint light from distant stars."
+                    },
+                    {
+                        question: "Which of the following best describes the primary force that holds celestial bodies like planets in orbit around a star?",
+                        options: ["Electromagnetic force", "Strong nuclear force", "Weak nuclear force", "Gravitational force"],
+                        correct: 3,
+                        category: "basic",
+                        difficulty: "moderate",
+                        explanation: "Gravity is the fundamental force of attraction between any two objects with mass. It is responsible for holding planets in orbit around stars, moons around planets, and stars within galaxies."
+                    },
+                    {
+                        question: "What is the primary characteristic that differentiates a star from a planet?",
+                        options: ["Size and mass", "Presence of an atmosphere", "Ability to reflect light", "Undergoing nuclear fusion in its core"],
+                        correct: 3,
+                        category: "basic",
+                        difficulty: "challenging",
+                        explanation: "Stars are massive celestial bodies that produce their own light and heat through nuclear fusion reactions in their cores, while planets orbit stars and reflect light."
+                    }
+                ]
+            },
+            {
+                name: "Solar System Deep Dive",
+                questions: [
+                    {
+                        question: "According to the IAU's 2006 definition, which of the following criteria is *not* required for a celestial body to be classified as a planet, leading to Pluto's reclassification as a dwarf planet?",
+                        options: ["It orbits the Sun.", "It has sufficient mass for its self-gravity to overcome rigid body forces so that it assumes a hydrostatic equilibrium (nearly round) shape.", "It has cleared the neighborhood around its orbit.", "It has at least one moon."],
+                        correct: 3,
+                        category: "solar",
+                        difficulty: "challenging",
+                        explanation: "The IAU's definition states that a planet must orbit the Sun, be massive enough to be nearly round, and have cleared its orbital neighborhood. Pluto fails the third criterion."
+                    },
+                    {
+                        question: "Jupiter is the most massive planet in our solar system. If Jupiter's mass were significantly greater, what astronomical phenomenon might it have been capable of initiating?",
+                        options: ["Becoming a terrestrial planet", "Developing a ring system like Saturn's", "Undergoing nuclear fusion to become a star", "Expelling all its moons into interstellar space"],
+                        correct: 2,
+                        category: "solar",
+                        difficulty: "challenging",
+                        explanation: "If Jupiter had accumulated about 80 times more mass, the pressure and temperature in its core would have been sufficient to initiate nuclear fusion, turning it into a star (specifically, a red dwarf)."
+                    },
+                    {
+                        question: "Despite similar size and mass to Earth, Venus has an extremely hostile environment. Which of the following best describes a key difference in its atmospheric composition compared to Earth's that contributes to this hostility?",
+                        options: ["Predominantly nitrogen with trace oxygen", "Thin atmosphere primarily of methane", "Dense atmosphere of carbon dioxide with sulfuric acid clouds", "Atmosphere rich in free oxygen and water vapor"],
+                        correct: 2,
+                        category: "solar",
+                        difficulty: "moderate",
+                        explanation: "Venus's atmosphere is overwhelmingly carbon dioxide, creating a runaway greenhouse effect, and contains thick clouds of sulfuric acid, making it inhospitable to life as we know it."
+                    },
+                    {
+                        question: "Saturn's prominent ring system is a defining feature. What is the generally accepted theory for the formation and composition of these rings?",
+                        options: ["They are remnants of a failed moon that never fully formed.", "They are a solid, continuous structure of ice.", "They are captured asteroids and comets that broke apart.", "They are primarily composed of countless icy particles ranging from micrometers to meters in size, likely from a shattered moon or comet."],
+                        correct: 3,
+                        category: "solar",
+                        difficulty: "moderate",
+                        explanation: "Saturn's rings are not solid but are made of billions of small icy particles, with some rocky debris. The leading theory suggests they formed from the breakup of a small icy moon or comet that came too close to Saturn and was torn apart by tidal forces."
+                    },
+                    {
+                        question: "The main asteroid belt is a significant region of rocky bodies. What is the generally accepted theory for why the asteroid belt exists between Mars and Jupiter, rather than forming into a single planet?",
+                        options: ["It's the debris from a planet that was destroyed.", "It's a region where planetary formation never occurred.", "Jupiter's strong gravitational influence prevented a planet from forming.", "It's a collection of objects captured from outside the solar system."],
+                        correct: 2,
+                        category: "solar",
+                        difficulty: "moderate",
+                        explanation: "Jupiter's immense gravitational pull is believed to have disrupted the accretion of planetesimals in this region, preventing them from coalescing into a single large planet and instead scattering them into the asteroid belt."
+                    },
+                    {
+                        question: "Uranus has an unusual axial tilt of approximately 98 degrees, causing it to effectively 'roll' around the Sun. What is the most widely accepted hypothesis for this extreme tilt?",
+                        options: ["Gradual precession over billions of years.", "Strong tidal forces from its moons.", "A massive collision with another protoplanet early in its history.", "Its unique magnetic field orientation."],
+                        correct: 2,
+                        category: "solar",
+                        difficulty: "moderate",
+                        explanation: "The most widely accepted theory is that a massive collision with an Earth-sized or larger protoplanet early in the Solar System's history knocked Uranus onto its side."
+                    },
+                    {
+                        question: "Jupiter's Great Red Spot is a persistent anticyclonic storm. What is a key characteristic of this storm that contributes to its longevity?",
+                        options: ["It is fueled by volcanic activity on Jupiter's surface.", "It is a stationary feature anchored to a specific geographical point.", "It is a high-pressure system that prevents smaller storms from merging.", "It is continually replenished by material from Jupiter's rings."],
+                        correct: 2,
+                        category: "solar",
+                        difficulty: "moderate",
+                        explanation: "The Great Red Spot is a high-pressure system that rotates counter-clockwise. Its sustained nature is due to the lack of a solid surface to dissipate its energy and its ability to absorb or deflect smaller atmospheric features."
+                    },
+                    {
+                        question: "Olympus Mons on Mars is the tallest known volcano in the Solar System. What geological characteristic of Mars, compared to Earth, allowed such a massive shield volcano to form?",
+                        options: ["Higher volcanic activity on Mars.", "Absence of a thick atmosphere.", "Lack of plate tectonics, allowing hotspots to remain stationary.", "Closer proximity to the Sun providing more heat."],
+                        correct: 2,
+                        category: "solar",
+                        difficulty: "moderate",
+                        explanation: "On Earth, plate tectonics cause the crust to move over hotspots, creating chains of volcanoes. On Mars, the absence of plate tectonics means volcanic hotspots remain stationary relative to the surface, allowing lava to accumulate in one spot over long periods, building immense volcanoes like Olympus Mons."
+                    },
+                    {
+                        question: "The prevailing scientific theory for the formation of our Solar System is the Nebular Hypothesis. Which of the following is a key step in this hypothesis?",
+                        options: ["A sudden explosion of a supermassive black hole.", "The direct collision of two pre-existing stars.", "Gravitational collapse of a giant molecular cloud, forming a protoplanetary disk.", "Accretion of matter directly from the Big Bang."],
+                        correct: 2,
+                        category: "advanced",
+                        difficulty: "challenging",
+                        explanation: "The Nebular Hypothesis proposes that the Solar System formed from the gravitational collapse of a giant molecular cloud, which flattened into a rotating protoplanetary disk, with the Sun forming at the center and planets accreting from the surrounding material."
+                    }
+                ]
+            },
+            {
+                name: "Marvelous Moon & Eclipses",
+                questions: [
+                    {
+                        question: "Following a Full Moon, the illuminated portion of the lunar disk visible from Earth begins to wane. What is the next primary phase in the Moon's cycle after a Full Moon?",
+                        options: ["New Moon", "Waxing Crescent", "First Quarter", "Waning Gibbous"],
+                        correct: 3,
+                        category: "advanced",
+                        difficulty: "moderate",
+                        explanation: "After a Full Moon, the Moon enters the waning gibbous phase, where more than half of its face is illuminated, but the illuminated portion decreases daily."
+                    },
+                    {
+                        question: "A total solar eclipse is a rare and spectacular event. What celestial body is positioned directly between the Sun and Earth during a total solar eclipse, casting a shadow on Earth?",
+                        options: ["Earth's atmosphere", "A distant asteroid", "A passing comet", "The Moon"],
+                        correct: 3,
+                        category: "advanced",
+                        difficulty: "moderate",
+                        explanation: "During a total solar eclipse, the Moon passes directly in front of the Sun, blocking its light and casting a shadow that sweeps across a narrow path on Earth's surface."
+                    },
+                    {
+                        question: "The Moon's surface features include vast, dark, relatively flat plains. What are these features, formed by ancient volcanic eruptions, commonly known as?",
+                        options: ["Lunar highlands", "Rilles", "Craters", "Maria (Latin for 'seas')"],
+                        correct: 3,
+                        category: "advanced",
+                        difficulty: "challenging",
+                        explanation: "The dark areas on the Moon are called maria (singular: mare), which is Latin for 'seas'. These are vast, flat plains of solidified basaltic lava, formed by ancient volcanic eruptions that filled large impact basins."
+                    },
+                    {
+                        question: "During a total lunar eclipse, the Moon often takes on a reddish or coppery hue, earning it the nickname 'Blood Moon'. What atmospheric phenomenon on Earth causes this coloration?",
+                        options: ["The Moon's surface reflecting red light from Mars.", "A temporary change in the Moon's chemical composition.", "The scattering of blue light by Earth's atmosphere, allowing red light to reach the Moon.", "Volcanic dust in Earth's upper atmosphere."],
+                        correct: 2,
+                        category: "advanced",
+                        difficulty: "moderate",
+                        explanation: "During a total lunar eclipse, sunlight passes through Earth's atmosphere. Our atmosphere scatters blue light more effectively (Rayleigh scattering), allowing red and orange wavelengths to pass through and refract onto the Moon's surface, giving it a reddish appearance."
+                    },
+                    {
+                        question: "The Moon is tidally locked with Earth, meaning we always observe the same lunar hemisphere. What is the astronomical term for this phenomenon where an orbiting body's rotation period matches its orbital period?",
+                        options: ["Orbital resonance", "Synchronous rotation", "Lunar precession", "Axial tilt"],
+                        correct: 1,
+                        category: "advanced",
+                        difficulty: "challenging",
+                        explanation: "Synchronous rotation (or tidal locking) occurs when a celestial body's orbital period around another body is equal to its rotation period about its own axis, resulting in the same face always pointing towards the larger body due to gravitational forces."
+                    },
+                    {
+                        question: "Educating the public about solar eclipse safety is crucial. Why is it critically important to use certified solar filters or indirect viewing methods when observing a partial or total solar eclipse?",
+                        options: ["To prevent discomfort from bright light.", "To enhance the visual clarity of the eclipse.", "To avoid permanent eye damage from intense solar radiation.", "To protect against harmful ultraviolet radiation only."],
+                        correct: 2,
+                        category: "basic",
+                        difficulty: "moderate",
+                        explanation: "Directly viewing the Sun, even when partially eclipsed, can cause severe and permanent retinal damage (solar retinopathy) due to the intense ultraviolet and infrared radiation, as well as visible light. Certified solar filters block these harmful rays."
+                    },
+                    {
+                        question: "The Moon's gravitational influence is the primary driver of a significant terrestrial phenomenon. Which of Earth's features is most profoundly affected by the Moon's gravity, leading to rhythmic changes in its level?",
+                        options: ["Atmospheric pressure", "Continental drift", "Volcanic activity", "Ocean tides"],
+                        correct: 3,
+                        category: "basic",
+                        difficulty: "moderate",
+                        explanation: "The Moon's gravitational pull creates tidal bulges in Earth's oceans on both the near and far sides, leading to the rise and fall of ocean tides as Earth rotates."
+                    },
+                    {
+                        question: "The lunar surface is heavily cratered. What is the predominant geological process responsible for the formation of the vast majority of these circular depressions on the Moon?",
+                        options: ["Volcanic eruptions", "Tectonic plate movements", "Erosion by wind and water", "Impacts from asteroids and meteoroids"],
+                        correct: 3,
+                        category: "basic",
+                        difficulty: "moderate",
+                        explanation: "The Moon's surface is pockmarked by countless impact craters, formed over billions of years by collisions with asteroids, comets, and meteoroids. Unlike Earth, the Moon lacks significant atmospheric erosion or plate tectonics to erase these features."
+                    },
+                    {
+                        question: "The most widely accepted scientific theory for the Moon's formation is the Giant Impact Hypothesis. Which of the following scenarios is central to this hypothesis?",
+                        options: ["The Moon was a rogue planet captured by Earth's gravity.", "The Moon formed simultaneously with Earth from the same protoplanetary disk.", "A Mars-sized protoplanet collided with early Earth, ejecting debris that coalesced to form the Moon.", "The Moon is a fragment of Earth that broke off due to rapid rotation."],
+                        correct: 2,
+                        category: "advanced",
+                        difficulty: "challenging",
+                        explanation: "The Giant Impact Hypothesis posits that a massive object, roughly the size of Mars, impacted the early Earth, ejecting a significant amount of material into orbit, which then accreted to form the Moon."
+                    }
+                ]
+            },
+            {
+                name: "Starry Night Sky & Telescopes",
+                questions: [
+                    {
+                        question: "Orion is one of the most recognizable constellations in the night sky. What is the primary characteristic that defines a constellation in modern astronomy?",
+                        options: ["A group of stars that are physically close to each other in space.", "A pattern of stars that appears to form a distinct shape from Earth.", "A region of the celestial sphere with defined boundaries, containing specific stars and deep-sky objects.", "A cluster of stars born from the same nebula."],
+                        correct: 2,
+                        category: "advanced",
+                        difficulty: "moderate",
+                        explanation: "In modern astronomy, a constellation is not just a pattern of stars but a defined region of the celestial sphere, established by the International Astronomical Union (IAU) in the 1920s. All celestial objects within that boundary are considered part of that constellation."
+                    },
+                    {
+                        question: "Beyond simply magnifying distant objects, what is the primary function of a large astronomical telescope in terms of light collection?",
+                        options: ["To generate light for observation.", "To filter out unwanted wavelengths of light.", "To gather and focus a large amount of light from faint sources.", "To project images directly onto a screen for public viewing."],
+                        correct: 2,
+                        category: "tech",
+                        difficulty: "moderate",
+                        explanation: "The primary function of a telescope, especially large ones, is its light-gathering power. A larger aperture (diameter of the main lens or mirror) collects more light, allowing astronomers to observe fainter and more distant objects."
+                    },
+                    {
+                        question: "Astronomical telescopes primarily come in two main types based on their optical design. Which type utilizes a series of mirrors to gather and focus light, and is generally preferred for very large apertures?",
+                        options: ["Refracting telescope", "Radio telescope", "Gamma-ray telescope", "Reflecting telescope"],
+                        correct: 3,
+                        category: "tech",
+                        difficulty: "challenging",
+                        explanation: "Reflecting telescopes use mirrors to collect and focus light. They are favored for large apertures because mirrors can be supported from behind, unlike lenses which can sag under their own weight, and they do not suffer from chromatic aberration."
+                    },
+                    {
+                        question: "For observers in the Northern Hemisphere, Polaris (the North Star) appears almost stationary in the night sky. What is the astronomical reason for this apparent lack of motion?",
+                        options: ["It is the brightest star in the sky.", "It is located at the center of the Milky Way galaxy.", "It is directly above Earth's rotational north pole.", "It has a very slow proper motion."],
+                        correct: 2,
+                        category: "advanced",
+                        difficulty: "moderate",
+                        explanation: "Polaris is located very close to the celestial north pole, which is the point in the sky directly above Earth's rotational north pole. As Earth rotates, all other stars appear to revolve around this point, making Polaris seem stationary."
+                    },
+                    {
+                        question: "Radio telescopes are crucial for studying phenomena invisible to optical telescopes. What type of electromagnetic radiation do radio telescopes detect, and why is this important for astronomy?",
+                        options: ["X-rays, revealing hot, energetic phenomena.", "Infrared radiation, showing warm dust and gas.", "Visible light, providing detailed images of stars and galaxies.", "Radio waves, allowing observation through dust clouds and of cold gas."],
+                        correct: 3,
+                        category: "tech",
+                        difficulty: "challenging",
+                        explanation: "Radio telescopes detect radio waves, which are much longer than visible light waves. These long wavelengths can penetrate dust clouds that block visible light, allowing astronomers to study cold gas, star formation regions, and distant galaxies that are otherwise obscured."
+                    },
+                    {
+                        question: "Urban environments significantly hinder astronomical observation. What is the primary atmospheric phenomenon caused by artificial lighting that obscures the view of faint celestial objects in cities?",
+                        options: ["Atmospheric turbulence", "Smog and air pollution", "Cloud cover", "Light pollution"],
+                        correct: 3,
+                        category: "basic",
+                        difficulty: "moderate",
+                        explanation: "Light pollution, caused by scattered artificial light from urban areas, brightens the night sky, making it difficult to see faint stars and deep-sky objects. This scattered light effectively washes out the dimmer celestial light."
+                    },
+                    {
+                        question: "Astronomical observatories are frequently situated at high altitudes, often on remote mountaintops. What is the primary advantage of these locations for ground-based optical astronomy?",
+                        options: ["Reduced gravitational interference from Earth.", "Closer proximity to celestial objects.", "Lower ambient temperatures for equipment cooling.", "Thinner atmosphere and reduced atmospheric turbulence."],
+                        correct: 3,
+                        category: "tech",
+                        difficulty: "moderate",
+                        explanation: "High-altitude locations offer several advantages: thinner air reduces atmospheric absorption and scattering, and less atmospheric turbulence (seeing) leads to sharper images. They also typically have less light pollution."
+                    },
+                    {
+                        question: "Space telescopes like the Hubble Space Telescope and James Webb Space Telescope offer significant advantages over ground-based observatories. What is the fundamental reason for placing these telescopes in Earth orbit or at Lagrange points?",
+                        options: ["To avoid Earth's gravitational pull.", "To achieve higher magnification.", "To allow for easier maintenance and upgrades.", "To bypass Earth's atmospheric distortion and absorption."],
+                        correct: 3,
+                        category: "tech",
+                        difficulty: "moderate",
+                        explanation: "Earth's atmosphere absorbs and distorts various wavelengths of light (e.g., UV, X-ray, some infrared) and causes 'seeing' (blurring of images). Space telescopes operate above this interference, providing much clearer and more comprehensive views of the universe."
+                    },
+                    {
+                        question: "Adaptive optics systems in modern ground-based telescopes primarily aim to correct for what phenomenon?",
+                        options: ["Light pollution", "Atmospheric distortion (seeing)", "Chromatic aberration", "Gravitational lensing"],
+                        correct: 1,
+                        category: "tech",
+                        difficulty: "challenging",
+                        explanation: "Adaptive optics systems use deformable mirrors and real-time atmospheric measurements to compensate for the blurring effects of Earth's atmosphere, significantly improving the clarity and resolution of images from ground-based telescopes."
+                    }
+                ]
+            },
+            {
+                name: "Future Frontiers & Space Careers",
+                questions: [
+                    {
+                        question: "Extravehicular Activity (EVA) requires astronauts to wear highly specialized spacesuits. Beyond providing breathable air, what are the critical functions of a spacesuit that enable survival in the vacuum of space?",
+                        options: ["To enhance physical strength for heavy lifting.", "To protect against electromagnetic interference.", "To maintain internal pressure, regulate temperature, and shield from radiation/micrometeoroids.", "To provide propulsion for movement in space."],
+                        correct: 2,
+                        category: "basic",
+                        difficulty: "moderate",
+                        explanation: "Spacesuits are miniature spacecraft designed to protect astronauts from the harsh space environment. They provide a pressurized atmosphere, regulate temperature, protect against harmful solar and cosmic radiation, and shield against impacts from micrometeoroids."
+                    },
+                    {
+                        question: "Understanding international space organizations is key for global collaboration. Which civilian agency is responsible for the United States' space program and aeronautics research?",
+                        options: ["European Space Agency (ESA)", "Roscosmos (Russia)", "China National Space Administration (CNSA)", "National Aeronautics and Space Administration (NASA)"],
+                        correct: 3,
+                        category: "basic",
+                        difficulty: "moderate",
+                        explanation: "NASA (National Aeronautics and Space Administration) is the U.S. government agency responsible for the nation's civilian space program and for aeronautics and aerospace research."
+                    },
+                    {
+                        question: "For students considering careers in space, what is the professional title for a scientist whose primary focus is the study of celestial objects, phenomena, and the physical universe beyond Earth?",
+                        options: ["Astrophysicist", "Cosmologist", "Planetary Scientist", "Astronomer"],
+                        correct: 3,
+                        category: "basic",
+                        difficulty: "moderate",
+                        explanation: "An astronomer is a scientist who studies celestial objects, space, and the physical universe as a whole. While related, astrophysicists focus on the physics of space, cosmologists on the origin and evolution of the universe, and planetary scientists on planets."
+                    },
+                    {
+                        question: "India has a proud history of contributing to human spaceflight. Who holds the distinction of being the first woman born in India to travel into space?",
+                        options: ["Sunita Williams", "Valentina Tereshkova", "Sirisha Bandla", "Kalpana Chawla"],
+                        correct: 3,
+                        category: "basic",
+                        difficulty: "challenging",
+                        explanation: "Kalpana Chawla was the first woman of Indian origin to go to space. She flew on Space Shuttle Columbia in 1997 and tragically perished in the Columbia disaster in 2003."
+                    },
+                    {
+                        question: "International collaboration is a hallmark of modern space exploration. What is the name of the modular space station in low Earth orbit, a multinational collaborative project involving multiple space agencies, where astronauts live and conduct research?",
+                        options: ["Tiangong Space Station", "Mir Space Station", "Skylab", "International Space Station (ISS)"],
+                        correct: 3,
+                        category: "tech",
+                        difficulty: "moderate",
+                        explanation: "The International Space Station (ISS) is a habitable artificial satellite in low Earth orbit. It is a collaborative project between five participating space agencies: NASA (United States), Roscosmos (Russia), JAXA (Japan), ESA (Europe), and CSA (Canada)."
+                    },
+                    {
+                        question: "ISRO continues to expand its interplanetary exploration. Following successful missions to the Moon (Chandrayaan) and Mars (Mangalyaan), which inner planet is the target for India's upcoming Shukrayaan orbiter mission?",
+                        options: ["Jupiter", "Saturn", "Mercury", "Venus"],
+                        correct: 3,
+                        category: "tech",
+                        difficulty: "challenging",
+                        explanation: "Shukrayaan-1 is a planned orbiter mission to Venus by the Indian Space Research Organisation (ISRO), aimed at studying the planet's atmosphere and surface."
+                    },
+                    {
+                        question: "For aspiring astronomers and space scientists, a strong foundation in specific academic disciplines is essential. Which pair of subjects forms the most critical foundation for a career in astronomy or astrophysics?",
+                        options: ["Biology and Chemistry", "History and Literature", "Art and Music", "Physics and Mathematics"],
+                        correct: 3,
+                        category: "basic",
+                        difficulty: "moderate",
+                        explanation: "A deep understanding of Physics provides the theoretical framework for celestial phenomena, while Mathematics is the language used to describe and analyze these phenomena, making them indispensable for astronomy."
+                    },
+                    {
+                        question: "Long-duration space missions pose significant physiological challenges for astronauts. What is a primary negative effect of prolonged exposure to microgravity on the human musculoskeletal system?",
+                        options: ["Increased muscle mass and bone density.", "Accelerated healing of injuries.", "Significant loss of bone density and muscle atrophy.", "Enhanced cardiovascular efficiency."],
+                        correct: 2,
+                        category: "advanced",
+                        difficulty: "moderate",
+                        explanation: "In microgravity, bones no longer bear weight, leading to a rapid loss of bone density (osteoporosis) and muscle mass (atrophy). Astronauts must follow strict exercise regimens to mitigate these effects."
+                    },
+                    {
+                        question: "What is the primary objective of the Artemis program led by NASA?",
+                        options: ["To establish a permanent human colony on Mars.", "To search for extraterrestrial life on Europa.", "To return humans to the Moon, including the first woman and person of color, and establish a sustainable lunar presence.", "To develop faster-than-light travel technology."],
+                        correct: 2,
+                        category: "tech",
+                        difficulty: "challenging",
+                        explanation: "The Artemis program aims to return humans to the Moon by 2025 (Artemis III), including the first woman and first person of color, and to establish a long-term human presence on the Moon as a stepping stone for future missions to Mars."
+                    }
+                ]
+            }
+        ];
+
+        // Combine all questions into a single array for global indexing
+        const allQuestions = quizConcepts.flatMap(concept => concept.questions);
+
+        // Quiz state
+        let currentQuestion = 0; // Global index for allQuestions
+        let answers = new Array(allQuestions.length).fill(undefined); // Initialize answers array for all questions
+        let startTime = Date.now();
+        let questionStartTime = Date.now();
+        let timer;
+        let questionTimes = new Array(allQuestions.length).fill(0); // To store time spent on each question
+
+        // Candidate Information
+        let candidateName = '';
+        let candidateDesignation = '';
+        let candidateDepartment = '';
+        let finalEducatorInsight = ''; // Global variable to store educator insights
+
+        // Initialize quiz
+        function initQuiz() {
+            document.getElementById('userInfoForm').style.display = 'block';
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('certificateContainer').style.display = 'none';
+            document.getElementById('postCertificateButtons').style.display = 'none';
+
+
+            // Clear input fields on restart
+            document.getElementById('candidateName').value = '';
+            document.getElementById('candidateDesignation').value = '';
+            document.getElementById('candidateDepartment').value = '';
+        }
+
+        /**
+         * Starts the quiz after collecting user information.
+         */
+        function startQuiz() {
+            candidateName = document.getElementById('candidateName').value.trim();
+            candidateDesignation = document.getElementById('candidateDesignation').value.trim();
+            candidateDepartment = document.getElementById('candidateDepartment').value.trim();
+
+            if (!candidateName || !candidateDesignation || !candidateDepartment) {
+                alert('Please fill in all your details to start the quiz.');
+                return;
+            }
+
+            document.getElementById('userInfoForm').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+
+            selectConcept(0); // Default to the first concept
+            startTimer();
+        }
+
+        /**
+         * Selects a concept and navigates to its first question.
+         * @param {number} conceptIndex The index of the concept in the quizConcepts array.
+         */
+        function selectConcept(conceptIndex) {
+            // Find the starting global question index for the selected concept
+            let startIndex = 0;
+            for (let i = 0; i < conceptIndex; i++) {
+                startIndex += quizConcepts[i].questions.length;
+            }
+            currentQuestion = startIndex;
+
+            // Update UI for active concept button
+            document.querySelectorAll('.camp-btn').forEach((btn, index) => {
+                if (index === conceptIndex) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update topic display based on the selected concept's name
+            document.getElementById('currentTopic').textContent = quizConcepts[conceptIndex].name;
+
+            // Hide results and show quiz content
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('quizContent').style.display = 'block';
+            document.getElementById('postCertificateButtons').style.display = 'none';
+
+
+            // Reset timer and load question
+            startTime = Date.now(); // Reset overall timer for the quiz
+            startTimer();
+            loadQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timer); // Clear any existing timer
+            timer = setInterval(() => {
+                const elapsedTime = Date.now() - startTime;
+                const minutes = Math.floor(elapsedTime / 60000);
+                const seconds = Math.floor((elapsedTime % 60000) / 1000);
+                document.getElementById('timer').textContent = `⏱️ ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const question = allQuestions[currentQuestion];
+
+            // Record time spent on previous question if not the first question
+            if (currentQuestion > 0 && answers[currentQuestion - 1] !== undefined) {
+                questionTimes[currentQuestion - 1] = Date.now() - questionStartTime;
+            }
+
+            // Dynamically update the current topic based on question number
+            // Each section has 9 questions.
+            const conceptIndex = Math.floor(currentQuestion / 9); // Changed from 15 to 9
+            if (conceptIndex < quizConcepts.length) {
+                document.getElementById('currentTopic').textContent = quizConcepts[conceptIndex].name;
+                // Also update the active state of the concept buttons
+                document.querySelectorAll('.camp-btn').forEach((btn, index) => {
+                    if (index === conceptIndex) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+
+
+            // Update question counter (global)
+            document.getElementById('questionCounter').textContent = `Question ${currentQuestion + 1} of ${allQuestions.length}`;
+
+            // Update progress bar (global)
+            const progress = (currentQuestion / allQuestions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            // Load question text
+            document.getElementById('questionText').textContent = question.question;
+
+            // Load options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = `${String.fromCharCode(97 + index)}) ${option}`;
+                optionElement.onclick = () => selectOption(index);
+                optionsContainer.appendChild(optionElement);
+            });
+
+            // Update navigation button states
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').classList.toggle('hidden', currentQuestion === allQuestions.length - 1);
+            document.getElementById('submitBtn').classList.toggle('hidden', currentQuestion !== allQuestions.length - 1);
+
+            // Restore previous answer for the current question
+            if (answers[currentQuestion] !== undefined) {
+                selectOption(answers[currentQuestion]);
+            }
+
+            questionStartTime = Date.now();
+        }
+
+        function selectOption(index) {
+            // Clear previous selection visually
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+
+            // Mark selected option visually
+            document.querySelectorAll('.option')[index].classList.add('selected');
+
+            // Store answer for the current question
+            answers[currentQuestion] = index;
+        }
+
+        function nextQuestion() {
+            // Record time for the current question before moving
+            questionTimes[currentQuestion] = Date.now() - questionStartTime;
+
+            if (currentQuestion < allQuestions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function submitQuiz() {
+            clearInterval(timer); // Stop the timer
+
+            // Record time for the last question
+            if (answers[currentQuestion] !== undefined) {
+                questionTimes[currentQuestion] = Date.now() - questionStartTime;
+            }
+
+            let correct = 0;
+            let categoryScores = { basic: 0, solar: 0, tech: 0, advanced: 0 };
+            let categoryCounts = { basic: 0, solar: 0, tech: 0, advanced: 0 };
+            let incorrectQuestions = [];
+
+            allQuestions.forEach((q, index) => {
+                categoryCounts[q.category] = (categoryCounts[q.category] || 0) + 1;
+                if (answers[index] !== undefined && answers[index] === q.correct) {
+                    correct++;
+                    categoryScores[q.category] = (categoryScores[q.category] || 0) + 1;
+                } else if (answers[index] !== q.correct) {
+                    incorrectQuestions.push({
+                        question: q.question,
+                        yourAnswer: q.options[answers[index]],
+                        correctAnswer: q.options[q.correct],
+                        explanation: q.explanation
+                    });
+                }
+            });
+
+            const totalQuestions = allQuestions.length;
+            const score = (correct / totalQuestions) * 100;
+            const totalElapsedTime = Date.now() - startTime;
+            const avgTimePerQuestion = totalElapsedTime / totalQuestions;
+
+            // Display results
+            document.getElementById('quizContent').style.display = 'none';
+            document.getElementById('resultsContainer').style.display = 'block';
+            document.getElementById('postCertificateButtons').style.display = 'none';
+
+
+            document.getElementById('scoreDisplay').textContent = `${score.toFixed(0)}%`;
+            document.getElementById('correctAnswers').textContent = correct;
+            document.getElementById('incorrectAnswers').textContent = totalQuestions - correct;
+            document.getElementById('totalTime').textContent = formatTime(totalElapsedTime);
+            document.getElementById('averageTime').textContent = `${(avgTimePerQuestion / 1000).toFixed(1)}s`;
+
+            // Educator Insights
+            const educatorInsightsElement = document.getElementById('educatorInsights');
+            if (score < 60) {
+                finalEducatorInsight = "Consider reviewing fundamental concepts. Focus on understanding the core principles before moving to advanced topics. Utilize visual aids and interactive simulations.";
+            } else if (score >= 60 && score < 80) {
+                finalEducatorInsight = "Good understanding! To improve, delve deeper into specific areas where you made mistakes. Practice with more complex problems and case studies.";
+            } else {
+                finalEducatorInsight = "Outstanding performance! Your mastery of the subject is evident. Consider exploring research papers or advanced topics to further expand your knowledge.";
+            }
+            educatorInsightsElement.textContent = finalEducatorInsight;
+
+
+            // Category Scores Visualization
+            const topicBreakdownContainer = document.getElementById('topic-breakdown-original');
+            topicBreakdownContainer.innerHTML = ''; // Clear previous content
+
+            const categoryColors = {
+                basic: 'basic-color',
+                solar: 'solar-color',
+                tech: 'tech-color',
+                advanced: 'advanced-color'
+            };
+
+            for (const category in categoryScores) {
+                const percentage = categoryCounts[category] > 0 ? (categoryScores[category] / categoryCounts[category]) * 100 : 0;
+                const categoryName = category.charAt(0).toUpperCase() + category.slice(1); // Capitalize first letter
+
+                const topicCard = document.createElement('div');
+                topicCard.className = 'topic-card';
+                topicCard.innerHTML = `
+                    <h4>${categoryName.replace('tech', 'Space Technology').replace('basic', 'Basic Astronomy').replace('solar', 'Solar System').replace('advanced', 'Advanced Concepts')}</h4>
+                    <div class="topic-score-bar-container">
+                        <div class="topic-score-bar ${categoryColors[category]}" style="width: ${percentage.toFixed(0)}%;">
+                            ${percentage.toFixed(0)}%
+                        </div>
+                    </div>
+                `;
+                topicBreakdownContainer.appendChild(topicCard);
+            }
+        }
+
+        function formatTime(ms) {
+            const minutes = Math.floor(ms / 60000);
+            const seconds = Math.floor((ms % 60000) / 1000);
+            return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function restartQuiz() {
+            console.log("Restarting quiz...");
+            currentQuestion = 0;
+            answers = new Array(allQuestions.length).fill(undefined); // Reset all answers
+            questionTimes = new Array(allQuestions.length).fill(0); // Reset all question times
+            startTime = Date.now();
+            questionStartTime = Date.now();
+            clearInterval(timer); // Stop the timer
+            initQuiz(); // Go back to the user info form
+            console.log("Quiz restarted. Displaying user info form.");
+        }
+
+        /**
+         * Generates and displays the certificate with candidate information.
+         */
+        function generateCertificate() {
+            console.log("Generating certificate...");
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('certificateContainer').style.display = 'flex'; // Ensure certificate container is flex for proper layout
+            document.getElementById('postCertificateButtons').style.display = 'flex';
+
+
+            // Update certificate text with new format
+            document.getElementById('certName').innerHTML = `<b>${candidateName}</b>`;
+            document.getElementById('certDesignation').innerHTML = `working as <b>${candidateDesignation}</b>`;
+            document.getElementById('certDepartment').innerHTML = `in the <b>${candidateDepartment}</b>`;
+            document.getElementById('certFeedback').textContent = finalEducatorInsight; // Set dynamic feedback
+            document.getElementById('certDate').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            console.log("Certificate displayed.");
+        }
+
+        /**
+         * Downloads the content of the certificate container as a PNG image.
+         * Uses html2canvas library to render the HTML element to a canvas,
+         * then converts the canvas to a data URL and triggers a download.
+         */
+        function downloadCertificatePng() {
+            console.log("Attempting to download certificate PNG...");
+            const certificateElement = document.getElementById('certificateContainer');
+
+            html2canvas(certificateElement, {
+                scale: 2, // Increase scale for better quality
+                useCORS: true, // Enable cross-origin image loading if necessary
+                backgroundColor: null // Let the div's background handle it
+            }).then(canvas => {
+                // Create an image URL from the canvas
+                const image = canvas.toDataURL('image/png');
+                console.log("Canvas rendered to image data URL.");
+
+                // Create a temporary link element
+                const link = document.createElement('a');
+                link.href = image;
+                link.download = 'AstronomyQuizCertificate.png'; // Set the download file name
+
+                // Programmatically click the link to trigger the download
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                console.log("Certificate download triggered.");
+            }).catch(error => {
+                console.error("Error generating certificate PNG:", error);
+                // Optionally, display a user-friendly message
+                // alert("Could not generate image. Please try again.");
+            });
+        }
+
+
+        // Initialize the quiz when the window loads
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>

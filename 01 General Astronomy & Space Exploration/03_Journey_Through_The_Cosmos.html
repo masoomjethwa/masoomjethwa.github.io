@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Infographic Guide to the Cosmos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Brilliant Blues -->
+    <!-- Application Structure Plan: The infographic follows a narrative structure designed to guide the user from foundational knowledge to complex and speculative topics.
+    1. Hook & Overview: Starts with a compelling question and a donut chart showing the universe's surprising composition, immediately engaging the user with a core mystery.
+    2. The Standard Model: Presents the Big Bang Theory, not as a single block, but through its three main pillars of evidence (Redshift, CMB, BBN). This breaks down the core support into digestible visual sections.
+    3. Historical Context - Theory Showdown: A visually driven comparison between the Big Bang and Steady State theories using a bar chart. This makes the reason for the scientific consensus clear and impactful.
+    4. Current Mysteries: Dedicates sections to Dark Matter and Dark Energy, using specific visualizations (a line chart for rotation curves, large stats for dark energy) to explain *why* these concepts are necessary.
+    5. The Frontier: Concludes with a grid of cards for alternative theories, providing a glimpse into ongoing research without overwhelming the user.
+    This structure tells a story of discovery, conflict, mystery, and future exploration, which is more engaging than a simple academic layout. -->
+    <!-- Visualization & Content Choices:
+    1. Universe Composition: (Goal: Inform) -> Donut Chart (Chart.js). (Justification: Best way to show parts-of-a-whole for the universe's mass-energy budget. Immediately establishes the "dark" universe concept).
+    2. Pillars of Evidence: (Goal: Inform/Organize) -> 3-Card Layout with custom HTML/CSS visuals and a dedicated Pie Chart. (Justification: Breaks down the three core pieces of evidence into separate, visually distinct, and easy-to-understand modules. A pie chart for BBN is perfect for showing the simple elemental ratio).
+    3. Big Bang vs. Steady State: (Goal: Compare) -> Grouped Bar Chart (Chart.js). (Justification: A bar chart provides a stark, quantitative-style comparison of how each theory fares against key evidence, making the "winner" visually obvious).
+    4. Galaxy Rotation Curve: (Goal: Relationships) -> Line Chart (Chart.js). (Justification: The standard and most effective way to show the discrepancy between expected and observed stellar velocities, which is the primary evidence for dark matter halos).
+    5. Alternative Theories: (Goal: Organize) -> HTML/CSS Card Grid. (Justification: Presents multiple complex ideas in a clean, non-overwhelming way, allowing the user to scan and select topics of interest).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; }
+        .bg-primary { background-color: #0B486B; }
+        .text-primary { color: #0B486B; }
+        .bg-secondary { background-color: #3B8686; }
+        .text-secondary { color: #3B8686; }
+        .bg-accent1 { background-color: #79BD9A; }
+        .text-accent1 { color: #79BD9A; }
+        .bg-accent2 { background-color: #A8DBA8; }
+        .bg-accent3 { background-color: #CFF09E; }
+        .text-accent3 { color: #CFF09E; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 320px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 380px; } }
+        .big-stat { font-weight: 900; font-size: 4rem; line-height: 1; }
+        @media (min-width: 768px) { .big-stat { font-size: 6rem; } }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section class="text-center py-12">
+            <h1 class="text-4xl md:text-6xl font-black text-primary mb-4">A JOURNEY THROUGH THE COSMOS</h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">Our universe is vast, ancient, and filled with mysteries. This guide visualizes our best understanding of where it all came from, what it's made of, and where it might be going, based on the evidence we've gathered so far.</p>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-xl p-6 md:p-10 mb-12">
+            <h2 class="text-3xl font-bold text-center mb-2 text-primary">What is the Universe Made Of?</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">The most startling discovery in modern cosmology is that everything we can see—stars, planets, galaxies—makes up less than 5% of the universe. The rest is composed of mysterious dark matter and even more enigmatic dark energy.</p>
+            <div class="chart-container">
+                <canvas id="compositionChart"></canvas>
+            </div>
+        </section>
+
+        <section class="py-12">
+            <h2 class="text-3xl font-bold text-center mb-10 text-primary">The Standard Model: Evidence for the Big Bang</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">The Big Bang is not just a theory, it's a model overwhelmingly supported by three independent pillars of observational evidence. Together, they paint a consistent picture of a universe that started hot and dense ~13.8 billion years ago and has been expanding and cooling ever since.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-accent1 rounded-full flex items-center justify-center mb-4 text-white text-3xl font-bold">1</div>
+                    <h3 class="text-2xl font-bold mb-2 text-secondary">Cosmological Redshift</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">In 1929, Edwin Hubble observed that distant galaxies are moving away from us, and the farther they are, the faster they recede. This stretching of light waves, known as redshift, is direct evidence that the fabric of space itself is expanding.</p>
+                    <div class="w-full text-center text-5xl text-red-500 font-mono scale-x-150 p-4">→ → →</div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-accent1 rounded-full flex items-center justify-center mb-4 text-white text-3xl font-bold">2</div>
+                    <h3 class="text-2xl font-bold mb-2 text-secondary">Cosmic Microwave Background</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">The CMB is the "afterglow" of the Big Bang—a faint, uniform radiation with a temperature of 2.725 Kelvin permeating all of space. Discovered in 1964, it's a direct snapshot of the universe when it was just 380,000 years old.</p>
+                     <div class="w-full h-24 bg-gray-900 rounded-lg flex items-center justify-center text-accent3 text-3xl font-black tracking-widest">2.725 K</div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-accent1 rounded-full flex items-center justify-center mb-4 text-white text-3xl font-bold">3</div>
+                    <h3 class="text-2xl font-bold mb-2 text-secondary">Light Element Abundances</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">In the first few minutes, the universe was a nuclear furnace. The Big Bang model precisely predicts the primordial ratio of elements created: ~75% Hydrogen and ~25% Helium, which is exactly what we observe in the oldest stars and gas clouds.</p>
+                    <div class="chart-container h-48 max-h-48 mt-auto">
+                        <canvas id="bbnChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="py-12">
+             <h2 class="text-3xl font-bold text-center mb-2 text-primary">Showdown: Big Bang vs. Steady State</h2>
+             <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">For decades, the Steady State theory (proposing an eternal, unchanging universe) was the Big Bang's main rival. However, as observational evidence mounted, a clear winner emerged. This chart shows how each theory fared against key discoveries.</p>
+            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10">
+                <div class="chart-container h-96 max-h-[500px]">
+                    <canvas id="showdownChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10">
+                 <h2 class="text-3xl font-bold text-center mb-2 text-primary">The Mystery of Dark Matter</h2>
+                 <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">Galaxies spin much faster than they should based on their visible matter. This discrepancy is a key piece of evidence for dark matter—an invisible "halo" of mass providing the extra gravitational glue needed to hold galaxies together.</p>
+                <div class="chart-container h-80">
+                    <canvas id="rotationChart"></canvas>
+                </div>
+            </div>
+            <div class="text-center p-6">
+                <h2 class="text-3xl font-bold mb-4 text-primary">The Enigma of Dark Energy</h2>
+                <p class="text-gray-600 text-lg mb-6">In 1998, astronomers discovered the expansion of the universe is not slowing down—it's accelerating. This is attributed to dark energy, a mysterious repulsive force that acts like anti-gravity on cosmic scales.</p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-secondary text-white p-6 rounded-2xl">
+                        <div class="big-stat">68%</div>
+                        <div class="text-xl font-bold">Dark Energy</div>
+                    </div>
+                     <div class="bg-primary text-white p-6 rounded-2xl">
+                        <div class="big-stat">27%</div>
+                        <div class="text-xl font-bold">Dark Matter</div>
+                    </div>
+                </div>
+                 <p class="text-gray-500 text-sm mt-4">Together, these two unknown components make up 95% of the universe.</p>
+            </div>
+        </section>
+
+         <section class="py-12">
+            <h2 class="text-3xl font-bold text-center mb-10 text-primary">Beyond the Standard Model: Frontier Theories</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">Science never stops asking questions. While the Big Bang model is robust, physicists are exploring many mind-bending alternative theories to push the boundaries of our knowledge. Here are a few.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="border-2 border-accent1 rounded-2xl p-6 bg-white/50">
+                    <h3 class="text-xl font-bold text-secondary mb-2">Ekpyrotic/Cyclic Universe</h3>
+                    <p class="text-gray-600">Suggests our universe is one of many in an endless cycle of collision, expansion, and contraction, born from the clash of higher-dimensional "branes."</p>
+                </div>
+                <div class="border-2 border-accent1 rounded-2xl p-6 bg-white/50">
+                    <h3 class="text-xl font-bold text-secondary mb-2">Holographic Universe</h3>
+                    <p class="text-gray-600">Posits that our 3D reality is a projection of information encoded on a distant 2D surface, much like a hologram.</p>
+                </div>
+                <div class="border-2 border-accent1 rounded-2xl p-6 bg-white/50">
+                    <h3 class="text-xl font-bold text-secondary mb-2">Multiverse Theory</h3>
+                    <p class="text-gray-600">Proposes our universe is just one of a vast, possibly infinite, collection of other universes, each with potentially different laws of physics.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+<script>
+const chartTooltipPlugin = {
+    tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleFont: { size: 16, weight: 'bold' },
+        bodyFont: { size: 14 },
+        padding: 12,
+        cornerRadius: 8,
+        callbacks: {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                  return label.join(' ');
+                } else {
+                  return label;
+                }
+            }
+        }
+    }
+};
+
+const wrapLabel = (str, maxWidth) => {
+    if (str.length <= maxWidth) {
+        return str;
+    }
+    const words = str.split(' ');
+    let lines = [];
+    let currentLine = '';
+    words.forEach(word => {
+        if ((currentLine + ' ' + word).trim().length > maxWidth) {
+            lines.push(currentLine.trim());
+            currentLine = word;
+        } else {
+            currentLine = (currentLine + ' ' + word).trim();
+        }
+    });
+    if (currentLine) {
+        lines.push(currentLine.trim());
+    }
+    return lines;
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const compositionCtx = document.getElementById('compositionChart').getContext('2d');
+    new Chart(compositionCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Dark Energy', 'Dark Matter', 'Luminous Matter'],
+            datasets: [{
+                label: 'Universe Composition',
+                data: [68.3, 26.8, 4.9],
+                backgroundColor: ['#0B486B', '#3B8686', '#CFF09E'],
+                borderColor: '#FFFFFF',
+                borderWidth: 5,
+                hoverOffset: 15
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+                ...chartTooltipPlugin,
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { size: 14, family: "'Inter', sans-serif" },
+                        color: '#374151',
+                        padding: 20
+                    }
+                }
+            }
+        }
+    });
+
+    const bbnCtx = document.getElementById('bbnChart').getContext('2d');
+    new Chart(bbnCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Hydrogen', 'Helium', 'Trace Elements'],
+            datasets: [{
+                data: [75, 24.9, 0.1],
+                backgroundColor: ['#79BD9A', '#A8DBA8', '#f0f4f8'],
+                borderColor: '#FFFFFF',
+                borderWidth: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                 ...chartTooltipPlugin,
+                 legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 15,
+                        font: { size: 12 },
+                        padding: 10,
+                    }
+                 }
+            }
+        }
+    });
+    
+    const showdownCtx = document.getElementById('showdownChart').getContext('2d');
+    const showdownLabels = [
+        'Explains the CMB?',
+        'Explains Light Elements?',
+        'Explains Galaxy Evolution?'
+    ].map(label => wrapLabel(label, 16));
+    new Chart(showdownCtx, {
+        type: 'bar',
+        data: {
+            labels: showdownLabels,
+            datasets: [
+                {
+                    label: 'Big Bang Theory',
+                    data: [100, 100, 100],
+                    backgroundColor: '#3B8686',
+                    borderRadius: 8,
+                },
+                {
+                    label: 'Steady State Theory',
+                    data: [0, 10, 5],
+                    backgroundColor: '#cbd5e1',
+                    borderRadius: 8,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    max: 100,
+                    ticks: { callback: value => value + '%' },
+                    title: { display: true, text: 'Explanatory Power' }
+                },
+                y: { grid: { display: false } }
+            },
+            plugins: {
+                ...chartTooltipPlugin,
+                legend: {
+                    position: 'top',
+                }
+            }
+        }
+    });
+
+    const rotationCtx = document.getElementById('rotationChart').getContext('2d');
+    new Chart(rotationCtx, {
+        type: 'line',
+        data: {
+            labels: ['0', '2', '4', '6', '8', '10', '12', '14', '16'],
+            datasets: [{
+                label: 'Observed Rotation (with Dark Matter)',
+                data: [0, 80, 150, 200, 220, 225, 228, 230, 231],
+                borderColor: '#3B8686',
+                backgroundColor: 'rgba(59, 134, 134, 0.1)',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 0,
+            }, {
+                label: 'Expected from Visible Matter',
+                data: [0, 80, 110, 120, 125, 120, 110, 100, 90],
+                borderColor: '#9ca3af',
+                borderDash: [5, 5],
+                fill: false,
+                tension: 0.4,
+                pointRadius: 0,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { title: { display: true, text: 'Orbital Velocity (km/s)' } },
+                x: { title: { display: true, text: 'Distance from Center (kpc)' } }
+            },
+            plugins: {
+                ...chartTooltipPlugin,
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+
+});
+</script>
+</body>
+</html>

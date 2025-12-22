@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Celestial Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral -->
+    <!-- Application Structure Plan: A thematic, single-page application design. A main interactive section uses a tab-based navigation ('Constellations', 'The Zodiac', 'Nakshatras', 'Deep Sky Objects') to present the report's content in manageable, user-selectable modules. This structure is chosen over a linear scroll to improve usability, encourage exploration, and allow for direct, side-by-side comparisons of related but distinct concepts (e.g., astronomical vs. astrological zodiacs), which is central to the report's message. The user flow progresses from high-level stats to deep-dive interactive sections, facilitating a structured learning path. -->
+    <!-- Visualization & Content Choices: 
+        - Constellation Types: Goal: Compare. Method: Horizontal Bar Chart (Chart.js). Interaction: Hover tooltips. Justification: Clearly compares quantities across a few categories.
+        - Zodiac Systems: Goal: Compare & Explain. Method: HTML/CSS diagram with a JS toggle. Interaction: Button click to switch between Astronomical (13 unequal) and Astrological (12 equal) views. Justification: Direct visual comparison is more effective than separate charts for showing the structural differences.
+        - Axial Precession: Goal: Change. Method: HTML/CSS/JS animated timeline. Interaction: Hover effects. Justification: Visually demonstrates the slow shift over time, a core concept.
+        - Nakshatras: Goal: Organize/Inform. Method: Filterable HTML table. Interaction: Text input search. Justification: Allows users to easily find and explore data from the large list of 27 Nakshatras.
+        - Black Hole Mass: Goal: Compare. Method: Bubble Chart (Chart.js). Interaction: Hover tooltips. Justification: Effectively visualizes vast differences in scale/magnitude that are impractical for a bar chart.
+        - Milky Way Structure: Goal: Organize. Method: Interactive nested HTML div diagram. Interaction: Hover to highlight and show info. Justification: Creates a clear, hierarchical visual model of the galaxy's components.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F5F4; /* stone-100 */
+            color: #374151; /* gray-700 */
+        }
+        .tab.active {
+            border-color: #A16207; /* yellow-700 */
+            color: #A16207;
+            font-weight: 600;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+                max-height: 350px;
+            }
+        }
+        .galaxy-diagram-item {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .galaxy-diagram-item:hover {
+            transform: scale(1.03);
+            border-color: #A16207;
+            background-color: #FEFCE8; /* yellow-50 */
+        }
+        .zodiac-view-toggle.active {
+            background-color: #A16207;
+            color: white;
+        }
+        .info-box {
+            background-color: #FEFCE8; /* yellow-50 */
+            color: #A16207; /* yellow-800 */
+            border: 1px solid #FDE68A; /* yellow-200 */
+        }
+        .precession-timeline {
+            position: relative;
+            margin-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        .precession-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #D1D5DB; /* gray-300 */
+            transform: translateY(-50%);
+        }
+        .precession-point {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 1rem;
+            height: 1rem;
+            background-color: #A16207; /* yellow-700 */
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .precession-marker-active {
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: #FACC15; /* yellow-400 */
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 0 0 4px white;
+            transition: left 2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="text-center py-12 px-4 bg-white">
+        <h1 class="text-4xl md:text-5xl font-bold text-stone-800 mb-2">Celestial Explorer</h1>
+        <p class="text-lg text-stone-600 max-w-3xl mx-auto">An interactive journey distinguishing scientific astronomy from cultural astrology.</p>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        
+        <section id="dashboard" class="mb-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="bg-white p-4 rounded-lg border border-stone-200 shadow-sm">
+                    <p class="text-4xl font-bold text-yellow-700">88</p>
+                    <p class="text-sm text-stone-600">Official Constellations</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg border border-stone-200 shadow-sm">
+                    <p class="text-4xl font-bold text-yellow-700">13 vs 12</p>
+                    <p class="text-sm text-stone-600">Zodiac: Astronomy vs Astrology</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg border border-stone-200 shadow-sm">
+                    <p class="text-4xl font-bold text-yellow-700">27</p>
+                    <p class="text-sm text-stone-600">Vedic Lunar Mansions (Nakshatras)</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg border border-stone-200 shadow-sm">
+                    <p class="text-4xl font-bold text-yellow-700">~400B</p>
+                    <p class="text-sm text-stone-600">Stars in the Milky Way</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="interactive-explorer" class="bg-white p-4 sm:p-6 md:p-8 rounded-xl border border-stone-200 shadow-lg">
+            <div class="mb-8 border-b border-stone-200">
+                <nav class="-mb-px flex space-x-4 sm:space-x-6 overflow-x-auto" aria-label="Tabs">
+                    <button class="tab active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-stone-500 hover:text-stone-700 hover:border-stone-300" data-tab="constellations">Constellations</button>
+                    <button class="tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-stone-500 hover:text-stone-700 hover:border-stone-300" data-tab="zodiac">The Zodiac</button>
+                    <button class="tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-stone-500 hover:text-stone-700 hover:border-stone-300" data-tab="nakshatras">Nakshatras</button>
+                    <button class="tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-stone-500 hover:text-stone-700 hover:border-stone-300" data-tab="deepsky">Deep Sky Objects</button>
+                </nav>
+            </div>
+
+            <!-- Constellations Tab -->
+            <div id="constellations-content" class="tab-content active">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-stone-800 mb-3">Patterns vs. Boundaries</h2>
+                        <p class="text-stone-600 mb-4 leading-relaxed">This section clarifies the crucial difference between historical star patterns (asterisms) and the modern astronomical definition of constellations. The International Astronomical Union (IAU) defines 88 official constellations as specific, bordered areas of the sky, creating a complete map. This interactive chart shows the breakdown of these constellations by the nature of the figures they represent.</p>
+                         <div class="info-box p-4 rounded-lg text-sm mb-4">
+                            <strong>Asterism vs. Constellation:</strong> An asterism is a recognizable pattern of stars (like the Big Dipper), while a constellation is a defined region of the sky, established by Eugène Delporte in 1925.
+                        </div>
+                         <p class="text-stone-600 leading-relaxed">It's important to remember that the stars forming a constellation are usually not physically connected; they just appear so from Earth. Not all 88 constellations are visible from a single location on Earth.</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="constellationTypesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zodiac Tab -->
+            <div id="zodiac-content" class="tab-content">
+                 <h2 class="text-2xl font-bold text-stone-800 mb-3 text-center">A Tale of Two Zodiacs</h2>
+                 <p class="text-stone-600 mb-6 leading-relaxed max-w-3xl mx-auto text-center">The term "Zodiac" has two very different meanings. Scientific astronomy defines it as the 13 unequal constellations the Sun passes through, while astrology uses 12 equal signs. Use the toggle below to compare these systems and explore why they no longer align due to a phenomenon called axial precession.</p>
+                <div class="text-center mb-6">
+                    <div class="inline-flex rounded-md shadow-sm">
+                        <button id="astro-toggle" class="zodiac-view-toggle active py-2 px-4 text-sm font-medium text-stone-700 bg-white border border-stone-300 rounded-l-lg hover:bg-stone-50">Astronomical Zodiac</button>
+                        <button id="horo-toggle" class="zodiac-view-toggle -ml-px py-2 px-4 text-sm font-medium text-stone-700 bg-white border border-stone-300 rounded-r-lg hover:bg-stone-50">Astrological Zodiac</button>
+                    </div>
+                </div>
+                
+                <div id="zodiac-views">
+                    <div id="astronomical-view">
+                        <h3 class="font-semibold text-center mb-2">The 13 Astronomical Constellations of the Ecliptic</h3>
+                        <p class="text-xs text-center text-stone-500 mb-4">The Sun spends a different amount of time in each due to their varying sizes, including Ophiuchus.</p>
+                        <div class="w-full flex text-xs font-medium text-white text-center whitespace-nowrap rounded-md overflow-hidden border border-stone-300 shadow-inner bg-stone-100">
+                            <div style="width: 11.7%" class="bg-teal-600 p-2" title="Pisces">Psc</div>
+                            <div style="width: 10.1%" class="bg-red-600 p-2" title="Aries">Ari</div>
+                            <div style="width: 10.1%" class="bg-orange-600 p-2" title="Taurus">Tau</div>
+                            <div style="width: 5.5%" class="bg-yellow-500 p-2" title="Gemini">Gem</div>
+                            <div style="width: 5.5%" class="bg-green-600 p-2" title="Cancer">Cnc</div>
+                            <div style="width: 9.9%" class="bg-lime-600 p-2" title="Leo">Leo</div>
+                            <div style="width: 12.3%" class="bg-indigo-600 p-2" title="Virgo">Vir</div>
+                            <div style="width: 6.3%" class="bg-purple-600 p-2" title="Libra">Lib</div>
+                            <div style="width: 1.9%" class="bg-pink-600 p-2" title="Scorpius">Sco</div>
+                            <div style="width: 5.2%" class="bg-gray-500 p-2" title="Ophiuchus">Oph</div>
+                            <div style="width: 9.3%" class="bg-cyan-600 p-2" title="Sagittarius">Sgr</div>
+                            <div style="width: 7.7%" class="bg-blue-600 p-2" title="Capricornus">Cap</div>
+                            <div style="width: 4.4%" class="bg-violet-600 p-2" title="Aquarius">Aqr</div>
+                        </div>
+                    </div>
+                    <div id="astrological-view" class="hidden">
+                        <h3 class="font-semibold text-center mb-2">The 12 Astrological Signs</h3>
+                        <p class="text-xs text-center text-stone-500 mb-4">Each sign is a fixed, equal 30° segment of the sky, believed to influence personality and events.</p>
+                        <div class="w-full flex text-xs font-medium text-white text-center whitespace-nowrap rounded-md overflow-hidden border border-stone-300 shadow-inner bg-stone-100">
+                            <div style="width: 8.33%" class="bg-red-600 p-2" title="Aries">Ari</div>
+                            <div style="width: 8.33%" class="bg-orange-600 p-2" title="Taurus">Tau</div>
+                            <div style="width: 8.33%" class="bg-yellow-500 p-2" title="Gemini">Gem</div>
+                            <div style="width: 8.33%" class="bg-green-600 p-2" title="Cancer">Cnc</div>
+                            <div style="width: 8.33%" class="bg-lime-600 p-2" title="Leo">Leo</div>
+                            <div style="width: 8.33%" class="bg-indigo-600 p-2" title="Virgo">Vir</div>
+                            <div style="width: 8.33%" class="bg-purple-600 p-2" title="Libra">Lib</div>
+                            <div style="width: 8.33%" class="bg-pink-600 p-2" title="Scorpio">Sco</div>
+                            <div style="width: 8.33%" class="bg-cyan-600 p-2" title="Sagittarius">Sgr</div>
+                            <div style="width: 8.33%" class="bg-blue-600 p-2" title="Capricorn">Cap</div>
+                            <div style="width: 8.33%" class="bg-violet-600 p-2" title="Aquarius">Aqr</div>
+                            <div style="width: 8.33%" class="bg-teal-600 p-2" title="Pisces">Psc</div>
+                        </div>
+                         <div class="info-box p-4 rounded-lg text-sm mt-4">
+                            <strong>Astrology's Influence:</strong> In astrology, these signs are believed to affect personality traits, relationships, and even career choices. For example, Aries is linked with courage, and Virgo with analytical skills.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-stone-200">
+                    <h3 class="text-xl font-bold text-stone-800 mb-3 text-center">The Great Celestial Shift: Axial Precession</h3>
+                    <p class="text-stone-600 mb-4 leading-relaxed max-w-3xl mx-auto text-center">Earth's slow "wobble" over a ~26,000-year cycle causes the seasons to drift against the background stars. This is why the seasonal, Tropical zodiac of Western astrology is now misaligned with the astronomical constellations.</p>
+                    <div class="precession-timeline max-w-2xl mx-auto">
+                        <div class="precession-line"></div>
+                        <div class="precession-point left-[5%]"></div>
+                        <div id="precession-marker" class="precession-marker-active left-[5%]"></div>
+                        <div class="precession-point right-[5%]"></div>
+                        <div class="flex justify-between mt-4">
+                            <div class="text-center w-1/3">
+                                <p class="font-semibold text-stone-800">~2000 Years Ago</p>
+                                <p class="text-sm text-stone-500">March Equinox in Aries</p>
+                            </div>
+                            <div class="text-center w-1/3">
+                                <p class="font-semibold text-stone-800">Present Day</p>
+                                <p class="text-sm text-stone-500">March Equinox in Pisces</p>
+                                <p class="text-xs text-stone-400 mt-1">(Your astrological sign might not match the actual constellation)</p>
+                            </div>
+                            <div class="text-center w-1/3">
+                                <p class="font-semibold text-stone-800">~11,800 Years</p>
+                                <p class="text-sm text-stone-500">Pole will point to Vega</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="info-box p-4 rounded-lg text-sm mt-8">
+                        <strong>Example:</strong> Someone born on September 10th is a Virgo astrologically but would astronomically be in the constellation Leo.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nakshatras Tab -->
+            <div id="nakshatras-content" class="tab-content">
+                <h2 class="text-2xl font-bold text-stone-800 mb-3">The Lunar Mansions of Vedic Astrology</h2>
+                <p class="text-stone-600 mb-4 leading-relaxed">The term 'Nakshatra' comes from Sanskrit words meaning "map of stars," a fundamental concept in Vedic astrology with roots in ancient Hindu scriptures like the Rig Veda. These 27 lunar mansions track the Moon's daily movement, with each Nakshatra lasting about one day.</p>
+                <div class="info-box p-4 rounded-lg text-sm mb-4">
+                    <strong>Mythology:</strong> King Daksha had 27 daughters, all married to Chandra, the Moon god, explaining the Moon's consistent movement through each Nakshatra.
+                </div>
+                <p class="text-stone-600 mb-4 leading-relaxed">Each Nakshatra spans approximately 13°20' of the zodiac and is further divided into 4 *padas* (quarters) of 3°20' each. They are believed to shape personality, guide life events, and are crucial for Vedic astrological predictions like *Kundli matching*.</p>
+
+                <h3 class="text-xl font-bold text-stone-800 mb-3 text-center mt-6">Nakshatras per Zodiac Sign: The Calculation</h3>
+                <p class="text-stone-600 mb-4 leading-relaxed max-w-2xl mx-auto text-center">In Vedic astrology, each 30-degree zodiac sign (Rashi) contains exactly 2.25 Nakshatras. This is derived from dividing the 27 Nakshatras across the 12 zodiac signs, meaning each Rashi comprises 9 *padas* (quarters).</p>
+                <div class="flex items-center justify-center space-x-4 mb-8 text-lg font-medium">
+                     <div class="text-center p-3 bg-stone-100 rounded-lg shadow-sm border border-stone-200">
+                        <p class="text-3xl font-bold text-yellow-700">27</p>
+                        <p class="text-xs text-stone-600">Total Nakshatras</p>
+                    </div>
+                    <div class="text-stone-500">÷</div>
+                    <div class="text-center p-3 bg-stone-100 rounded-lg shadow-sm border border-stone-200">
+                        <p class="text-3xl font-bold text-yellow-700">12</p>
+                        <p class="text-xs text-stone-600">Zodiac Signs</p>
+                    </div>
+                    <div class="text-stone-500">=</div>
+                    <div class="text-center p-3 bg-stone-100 rounded-lg shadow-sm border border-stone-200">
+                        <p class="text-3xl font-bold text-yellow-700">2.25</p>
+                        <p class="text-xs text-stone-600">Nakshatras/Sign</p>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                     <input type="text" id="nakshatra-search" placeholder="Search Nakshatras by name, planet, or deity..." class="w-full p-2 border border-stone-300 rounded-md focus:ring-2 focus:ring-yellow-600 focus:border-transparent">
+                </div>
+                <div class="overflow-x-auto bg-white border border-stone-200 rounded-lg">
+                    <table class="w-full text-sm text-left text-stone-600">
+                        <thead class="text-xs text-stone-700 uppercase bg-stone-100">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">#</th>
+                                <th scope="col" class="px-6 py-3">Name</th>
+                                <th scope="col" class="px-6 py-3">Ruling Planet</th>
+                                <th scope="col" class="px-6 py-3">Deity</th>
+                                <th scope="col" class="px-6 py-3">Symbol</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nakshatra-table-body">
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Deep Sky Objects Tab -->
+            <div id="deepsky-content" class="tab-content">
+                <p class="text-stone-600 mb-8 leading-relaxed">Beyond the frameworks of constellations and signs lie the universe's most dramatic structures. This section explores two purely scientific concepts: Black Holes, regions of immense gravity, and the Milky Way, our vast home galaxy. Interact with the diagrams to learn about their scale and structure.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div class="text-center">
+                         <h3 class="text-xl font-bold text-stone-800 mb-3">Black Holes: A Comparison of Mass</h3>
+                         <p class="text-sm text-stone-600 mb-4 max-w-md mx-auto">Black holes are classified by their mass. This chart visualizes the immense difference in scale between a stellar-mass black hole (from a single collapsed star) and the supermassive giants found at the centers of galaxies.</p>
+                         <div class="info-box p-4 rounded-lg text-sm mb-4 max-w-md mx-auto">
+                            <strong>Event Horizon:</strong> The boundary beyond which nothing, not even light, can escape a black hole's gravity.
+                        </div>
+                         <div class="chart-container">
+                            <canvas id="blackHoleChart"></canvas>
+                        </div>
+                        <ul class="text-xs text-stone-600 mt-4 text-left inline-block">
+                            <li>• Detected indirectly by observing accretion disks and star orbits.</li>
+                            <li>• The largest known is TON 618, 66 billion times the Sun's mass.</li>
+                        </ul>
+                         <div class="info-box p-4 rounded-lg text-sm mt-4 max-w-md mx-auto">
+                            <strong>Common Misconceptions:</strong> Black holes are NOT wormholes or cosmic vacuum cleaners. If our Sun became a black hole, Earth's orbit would remain unchanged.
+                        </div>
+                    </div>
+                     <div class="text-center">
+                        <h3 class="text-xl font-bold text-stone-800 mb-3">The Milky Way: Our Galactic Home (Mandakini Galaxi)</h3>
+                        <p class="text-sm text-stone-600 mb-4 max-w-md mx-auto">The "Mandakini Galaxi" is our home, a barred spiral galaxy containing 200-400 billion stars. It's a member of the Local Group, dominating alongside Andromeda. Hover over the components of this diagram to see how our Solar System fits into this immense cosmic island.</p>
+                         <div class="info-box p-4 rounded-lg text-sm mb-4 max-w-md mx-auto">
+                            <strong>Factual Correction:</strong> The 88 constellations are defined regions of the *observable sky* from Earth, not specifically "in" the Milky Way galaxy itself.
+                        </div>
+                        <div id="galaxy-diagram" class="mt-6 space-y-2 text-sm max-w-md mx-auto">
+                            <div class="galaxy-diagram-item p-3 border-2 border-stone-300 rounded-lg shadow-sm" data-info="The outermost component, containing old stars, globular clusters, and the majority of the galaxy's mysterious dark matter.">Massive Halo</div>
+                            <div class="galaxy-diagram-item p-3 border-2 border-stone-300 rounded-lg shadow-sm ml-4" data-info="A large, flat arrangement of stars, gas, and dust where most star formation occurs. Contains the spiral arms.">Disk & Spiral Arms</div>
+                            <div class="galaxy-diagram-item p-3 border-2 border-stone-300 rounded-lg shadow-sm ml-8" data-info="A dense, spherical swarm of older stars surrounding the galaxy's nucleus.">Central Bulge</div>
+                            <div class="galaxy-diagram-item p-3 border-2 border-stone-300 rounded-lg shadow-sm ml-12" data-info="The very center, with extreme star density and the supermassive black hole.">Nucleus</div>
+                            <div class="galaxy-diagram-item p-3 border-2 border-stone-300 rounded-lg shadow-sm ml-16" data-info="Sagittarius A* (Sgr A*), the supermassive black hole at our galaxy's center, with a mass of 4 million Suns.">Supermassive Black Hole</div>
+                        </div>
+                        <div id="galaxy-info-box" class="mt-4 p-3 info-box rounded-lg text-xs min-h-[4rem] flex items-center justify-center">Hover over a component to learn more.</div>
+                         <ul class="text-xs text-stone-600 mt-4 text-left inline-block">
+                            <li>• Spiral arms are density waves; our Sun passes in and out of them.</li>
+                            <li>• Our Solar System orbits at 515,000 mph, completing a revolution every ~230 million years.</li>
+                            <li>• Sgr A* (4 million Suns) is 26,000 light-years away, posing no threat to us.</li>
+                        </ul>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 px-4 mt-8 border-t border-stone-200">
+        <p class="text-stone-600">SPA created from "A Comprehensive Analysis of Celestial Concepts".</p>
+        <p class="text-xs text-stone-500 mt-1">Visualizations powered by Chart.js and Tailwind CSS.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chartJsSharedOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#374151',
+                            font: { weight: '500' }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    }
+                }
+            };
+            
+            const nakshatraData = [
+                { no: 1, name: 'Ashwini', planet: 'Ketu', deity: 'Ashvins', symbol: "Horse's head" },
+                { no: 2, name: 'Bharani', planet: 'Venus', deity: 'Yama', symbol: 'Yoni' },
+                { no: 3, name: 'Krittika', planet: 'Sun', deity: 'Agni', symbol: 'Knife' },
+                { no: 4, name: 'Rohini', planet: 'Moon', deity: 'Brahma', symbol: 'Cart, Temple' },
+                { no: 5, name: 'Mrigashira', planet: 'Mars', deity: 'Soma', symbol: "Deer's head" },
+                { no: 6, name: 'Ardra', planet: 'Rahu', deity: 'Rudra', symbol: 'Teardrop' },
+                { no: 7, name: 'Punarvasu', planet: 'Jupiter', deity: 'Aditi', symbol: 'Bow and quiver' },
+                { no: 8, name: 'Pushya', planet: 'Saturn', deity: 'Brihaspati', symbol: "Cow's udder" },
+                { no: 9, name: 'Ashlesha', planet: 'Mercury', deity: 'Naga', symbol: 'Coiled serpent' },
+                { no: 10, name: 'Magha', planet: 'Ketu', deity: 'Pitrs', symbol: 'Royal throne' },
+                { no: 11, name: 'Purva Phalguni', planet: 'Venus', deity: 'Bhaga', symbol: 'Hammock' },
+                { no: 12, name: 'Uttara Phalguni', planet: 'Sun', deity: 'Aryaman', symbol: 'Bed' },
+                { no: 13, name: 'Hasta', planet: 'Moon', deity: 'Savitar', symbol: 'Hand or fist' },
+                { no: 14, name: 'Chitra', planet: 'Mars', deity: 'Tvashtar', symbol: 'Bright jewel' },
+                { no: 15, name: 'Swati', planet: 'Rahu', deity: 'Vayu', symbol: 'Shoot of plant' },
+                { no: 16, name: 'Vishakha', planet: 'Jupiter', deity: 'Indra and Agni', symbol: 'Triumphal arch' },
+                { no: 17, name: 'Anuradha', planet: 'Saturn', deity: 'Mitra', symbol: 'Triumphal arch' },
+                { no: 18, name: 'Jyeshtha', planet: 'Mercury', deity: 'Indra', symbol: 'Circular amulet' },
+                { no: 19, name: 'Moola', planet: 'Ketu', deity: 'Nirriti', symbol: 'Bunch of roots' },
+                { no: 20, name: 'Poorva-Ashada', planet: 'Venus', deity: 'Apah', symbol: 'Elephant tusk' },
+                { no: 21, name: 'Uttara-Ashada', planet: 'Sun', deity: 'Vishvedevas', symbol: 'Elephant tusk' },
+                { no: 22, name: 'Shravana', planet: 'Moon', deity: 'Vishnu', symbol: 'Ears' },
+                { no: 23, name: 'Dhanishtha', planet: 'Mars', deity: 'Eight Vasus', symbol: 'Drum' },
+                { no: 24, name: 'Shatabhisha', planet: 'Rahu', deity: 'Varuna', symbol: 'Empty circle' },
+                { no: 25, name: 'Poorva Bhadrapada', planet: 'Jupiter', deity: 'Aja Ekapada', symbol: 'Swords' },
+                { no: 26, name: 'Uttara Bhadrapada', planet: 'Saturn', deity: 'Ahir Budhyana', symbol: 'Twins' },
+                { no: 27, name: 'Revati', planet: 'Mercury', deity: 'Pushan', symbol: 'Pair of fish' }
+            ];
+
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(tab.dataset.tab + '-content').classList.add('active');
+                });
+            });
+
+            function initConstellationChart() {
+                const ctx = document.getElementById('constellationTypesChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Animals', 'Inanimate Objects', 'Humans/Mythological'],
+                        datasets: [{
+                            label: 'Number of Constellations',
+                            data: [42, 29, 17],
+                            backgroundColor: ['#ca8a04', '#eab308', '#facc15'],
+                            borderColor: '#a8a29e',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        ...chartJsSharedOptions,
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(0,0,0,0.05)' },
+                                ticks: { color: '#374151' }
+                            },
+                            y: { grid: { display: false }, ticks: { color: '#374151' } }
+                        },
+                         plugins: { ...chartJsSharedOptions.plugins, legend: { display: false } }
+                    }
+                });
+            }
+
+            function initZodiacToggle() {
+                const astroToggle = document.getElementById('astro-toggle');
+                const horoToggle = document.getElementById('horo-toggle');
+                const astroView = document.getElementById('astronomical-view');
+                const horoView = document.getElementById('astrological-view');
+
+                astroToggle.addEventListener('click', () => {
+                    astroToggle.classList.add('active');
+                    horoToggle.classList.remove('active');
+                    astroView.classList.remove('hidden');
+                    horoView.classList.add('hidden');
+                });
+
+                horoToggle.addEventListener('click', () => {
+                    horoToggle.classList.add('active');
+                    astroToggle.classList.remove('active');
+                    horoView.classList.remove('hidden');
+                    astroView.classList.add('hidden');
+                });
+            }
+            
+            function animatePrecession() {
+                const marker = document.getElementById('precession-marker');
+                setTimeout(() => {
+                    marker.style.left = 'calc(65% - 0.75rem)'; /* Adjust for present day position */
+                }, 500);
+            }
+
+            function initNakshatraTable() {
+                const tableBody = document.getElementById('nakshatra-table-body');
+                const searchInput = document.getElementById('nakshatra-search');
+
+                function renderTable(data) {
+                    tableBody.innerHTML = '';
+                    if (data.length === 0) {
+                         tableBody.innerHTML = `<tr><td colspan="5" class="text-center p-4">No results found.</td></tr>`;
+                         return;
+                    }
+                    data.forEach(n => {
+                        const row = `
+                            <tr class="bg-white border-b hover:bg-stone-50">
+                                <td class="px-6 py-4 font-medium text-stone-900">${n.no}</td>
+                                <th scope="row" class="px-6 py-4 font-semibold text-stone-900 whitespace-nowrap">${n.name}</th>
+                                <td class="px-6 py-4">${n.planet}</td>
+                                <td class="px-6 py-4">${n.deity}</td>
+                                <td class="px-6 py-4">${n.symbol}</td>
+                            </tr>
+                        `;
+                        tableBody.innerHTML += row;
+                    });
+                }
+
+                searchInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const filteredData = nakshatraData.filter(n => 
+                        n.name.toLowerCase().includes(searchTerm) ||
+                        n.planet.toLowerCase().includes(searchTerm) ||
+                        n.deity.toLowerCase().includes(searchTerm)
+                    );
+                    renderTable(filteredData);
+                });
+                
+                renderTable(nakshatraData);
+            }
+            
+            function initBlackHoleChart() {
+                 const ctx = document.getElementById('blackHoleChart').getContext('2d');
+                 new Chart(ctx, {
+                    type: 'bubble',
+                    data: {
+                        datasets: [
+                            { label: 'Stellar-mass (3-12x Sun)', data: [{x: 1, y: 1, r: 15}], backgroundColor: '#facc1599'},
+                            { label: 'Intermediate-mass (100-10k x Sun)', data: [{x: 2, y: 2, r: 35}], backgroundColor: '#eab30899'},
+                            { label: 'Supermassive (100k-Billions x Sun)', data: [{x: 3, y: 1, r: 60}], backgroundColor: '#a1620799'}
+                        ]
+                    },
+                    options: {
+                        ...chartJsSharedOptions,
+                        scales: { x: { display: false }, y: { display: false } },
+                        plugins: { ...chartJsSharedOptions.plugins, legend: { position: 'bottom'} }
+                    }
+                 });
+            }
+
+            function initGalaxyDiagram() {
+                const items = document.querySelectorAll('.galaxy-diagram-item');
+                const infoBox = document.getElementById('galaxy-info-box');
+                items.forEach(item => {
+                    item.addEventListener('mouseenter', () => {
+                        infoBox.textContent = item.dataset.info;
+                    });
+                });
+            }
+            
+            initConstellationChart();
+            initZodiacToggle();
+            animatePrecession();
+            initNakshatraTable();
+            initBlackHoleChart();
+            initGalaxyDiagram();
+        });
+    </script>
+
+</body>
+</html>
