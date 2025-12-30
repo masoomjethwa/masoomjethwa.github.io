@@ -618,7 +618,7 @@
                     <div class="relative">
                         <select id="select-01" onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
                             <option value="">Select a resource...</option>
-                            <option value="01%20General%20Astronomy%20&%20Space%20Exploration/index.html">Browse All Resources</option>
+                            <option value="01%20General%20Astronomy%20%26%20Space%20Exploration/index.html">Browse All Resources</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -660,7 +660,7 @@
                     <div class="relative">
                         <select id="select-04" onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
                             <option value="">Select a project...</option>
-                            <option value="04%20Arduino%20&%20Microcontroller%20Projects/index.html">Browse All Projects</option>
+                            <option value="04%20Arduino%20%26%20Microcontroller%20Projects/index.html">Browse All Projects</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -688,7 +688,7 @@
                     <div class="relative">
                         <select id="select-06" onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
                             <option value="">Select an activity...</option>
-                            <option value="06%20STEM%20Activities%20&%20Challenges/index.html">Browse All Activities</option>
+                            <option value="06%20STEM%20Activities%20%26%20Challenges/index.html">Browse All Activities</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -877,42 +877,6 @@
 
             starsContainer.appendChild(star);
         }
-
-        // Fetch educational-resources.json and populate dropdowns
-        fetch('educational-resources.json')
-            .then(response => response.json())
-            .then(data => {
-                // Map folder names to the select element IDs
-                const mapping = {
-                    "01 General Astronomy & Space Exploration": "select-01",
-                    "02 Solar System": "select-02",
-                    "03 Space-Related Topics": "select-03",
-                    "04 Arduino & Microcontroller Projects": "select-04",
-                    "05 Raspberry Pi Projects": "select-05",
-                    "06 STEM Activities & Challenges": "select-06",
-                    "07 Educational Games": "select-07",
-                    "08 Miscellaneous Topics": "select-08",
-                    "09 Codes": "select-09"
-                };
-
-                // Loop through each mapped folder and populate the corresponding select element
-                for (const [folder, selectId] of Object.entries(mapping)) {
-                    if (data[folder]) {
-                        const select = document.getElementById(selectId);
-                        if (select) {
-                            data[folder].forEach(file => {
-                                const option = document.createElement('option');
-                                // Construct path: FolderName/FileName
-                                option.value = `${folder}/${file}`;
-                                // Format name: remove .html and replace underscores with spaces
-                                option.textContent = file.replace('.html', '').replace(/_/g, ' ');
-                                select.appendChild(option);
-                            });
-                        }
-                    }
-                }
-            })
-            .catch(error => console.error('Error loading JSON file:', error));
     </script>
 </body>
 </html>
