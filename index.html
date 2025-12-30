@@ -917,50 +917,73 @@
         document.addEventListener("DOMContentLoaded", () => {
             // Embedded data to avoid fetch errors in local/preview environments
             const data = {
-              "01 General Astronomy & Space Exploration": [
-                "01_Introduction_to_Astronomy.html",
-                "02_History_of_Spaceflight.html",
-                "03_Telescopes_and_Optics.html"
+              "Astronomy": [
+                "01_Kids.html",
+                "02_Cosmos.html",
+                "03_Journey.html",
+                "04_Interactive.html",
+                "05_Universe.html",
+                "06_Celestial.html",
+                "07_Asteroids.html",
+                "08_Pictionary.html",
+                "09_Auroras.html",
+                "10_Origins.html",
+                "11_Tapestry.html",
+                "12_Rotation.html",
+                "13_Eccentricity.html",
+                "14_Ellipse.html"
               ],
-              "02 Solar System": [
-                "01_The_Sun.html",
-                "02_Rocky_Planets.html",
-                "03_Gas_Giants.html",
-                "04_Dwarf_Planets_and_Asteroids.html"
+              "Solarsystem": [
+                "01_Origins.html",
+                "02_Galaxy.html",
+                "03_Transit.html",
+                "04_Atmosphere.html",
+                "05_Solar.html",
+                "06_System.html",
+                "07_Gaze.html",
+                "08_Light.html",
+                "09_Mysteries.html",
+                "10_Sensors.html",
+                "11_Experiments.html",
+                "12_Ions.html",
+                "13_Detectors.html"
               ],
-              "03 Space-Related Topics": [
-                "01_Black_Holes.html",
-                "02_Exoplanets.html",
-                "03_Dark_Matter.html"
+              "Space": [
+                "01_Moon.html",
+                "02_Abiogenesis.html"
               ],
-              "04 Arduino & Microcontroller Projects": [
-                "01_LED_Blink.html",
-                "02_Temperature_Sensor.html",
-                "03_Solar_Tracker.html"
+              "Arduino": [
+                "01_Projects.html",
+                "02_Arduino.html",
+                "03_BVI.html",
+                "04_ESP32.html",
+                "05_Controller.html",
+                "06_LED.html",
+                "07_Pico.html",
+                "08_Zero.html"
               ],
-              "05 Raspberry Pi Projects": [
-                "01_Setup_Guide.html",
-                "02_Weather_Station.html",
-                "03_Camera_Module.html"
+              "RaspberryPi": [
+                "01_RPI2.html",
+                "02_Course.html",
+                "03_Poster.html",
+                "04_RPI5.html"
               ],
-              "06 STEM Activities & Challenges": [
-                "01_Water_Rocket.html",
-                "02_Egg_Drop_Challenge.html",
-                "03_Build_a_Spectroscope.html"
+              "STEM": [
+                "01_Environment.html",
+                "02_eSTEM.html",
+                "03_Planetary.html",
+                "04_Green.html"
               ],
-              "07 Educational Games": [
-                "01_Quiz_3_9_Certi.html",
-                "02_Memory_Game.html",
-                "03_Space_Trivia.html"
+              "Games": [
+                "01_Quiz.html"
               ],
-              "08 Miscellaneous Topics": [
-                "01_Career_Guide.html",
-                "02_Women_in_Space.html"
+              "Misc": [
+                "01_Star.html",
+                "02_Index.html",
+                "03_Journey.html",
+                "04_Lifecycle.html"
               ],
-              "09 Codes": [
-                "01_Python_Orbit_Sim.html",
-                "02_MATLAB_Data_Analysis.html"
-              ]
+              "Codes": []
             };
 
             const category = document.getElementById("categorySelect");
@@ -1004,15 +1027,15 @@
             
             // Also populate the grid select boxes if they exist (legacy support from previous step)
              const mapping = {
-                "01 General Astronomy & Space Exploration": "select-01",
-                "02 Solar System": "select-02",
-                "03 Space-Related Topics": "select-03",
-                "04 Arduino & Microcontroller Projects": "select-04",
-                "05 Raspberry Pi Projects": "select-05",
-                "06 STEM Activities & Challenges": "select-06",
-                "07 Educational Games": "select-07",
-                "08 Miscellaneous Topics": "select-08",
-                "09 Codes": "select-09"
+                "Astronomy": "select-01",
+                "Solarsystem": "select-02",
+                "Space": "select-03",
+                "Arduino": "select-04",
+                "RaspberryPi": "select-05",
+                "STEM": "select-06",
+                "Games": "select-07",
+                "Misc": "select-08",
+                "Codes": "select-09"
             };
 
             for (const [folder, selectId] of Object.entries(mapping)) {
