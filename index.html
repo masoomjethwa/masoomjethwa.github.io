@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masoom Jethwa | Planetary Scientist</title>
+    <meta name="description" content="Portfolio of Masoom Jethwa, PhD - Planetary Scientist, Open Source Advocate, and Python Enthusiast.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        space: {
+                            900: '#0B0D17', // Deepest dark
+                            800: '#15192B', // Dark blue-grey
+                            700: '#1F243D', // Lighter blue-grey
+                            accent: '#38BDF8', // Sky blue
+                            highlight: '#818CF8', // Indigo
+                            text: '#E2E8F0' // Off-white text
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'twinkle': 'twinkle 4s ease-in-out infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        twinkle: {
+                            '0%, 100%': { opacity: '0.3' },
+                            '50%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0D17; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F243D; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38BDF8; 
+        }
+        
+        /* Starry background utility */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: transparent;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(31, 36, 61, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .planet-glow {
+            box-shadow: 0 0 50px rgba(56, 189, 248, 0.2);
+        }
+
+        /* Custom Select Styling */
+        select option {
+            background-color: #1F243D; /* Match space-700 */
+            color: #E2E8F0;
+        }
+    </style>
+</head>
+<body class="bg-space-900 text-space-text font-sans selection:bg-space-accent selection:text-space-900 overflow-x-hidden">
+
+    <!-- Starry Background Script -->
+    <div id="stars-container" class="stars"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Updated Brand -->
+                <div class="flex-shrink-0 font-display font-bold text-xl text-space-accent">
+                    <a href="#home" class="flex items-center">
+                        <i class="fa-solid fa-user-astronaut mr-2"></i>Welcome !
+                    </a>
+                </div>
+                <!-- Updated Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4 lg:space-x-8">
+                        <a href="#about" class="hover:text-space-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                        <a href="#research" class="hover:text-space-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">Research</a>
+                        <a href="#publications" class="hover:text-space-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">Publications</a>
+                        <a href="#resources" class="hover:text-space-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">Educational Resources</a>
+                        <a href="#contact" class="hover:text-space-accent px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                    </div>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-space-700 focus:outline-none">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Updated Mobile Menu -->
+        <div class="hidden md:hidden glass" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" class="block hover:bg-space-700 px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#research" class="block hover:bg-space-700 px-3 py-2 rounded-md text-base font-medium">Research</a>
+                <a href="#publications" class="block hover:bg-space-700 px-3 py-2 rounded-md text-base font-medium">Publications</a>
+                <a href="#resources" class="block hover:bg-space-700 px-3 py-2 rounded-md text-base font-medium">Educational Resources</a>
+                <a href="#contact" class="block hover:bg-space-700 px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-16">
+        <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-space-highlight/10 rounded-full blur-3xl filter animate-pulse-slow"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-space-accent/10 rounded-full blur-3xl filter animate-pulse-slow" style="animation-delay: 2s"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row-reverse items-center">
+            <div class="md:w-1/2 text-center md:text-left mb-10 md:mb-0">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-4 leading-tight whitespace-nowrap">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-space-accent to-space-highlight">Dr. Masoom Jethwa</span>
+                </h1>
+                <p class="text-lg md:text-xl lg:text-2xl text-gray-400 mb-6 font-light">
+                    Planetary Scientist | Computational Physicist | Open source advocate
+                </p>
+
+                <!-- Social Media Icons (Hero - Filtered & Colorful - Larger) -->
+                <div class="flex flex-wrap gap-4 mb-8 justify-center md:justify-start">
+                    <!-- 1. GitHub -->
+                    <a href="https://github.com/masoomjethwa" target="_blank" title="GitHub" class="w-14 h-14 rounded-full bg-space-800 flex items-center justify-center text-white hover:bg-space-accent hover:text-space-900 transition-all hover:-translate-y-1">
+                        <i class="fa-brands fa-github text-2xl"></i>
+                    </a>
+                    <!-- 2. LinkedIn (Added) -->
+                    <a href="https://www.linkedin.com/in/masoomjethwa/" target="_blank" title="LinkedIn" class="w-14 h-14 rounded-full bg-space-800 flex items-center justify-center text-blue-500 hover:bg-space-accent hover:text-space-900 transition-all hover:-translate-y-1">
+                        <i class="fa-brands fa-linkedin-in text-2xl"></i>
+                    </a>
+                    <!-- 3. Instagram -->
+                    <a href="https://www.instagram.com/masoomjethwa/" target="_blank" title="Instagram" class="w-14 h-14 rounded-full bg-space-800 flex items-center justify-center text-pink-500 hover:bg-space-accent hover:text-space-900 transition-all hover:-translate-y-1">
+                        <i class="fa-brands fa-instagram text-2xl"></i>
+                    </a>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="#contact" class="px-8 py-3 rounded-full bg-space-accent text-space-900 font-bold hover:bg-space-highlight transition-all transform hover:scale-105 shadow-lg shadow-space-accent/25">
+                        Connect with me
+                    </a>
+                    <a href="#research" class="px-8 py-3 rounded-full border border-space-accent text-space-accent font-bold hover:bg-space-accent/10 transition-all">
+                        View Research
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center relative">
+                <!-- Abstract Planet Illustration -->
+                <div class="relative w-64 h-64 md:w-80 md:h-80 animate-float">
+                    <div class="absolute inset-0 rounded-full bg-gradient-to-br from-blue-600 to-purple-900 opacity-80 planet-glow"></div>
+                    <div class="absolute -inset-4 rounded-full border border-space-accent/30 rotate-45"></div>
+                    <div class="absolute -inset-8 rounded-full border border-dashed border-space-highlight/30 -rotate-12"></div>
+                    <!-- Icon overlay replaced with GitHub Profile Picture -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <img src="https://github.com/masoomjethwa.png" alt="Dr. Masoom Jethwa" class="w-48 h-48 md:w-60 md:h-60 rounded-full border-4 border-space-accent/30 shadow-2xl object-cover hover:scale-105 transition-transform duration-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-space-800/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-4">About Me</h2>
+                <div class="w-20 h-1 bg-space-accent mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 text-lg text-gray-300">
+                    <!-- Bio - Blue Tint -->
+                    <p class="glass p-6 rounded-xl border-l-4 border-space-accent leading-relaxed" style="background: rgba(30, 58, 138, 0.2);">
+                        Hi, I'm Masoom – a <strong>Planetary Science Researcher</strong>, <strong>Open Source Advocate</strong>, and <strong>Python enthusiast</strong>. I completed my PhD in Planetary Atmospheres and am always looking for collaborations and research opportunities. I specialize in <strong>observational astronomy</strong> and <strong>planetary systems analysis</strong>, with expertise in computational methods for space science research.
+                    </p>
+                    
+                    <!-- Current Focus - Purple Tint -->
+                    <div class="leading-relaxed glass p-6 rounded-xl border border-white/5" style="background: rgba(88, 28, 135, 0.2);">
+                        <h3 class="text-space-accent font-display font-bold text-xl mb-2 flex items-center">
+                            <i class="fa-solid fa-crosshairs mr-2"></i> Current Focus
+                        </h3>
+                        <p>
+                            Advancing educational research, curriculum design, AI-enabled learning, and astronomy education. I create physical and digital teaching materials grounded in empirical research, with a focus on equitable, inclusive, and community-driven impact for underprivileged learners and educators.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Right Column: Stats & Repos -->
+                <div class="space-y-6">
+                    <!-- Research Impact Card - Emerald/Teal Tint -->
+                    <div class="glass p-8 rounded-2xl relative overflow-hidden group transform transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-space-accent/10" style="background: rgba(6, 78, 59, 0.25);">
+                        <div class="absolute top-0 right-0 w-48 h-48 bg-space-accent/5 rounded-full blur-3xl -mr-16 -mt-16 transition-all group-hover:bg-space-accent/10"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <h3 class="text-2xl font-display font-bold text-white mb-1">Research Impact</h3>
+                                    <p class="text-sm text-gray-400">Visualizing academic reach and contribution to planetary science.</p>
+                                </div>
+                                <div class="w-12 h-12 rounded-full bg-space-700/50 flex items-center justify-center text-space-accent">
+                                    <i class="fa-solid fa-chart-line text-xl"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-3 gap-4 text-center mb-8 border-t border-gray-700/50 py-6">
+                                <div class="space-y-1">
+                                    <span class="block text-4xl md:text-5xl font-display font-bold text-space-accent">39</span>
+                                    <span class="text-xs text-gray-500 uppercase tracking-widest font-medium">Citations</span>
+                                </div>
+                                <div class="space-y-1 border-l border-r border-gray-700/50">
+                                    <span class="block text-4xl md:text-5xl font-display font-bold text-white">16</span>
+                                    <span class="text-xs text-gray-500 uppercase tracking-widest font-medium">Publications</span>
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="block text-4xl md:text-5xl font-display font-bold text-space-highlight">4</span>
+                                    <span class="text-xs text-gray-500 uppercase tracking-widest font-medium">h-Index</span>
+                                </div>
+                            </div>
+                            
+                            <a href="https://scholar.google.com/citations?hl=en&tzom=-330&user=KMDIbVwAAAAJ" target="_blank" class="flex items-center justify-center w-full px-6 py-4 rounded-xl bg-space-900/50 hover:bg-space-accent text-white hover:text-space-900 transition-all duration-300 border border-space-accent/30 hover:border-transparent group-hover:shadow-lg group-hover:shadow-space-accent/20 font-medium">
+                                <span class="mr-2">View Google Scholar Profile</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- GitHub Repositories Card - Slate/Gray Tint -->
+                    <div class="glass p-8 rounded-2xl relative overflow-hidden group transform transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-space-accent/10" style="background: rgba(30, 41, 59, 0.4);">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-2xl font-display font-bold text-white mb-2">GitHub Repositories</h3>
+                                <a href="https://github.com/masoomjethwa?tab=repositories" target="_blank" class="text-space-accent hover:text-white transition-colors font-medium flex items-center group/link">
+                                    View all my repositories <i class="fa-solid fa-arrow-right ml-2 transform group-hover/link:translate-x-1 transition-transform"></i>
+                                </a>
+                            </div>
+                            <div class="w-20 h-20 rounded-full border-2 border-space-accent/50 flex items-center justify-center bg-space-900/50 group-hover:border-space-accent transition-colors shadow-[0_0_15px_rgba(56,189,248,0.3)]">
+                                <span class="font-display font-bold text-2xl text-white">25+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research & Interests Section -->
+    <section id="research" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-4">Research Focus</h2>
+                <div class="w-20 h-1 bg-space-accent mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 1: Airglow -->
+                <div class="glass p-6 rounded-xl hover:bg-space-800/50 transition-colors group">
+                    <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-bahai text-purple-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-white mb-3">🌌 Airglow & Auroras</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Physics of upper-atmospheric emissions from space- and ground-based observations.
+                    </p>
+                </div>
+
+                <!-- Card 2: Atmospheric Science -->
+                <div class="glass p-6 rounded-xl hover:bg-space-800/50 transition-colors group">
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-cloud-sun text-blue-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-white mb-3">🪐 Atmospheric & Planetary Science</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Modeling planetary atmospheres, dynamics, and chemistry—extending to exoplanets.
+                    </p>
+                </div>
+
+                <!-- Card 3: Space Mission Data -->
+                <div class="glass p-6 rounded-xl hover:bg-space-800/50 transition-colors group">
+                    <div class="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-satellite-dish text-red-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-white mb-3">🛰️ Space Mission Data Science</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Algorithm-driven analysis of NASA, ESA, ISRO, and JAXA mission data.
+                    </p>
+                </div>
+
+                <!-- Card 4: Computational Science -->
+                <div class="glass p-6 rounded-xl hover:bg-space-800/50 transition-colors group">
+                    <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-laptop-code text-green-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-white mb-3">💻 Computational Science</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        High-performance workflows combining numerical methods, visualization, and machine learning.
+                    </p>
+                </div>
+
+                <!-- Card 5: Education -->
+                <div class="glass p-6 rounded-xl hover:bg-space-800/50 transition-colors group">
+                    <div class="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-chalkboard-user text-yellow-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-white mb-3">🎓 Open Science & Education</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Open-source advocacy, mentoring, and computational literacy in planetary science.
+                    </p>
+                </div>
+
+                <!-- Card 6: Data Vis -->
+                <div class="glass p-6 rounded-xl hover:bg-space-800/50 transition-colors group">
+                    <div class="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-chart-pie text-cyan-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-white mb-3">📊 Data Visualization & Analytics</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Interactive and statistical tools to extract insight from complex astronomical data.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications & Insights Section -->
+    <section id="publications" class="py-20 bg-space-800/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-4">Publications & Insights</h2>
+                <div class="w-20 h-1 bg-space-accent mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-400 max-w-2xl mx-auto">Bridging complex research and global knowledge through accessible, cross-platform content.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- DEV.to Card -->
+                <div class="glass p-8 rounded-2xl group hover:-translate-y-2 transition-all duration-300 border border-white/5 hover:border-space-accent/30 relative overflow-hidden flex flex-col h-full">
+                    <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-30 transition-opacity">
+                        <i class="fa-brands fa-dev text-8xl text-white"></i>
+                    </div>
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div>
+                            <span class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider text-black bg-white rounded-full">Technical</span>
+                            <h3 class="text-xl font-display font-bold text-white mb-4">Python, Data Reduction, & Computational Workflows</h3>
+                            <p class="text-gray-400 mb-6 text-sm leading-relaxed">Architecting reproducible code for atmospheric science. I share technical deep-dives on transforming raw mission telemetry into scientific insights using Python and high-performance computing.</p>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="https://dev.to/masoomjethwa" target="_blank" class="group/link inline-flex items-center text-space-accent font-bold hover:text-white transition-colors">
+                                Explore Technical Tutorials <i class="fa-solid fa-arrow-right ml-2 transform group-hover/link:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medium Card -->
+                <div class="glass p-8 rounded-2xl group hover:-translate-y-2 transition-all duration-300 border border-white/5 hover:border-space-accent/30 relative overflow-hidden flex flex-col h-full">
+                    <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-30 transition-opacity">
+                        <i class="fa-brands fa-medium text-8xl text-white"></i>
+                    </div>
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div>
+                            <span class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider text-black bg-white rounded-full">Scientific Advocacy</span>
+                            <h3 class="text-xl font-display font-bold text-white mb-4">Space Weather & Planetary Analysis</h3>
+                            <p class="text-gray-400 mb-6 text-sm leading-relaxed">Translating complex astrophysics into accessible research. These articles explore the intersection of data science and orbital research, covering NASA/ESA mission data and the future of space exploration.</p>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="https://medium.com/@masoomjethwa" target="_blank" class="group/link inline-flex items-center text-space-accent font-bold hover:text-white transition-colors">
+                                Read Research Articles <i class="fa-solid fa-arrow-right ml-2 transform group-hover/link:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WordPress Card -->
+                <div class="glass p-8 rounded-2xl group hover:-translate-y-2 transition-all duration-300 border border-white/5 hover:border-space-accent/30 relative overflow-hidden flex flex-col h-full">
+                    <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-30 transition-opacity">
+                        <i class="fa-brands fa-wordpress-simple text-8xl text-blue-400"></i>
+                    </div>
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div>
+                            <span class="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider text-white bg-blue-500 rounded-full">STEM</span>
+                            <h3 class="text-xl font-display font-bold text-white mb-4">Astronomy Education & Outreach</h3>
+                            <p class="text-gray-400 mb-6 text-sm leading-relaxed">Connecting space technology with society. A curated repository of educational resources, from planetary cycles and Venusian studies to community-based STEM activities for the next generation.</p>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="https://mpjethwa.wordpress.com" target="_blank" class="group/link inline-flex items-center text-space-accent font-bold hover:text-white transition-colors">
+                                Visit Educational Blog <i class="fa-solid fa-arrow-right ml-2 transform group-hover/link:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-space-800/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-4">Skills & Tools</h2>
+                <div class="w-20 h-1 bg-space-accent mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    A comprehensive technical stack spanning systems programming, data intelligence, and scientific computing.
+                </p>
+            </div>
+
+            <!-- 6-Tile Grid (3x2) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                
+                <!-- Tile 1: Programming Languages -->
+                <div class="group relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                    <div class="relative glass p-6 rounded-xl h-full border border-white/5 group-hover:border-space-accent/30 transition-colors">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 mr-4">
+                                <i class="fa-solid fa-code text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-white text-lg font-display">Programming</h3>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4 h-10">Core languages for systems and scientific development.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-blue-300 rounded-full border border-blue-500/20">Python (2 & 3)</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-blue-300 rounded-full border border-blue-500/20">MATLAB</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-blue-300 rounded-full border border-blue-500/20">GNU Octave</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-blue-300 rounded-full border border-blue-500/20">HTML</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 2: Data Science & Analytics -->
+                <div class="group relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                    <div class="relative glass p-6 rounded-xl h-full border border-white/5 group-hover:border-space-accent/30 transition-colors">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 mr-4">
+                                <i class="fa-solid fa-chart-bar text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-white text-lg font-display">Data Science</h3>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4 h-10">Data handling, analysis, and visualization stack.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-emerald-300 rounded-full border border-emerald-500/20">Pandas</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-emerald-300 rounded-full border border-emerald-500/20">GeoPandas</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-emerald-300 rounded-full border border-emerald-500/20">Scikit-learn</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-emerald-300 rounded-full border border-emerald-500/20">Seaborn</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 3: AI & Machine Learning -->
+                <div class="group relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                    <div class="relative glass p-6 rounded-xl h-full border border-white/5 group-hover:border-space-accent/30 transition-colors">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 mr-4">
+                                <i class="fa-solid fa-brain text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-white text-lg font-display">AI & Machine Learning</h3>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4 h-10">Higher-level AI capabilities and applied intelligence.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-purple-300 rounded-full border border-purple-500/20">LLMs</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-purple-300 rounded-full border border-purple-500/20">ML Pipelines</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-purple-300 rounded-full border border-purple-500/20">Model Eval</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-purple-300 rounded-full border border-purple-500/20">Inference</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 4: Computer Vision -->
+                <div class="group relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-yellow-600 to-orange-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                    <div class="relative glass p-6 rounded-xl h-full border border-white/5 group-hover:border-space-accent/30 transition-colors">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center text-yellow-400 mr-4">
+                                <i class="fa-solid fa-eye text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-white text-lg font-display">Computer Vision</h3>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4 h-10">Visual data processing and image intelligence.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-yellow-300 rounded-full border border-yellow-500/20">OpenCV</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-yellow-300 rounded-full border border-yellow-500/20">Image Processing</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-yellow-300 rounded-full border border-yellow-500/20">Feature Extraction</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 5: Databases & Data Management -->
+                <div class="group relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                    <div class="relative glass p-6 rounded-xl h-full border border-white/5 group-hover:border-space-accent/30 transition-colors">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400 mr-4">
+                                <i class="fa-solid fa-database text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-white text-lg font-display">Databases</h3>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4 h-10">Structured data storage and querying.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-cyan-300 rounded-full border border-cyan-500/20">MySQL</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-cyan-300 rounded-full border border-cyan-500/20">Data Modeling</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-cyan-300 rounded-full border border-cyan-500/20">Query Optimization</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 6: Scientific & HPC -->
+                <div class="group relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-red-600 to-rose-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                    <div class="relative glass p-6 rounded-xl h-full border border-white/5 group-hover:border-space-accent/30 transition-colors">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center text-red-400 mr-4">
+                                <i class="fa-solid fa-microchip text-xl"></i>
+                            </div>
+                            <h3 class="font-bold text-white text-lg font-display">HPC & Scientific</h3>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-4 h-10">Performance, simulations, and scalable computation.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-red-300 rounded-full border border-red-500/20">Parallel Processing</span>
+                            <span class="px-3 py-1 text-xs font-mono bg-space-900/50 text-red-300 rounded-full border border-red-500/20">Numerical Modeling</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mission Control (Bottom Bar) -->
+            <div class="glass rounded-xl p-6 border border-gray-700/50">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="flex items-center gap-4">
+                        <div class="flex space-x-1">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <span class="text-gray-400 text-sm font-mono tracking-widest uppercase">Computing Workspace</span>
+                    </div>
+                    
+                    <div class="flex flex-wrap justify-center md:justify-end gap-6 font-mono text-sm text-space-accent">
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-microchip mr-2 text-gray-500"></i>
+                            <span>Intel i5 13th-Gen</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-memory mr-2 text-gray-500"></i>
+                            <span>NVIDIA T4</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-desktop mr-2 text-gray-500"></i>
+                            <span>Windows 11 / Debian 12</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-brands fa-python mr-2 text-gray-500"></i>
+                            <span>Anaconda / Python</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section (New Integration) -->
+    <section id="resources" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-4">Educational Resources</h2>
+                <div class="w-20 h-1 bg-space-accent mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-400 max-w-2xl mx-auto">Explore Astronomy, Space Science, and STEM Activities. Select a resource from the dropdowns below.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tile 1 -->
+                <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <h3 class="font-bold text-space-accent mb-4 text-xl">General Astronomy & Space Exploration</h3>
+                    <div class="relative">
+                        <select onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
+                            <option value="">Select a resource...</option>
+                            <option value="01%20General%20Astronomy%20&%20Space%20Exploration/index.html">Browse All Resources</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 2 -->
+                <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <h3 class="font-bold text-space-accent mb-4 text-xl">Solar System</h3>
+                    <div class="relative">
+                        <select onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
+                            <option value="">Select a resource...</option>
+                            <option value="02%20Solar%20System/index.html">Browse All Resources</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 3 -->
+                <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <h3 class="font-bold text-space-accent mb-4 text-xl">Space Science Topics</h3>
+                    <div class="relative">
+                        <select onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
+                            <option value="">Select a resource...</option>
+                            <option value="03%20Space-Related%20Topics/index.html">Browse All Resources</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 4 -->
+                <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <h3 class="font-bold text-space-accent mb-4 text-xl">Arduino Projects</h3>
+                    <div class="relative">
+                        <select onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
+                            <option value="">Select a project...</option>
+                            <option value="04%20Arduino%20&%20Microcontroller%20Projects/index.html">Browse All Projects</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 5 -->
+                <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <h3 class="font-bold text-space-accent mb-4 text-xl">Raspberry Pi Projects</h3>
+                    <div class="relative">
+                        <select onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
+                            <option value="">Select a project...</option>
+                            <option value="05%20Raspberry%20Pi%20Projects/index.html">Browse All Projects</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 6 -->
+                <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <h3 class="font-bold text-space-accent mb-4 text-xl">STEM Activities</h3>
+                    <div class="relative">
+                        <select onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
+                            <option value="">Select an activity...</option>
+                            <option value="06%20STEM%20Activities%20&%20Challenges/index.html">Browse All Activities</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 7 -->
+                <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <h3 class="font-bold text-space-accent mb-4 text-xl">Educational Games</h3>
+                    <div class="relative">
+                        <select onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
+                            <option value="">Select a game...</option>
+                            <option value="07%20Educational%20Games/index.html">Browse All Games</option>
+                            <option value="07%20Educational%20Games/01_Quiz_3_9_Certi.html">Astronomy Quiz & Certification</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 8 -->
+                <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <h3 class="font-bold text-space-accent mb-4 text-xl">Miscellaneous Topics</h3>
+                    <div class="relative">
+                        <select onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
+                            <option value="">Select a resource...</option>
+                            <option value="08%20Miscellaneous%20Topics/index.html">Browse Topics</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile 9 -->
+                <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
+                    <h3 class="font-bold text-space-accent mb-4 text-xl">Code Repository</h3>
+                    <div class="relative">
+                        <select onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
+                            <option value="">Select a script...</option>
+                            <option value="09%20Codes/index.html">Browse Repositories</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hobbies & Interests -->
+    <section id="interests" class="py-20 bg-space-800/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-12 text-center">Beyond the Research</h2>
+            
+            <div class="flex flex-wrap justify-center gap-4">
+                <span class="px-6 py-3 rounded-full border border-gray-600 text-gray-300 hover:border-space-accent hover:text-space-accent transition-colors cursor-default">
+                    <i class="fa-solid fa-hand-holding-heart mr-2"></i> Nonprofit
+                </span>
+                <span class="px-6 py-3 rounded-full border border-gray-600 text-gray-300 hover:border-space-accent hover:text-space-accent transition-colors cursor-default">
+                    <i class="fa-solid fa-robot mr-2"></i> AI Generalist
+                </span>
+                <span class="px-6 py-3 rounded-full border border-gray-600 text-gray-300 hover:border-space-accent hover:text-space-accent transition-colors cursor-default">
+                    <i class="fa-solid fa-camera mr-2"></i> Photography
+                </span>
+                <span class="px-6 py-3 rounded-full border border-gray-600 text-gray-300 hover:border-space-accent hover:text-space-accent transition-colors cursor-default">
+                    <i class="fa-solid fa-book-open mr-2"></i> Storytelling
+                </span>
+                <span class="px-6 py-3 rounded-full border border-gray-600 text-gray-300 hover:border-space-accent hover:text-space-accent transition-colors cursor-default">
+                    <i class="fa-solid fa-gears mr-2"></i> MLOps
+                </span>
+                <span class="px-6 py-3 rounded-full border border-gray-600 text-gray-300 hover:border-space-accent hover:text-space-accent transition-colors cursor-default">
+                    <i class="fa-solid fa-earth-americas mr-2"></i> Culture
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section & Footer -->
+    <footer id="contact" class="bg-black/50 border-t border-gray-800 pt-20 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
+                <!-- Left Column: Text & Social -->
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-6">Get In Touch</h2>
+                    <p class="text-gray-400 mb-8 text-lg leading-relaxed">
+                        I am always open to discussing new research, collaborations, or speaking opportunities. Feel free to reach out via the form, or connect with me on social media.
+                    </p>
+                    
+                    <div class="grid grid-cols-3 gap-4 w-fit">
+                        <!-- 1. GitHub -->
+                        <a href="https://github.com/masoomjethwa" target="_blank" title="GitHub" class="w-16 h-16 rounded-full bg-space-800 flex items-center justify-center text-white hover:bg-space-accent hover:text-space-900 transition-all hover:-translate-y-1">
+                            <i class="fa-brands fa-github text-3xl"></i>
+                        </a>
+                        <!-- 2. LinkedIn -->
+                        <a href="https://www.linkedin.com/in/masoomjethwa/" target="_blank" title="LinkedIn" class="w-16 h-16 rounded-full bg-space-800 flex items-center justify-center text-blue-500 hover:bg-space-accent hover:text-space-900 transition-all hover:-translate-y-1">
+                            <i class="fa-brands fa-linkedin-in text-3xl"></i>
+                        </a>
+                        <!-- 3. Dev.to -->
+                        <a href="https://dev.to/masoomjethwa" target="_blank" title="Dev.to" class="w-16 h-16 rounded-full bg-space-800 flex items-center justify-center text-gray-200 hover:bg-space-accent hover:text-space-900 transition-all hover:-translate-y-1">
+                            <i class="fa-brands fa-dev text-3xl"></i>
+                        </a>
+                        <!-- 4. X (Twitter) -->
+                        <a href="https://x.com/masoomjethwa" target="_blank" title="X (Twitter)" class="w-16 h-16 rounded-full bg-space-800 flex items-center justify-center text-white hover:bg-space-accent hover:text-space-900 transition-all hover:-translate-y-1">
+                            <i class="fa-brands fa-x-twitter text-3xl"></i>
+                        </a>
+                        <!-- 5. Medium -->
+                        <a href="https://medium.com/@masoomjethwa" target="_blank" title="Medium" class="w-16 h-16 rounded-full bg-space-800 flex items-center justify-center text-gray-200 hover:bg-space-accent hover:text-space-900 transition-all hover:-translate-y-1">
+                            <i class="fa-brands fa-medium text-3xl"></i>
+                        </a>
+                        <!-- 6. Substack -->
+                        <a href="https://masoomjethwa.substack.com/" target="_blank" title="Substack" class="w-16 h-16 rounded-full bg-space-800 flex items-center justify-center text-orange-500 hover:bg-space-accent hover:text-space-900 transition-all hover:-translate-y-1">
+                            <i class="fa-solid fa-newspaper text-3xl"></i>
+                        </a>
+                        <!-- 7. WordPress -->
+                        <a href="https://mpjethwa.wordpress.com" target="_blank" title="WordPress" class="w-16 h-16 rounded-full bg-space-800 flex items-center justify-center text-blue-400 hover:bg-space-accent hover:text-space-900 transition-all hover:-translate-y-1">
+                            <i class="fa-brands fa-wordpress-simple text-3xl"></i>
+                        </a>
+                        <!-- 8. Instagram -->
+                        <a href="https://www.instagram.com/masoomjethwa/" target="_blank" title="Instagram" class="w-16 h-16 rounded-full bg-space-800 flex items-center justify-center text-pink-500 hover:bg-space-accent hover:text-space-900 transition-all hover:-translate-y-1">
+                            <i class="fa-brands fa-instagram text-3xl"></i>
+                        </a>
+                        <!-- 9. Flickr -->
+                        <a href="https://www.flickr.com/people/masoomjethwa/" target="_blank" title="Flickr" class="w-16 h-16 rounded-full bg-space-800 flex items-center justify-center text-pink-500 hover:bg-space-accent hover:text-space-900 transition-all hover:-translate-y-1">
+                            <i class="fa-brands fa-flickr text-3xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column: Contact Form -->
+                <div class="glass p-8 rounded-2xl">
+                    <form class="space-y-6" onsubmit="event.preventDefault(); alert('Message sent! (This is a demo)');">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-400 mb-2">Name</label>
+                                <input type="text" id="name" required class="w-full bg-space-900/50 border border-space-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-colors placeholder-gray-600" placeholder="Your Name">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                                <input type="email" id="email" required class="w-full bg-space-900/50 border border-space-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-colors placeholder-gray-600" placeholder="your@email.com">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-400 mb-2">Message</label>
+                            <textarea id="message" rows="4" required class="w-full bg-space-900/50 border border-space-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-colors placeholder-gray-600" placeholder="How can we collaborate?"></textarea>
+                        </div>
+                        <button type="submit" class="w-full px-8 py-3 rounded-full bg-space-accent text-space-900 font-bold hover:bg-space-highlight transition-all shadow-lg shadow-space-accent/25 transform hover:-translate-y-0.5">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-sm text-gray-600">
+                    &copy; 2025 Dr. Masoom Jethwa. All Rights Reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Generate random stars
+        const starsContainer = document.getElementById('stars-container');
+        const starCount = 100;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const size = Math.random() * 3;
+            const duration = 2 + Math.random() * 5;
+            const delay = Math.random() * 5;
+
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.opacity = Math.random();
+            star.style.animation = `twinkle ${duration}s ease-in-out infinite ${delay}s`;
+
+            starsContainer.appendChild(star);
+        }
+    </script>
+</body>
+</html>
