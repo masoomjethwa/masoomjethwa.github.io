@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Projects for Planetary Science Learning</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e8f0; /* Light blue-gray background */
+            color: #2d3748; /* Dark gray text */
+        }
+        .container-wrapper {
+            background-color: #ffffff;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .project-card {
+            background-color: #f7fafc; /* Lighter background for cards */
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid #e2e8f0;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        .project-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .section-heading {
+            color: #3182ce; /* Blue for main headings */
+        }
+        .list-item-strong {
+            font-weight: 600; /* Semi-bold for list item titles */
+            color: #2b6cb0; /* Darker blue for list titles */
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container-wrapper">
+        <!-- Header Section -->
+        <header class="text-center mb-10 p-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl shadow-lg">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-2 flex items-center justify-center">
+                <span class="mr-3 text-5xl">🚀</span> Arduino Projects for Planetary Science Learning
+            </h1>
+            <p class="text-lg md:text-xl font-light">Simple, Interactive, and Great for Sparking Curiosity About Space!</p>
+        </header>
+
+        <!-- Projects Section -->
+        <section class="mb-10">
+            <h2 class="text-3xl font-bold mb-6 text-center section-heading flex items-center justify-center">
+                <span class="mr-3 text-4xl">💡</span> Awesome Project Ideas!
+            </h2>
+
+            <!-- Project 1: Solar System Model with LEDs -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🌞</span> 1. Solar System Model with LEDs
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Planetary order and relative distances</span></li>
+                        <li><span class="list-item-strong">Basic electronics</span> (LEDs, resistors, Arduino pins)</li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">Project overview:</p>
+                    <p class="text-base leading-relaxed">
+                        Build a mini solar system using LEDs to represent the Sun and planets. Program the Arduino to light up planets in sequence, showing their order from the Sun. Add blinking patterns to represent different planets!
+                    </p>
+                </div>
+                <div class="flex justify-center items-center">
+                    <img src="https://placehold.co/400x250/a78bfa/ffffff?text=Solar+System+LEDs" alt="Solar System Model with LEDs" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 2: Mars Temperature Sensor -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div class="md:order-2">
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🌡️</span> 2. Mars Temperature Sensor
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">How temperature sensors work</span></li>
+                        <li><span class="list-item-strong">Data collection and interpretation</span> (Mars is cold!)</li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">Project overview:</p>
+                    <p class="text-base leading-relaxed">
+                        Use a temperature sensor (e.g., TMP36) connected to Arduino to measure ambient temperature. Show readings on an LCD screen. Compare Earth temperatures to Mars’ average surface temperature (-60°C)!
+                    </p>
+                </div>
+                <div class="flex justify-center items-center md:order-1">
+                    <img src="https://placehold.co/400x250/60a5fa/ffffff?text=Mars+Temp+Sensor" alt="Mars Temperature Sensor" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 3: Moon Phase Display -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🌠</span> 3. Moon Phase Display
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Moon phases and lunar cycles</span></li>
+                        <li><span class="list-item-strong">Using servos or LEDs for visualization</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">Project overview:</p>
+                    <p class="text-base leading-relaxed">
+                        Program LEDs or a servo motor to simulate the phases of the Moon over a 29-day cycle. Kids can press a button to move to the next phase and learn the names (new moon, full moon, crescent, etc.).
+                    </p>
+                </div>
+                <div class="flex justify-center items-center">
+                    <img src="https://placehold.co/400x250/93c5fd/ffffff?text=Moon+Phases" alt="Moon Phase Display" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 4: Rocket Launch Countdown Timer -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div class="md:order-2">
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🚀</span> 4. Rocket Launch Countdown Timer
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Timing and countdown logic</span></li>
+                        <li><span class="list-item-strong">Using buzzers and displays</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">Project overview:</p>
+                    <p class="text-base leading-relaxed">
+                        Create a countdown timer with a 7-segment display or LCD and buzzer that simulates a rocket launch countdown. Kids press a button to start, and a buzzer sounds “lift off” at zero.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center md:order-1">
+                    <img src="https://placehold.co/400x250/a5b4fc/ffffff?text=Countdown+Timer" alt="Rocket Launch Countdown Timer" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 5: Planetary Rover Obstacle Avoidance -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🛰️</span> 5. Planetary Rover Obstacle Avoidance
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Basics of robotics and sensors</span> (ultrasonic sensor)</li>
+                        <li><span class="list-item-strong">Simple autonomous movement</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">Project overview:</p>
+                    <p class="text-base leading-relaxed">
+                        Build a simple rover using a small motorized platform and an ultrasonic distance sensor. Program Arduino to avoid obstacles, mimicking Mars rover navigation!
+                    </p>
+                </div>
+                <div class="flex justify-center items-center">
+                    <img src="https://placehold.co/400x250/c7d2fe/ffffff?text=Rover+Avoidance" alt="Planetary Rover Obstacle Avoidance" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 6: Star Tracker with Light Sensors -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div class="md:order-2">
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🌌</span> 6. Star Tracker with Light Sensors
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Detecting light intensity</span></li>
+                        <li><span class="list-item-strong">Tracking stars or bright objects</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">Project overview:</p>
+                    <p class="text-base leading-relaxed">
+                        Use photoresistors (light sensors) to create a simple star tracker. Kids can move the device to find the brightest light source, simulating how spacecraft locate stars for navigation.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center md:order-1">
+                    <img src="https://placehold.co/400x250/ddd6fe/ffffff?text=Star+Tracker" alt="Star Tracker with Light Sensors" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+
+            <!-- Project 7: Planet Gravity Simulator -->
+            <div class="project-card grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-3 flex items-center">
+                        <span class="project-icon">🪐</span> 7. Planet Gravity Simulator
+                    </h3>
+                    <p class="text-lg font-bold mb-2">What it teaches:</p>
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li><span class="list-item-strong">Gravity concepts</span> (force and acceleration)</li>
+                        <li><span class="list-item-strong">Using accelerometers with Arduino</span></li>
+                    </ul>
+                    <p class="text-lg font-bold mt-4 mb-2">Project overview:</p>
+                    <p class="text-base leading-relaxed">
+                        Use an accelerometer sensor to measure and compare simulated gravity effects by moving the device at different speeds/angles. Discuss how gravity varies on different planets.
+                    </p>
+                </div>
+                <div class="flex justify-center items-center">
+                    <img src="https://placehold.co/400x250/c4b5fd/ffffff?text=Gravity+Sim" alt="Planet Gravity Simulator" class="rounded-lg shadow-md w-full h-auto max-w-sm md:max-w-full">
+                </div>
+            </div>
+        </section>
+
+        <!-- Suggested Materials -->
+        <section class="mb-10 p-6 bg-green-50 rounded-xl shadow-md border border-green-200">
+            <h2 class="text-3xl font-bold mb-4 flex items-center justify-center section-heading">
+                <span class="mr-3 text-4xl">🛠️</span> Suggested Materials
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-lg">
+                <ul class="list-disc pl-6 space-y-1">
+                    <li>Arduino Uno or Nano</li>
+                    <li>LEDs, resistors</li>
+                    <li>Temperature sensor (TMP36 or DHT11)</li>
+                    <li>Ultrasonic distance sensor</li>
+                </ul>
+                <ul class="list-disc pl-6 space-y-1">
+                    <li>Servo motor</li>
+                    <li>LCD or 7-segment display</li>
+                    <li>Buzzer</li>
+                    <li>Photoresistors</li>
+                </ul>
+                <ul class="list-disc pl-6 space-y-1">
+                    <li>Motorized chassis (for rover)</li>
+                    <li>Accelerometer module (e.g., MPU6050)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Teaching Tips -->
+        <section class="p-6 bg-yellow-50 rounded-xl shadow-md border border-yellow-200">
+            <h2 class="text-3xl font-bold mb-4 flex items-center justify-center section-heading">
+                <span class="mr-3 text-4xl">💡</span> Teaching Tips
+            </h2>
+            <ul class="list-disc pl-8 text-lg leading-relaxed space-y-2">
+                <li><span class="list-item-strong">Start simple:</span> Introduce basic coding with LEDs and sensors before moving to robotics.</li>
+                <li><span class="list-item-strong">Link projects to real planetary science facts.</span></li>
+                <li><span class="list-item-strong">Encourage creativity:</span> Let kids decorate projects as planets or space robots!</li>
+                <li><span class="list-item-strong">Use online Arduino simulators if hardware is limited.</span></li>
+            </ul>
+        </section>
+
+        <footer class="text-center mt-10 text-gray-600 text-lg">
+            <p>Which one interests you most? I can help you write step-by-step instructions or sample Arduino code for any of these projects!</p>
+        </footer>
+    </div>
+</body>
+</html>
