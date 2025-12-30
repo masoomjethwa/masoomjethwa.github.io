@@ -605,10 +605,45 @@
     <!-- Resources Section (New Integration) -->
     <section id="resources" class="py-20 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-8">
                 <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-4">Educational Resources</h2>
                 <div class="w-20 h-1 bg-space-accent mx-auto rounded-full mb-6"></div>
-                <p class="text-gray-400 max-w-2xl mx-auto">Explore Astronomy, Space Science, and STEM Activities. Select a resource from the dropdowns below.</p>
+                <p class="text-gray-400 max-w-2xl mx-auto">Explore Astronomy, Space Science, and STEM Activities.</p>
+            </div>
+
+            <!-- Dynamic Dropdown Navigation (Integrated) -->
+            <div class="glass p-8 rounded-2xl mb-16 border border-space-accent/20">
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                    <div class="w-full md:w-1/2">
+                        <label for="categorySelect" class="block text-space-accent font-bold mb-2 ml-1">Category:</label>
+                        <div class="relative">
+                            <select id="categorySelect" class="w-full bg-space-900/80 border border-space-700 text-white rounded-lg px-4 py-3 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer transition-all hover:border-space-accent/50">
+                                <option value="">Select Category</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-space-accent">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full md:w-1/2">
+                        <label for="fileSelect" class="block text-space-accent font-bold mb-2 ml-1">Resource:</label>
+                        <div class="relative">
+                            <select id="fileSelect" disabled class="w-full bg-space-900/80 border border-space-700 text-white rounded-lg px-4 py-3 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:border-space-accent/50">
+                                <option value="">Select Resource</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-space-accent">
+                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-xs text-gray-500 mt-4"><i class="fa-solid fa-info-circle mr-1"></i> Select a category to load available resources.</p>
+            </div>
+
+            <!-- Visual Grid (Quick Access) -->
+            <div class="text-center mb-8">
+                <h3 class="text-2xl font-display font-bold text-white">Browse by Collection</h3>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -877,6 +912,123 @@
 
             starsContainer.appendChild(star);
         }
+
+        // Dynamic Educational Resources Dropdown Logic
+        document.addEventListener("DOMContentLoaded", () => {
+            // Embedded data to avoid fetch errors in local/preview environments
+            const data = {
+              "01 General Astronomy & Space Exploration": [
+                "01_Introduction_to_Astronomy.html",
+                "02_History_of_Spaceflight.html",
+                "03_Telescopes_and_Optics.html"
+              ],
+              "02 Solar System": [
+                "01_The_Sun.html",
+                "02_Rocky_Planets.html",
+                "03_Gas_Giants.html",
+                "04_Dwarf_Planets_and_Asteroids.html"
+              ],
+              "03 Space-Related Topics": [
+                "01_Black_Holes.html",
+                "02_Exoplanets.html",
+                "03_Dark_Matter.html"
+              ],
+              "04 Arduino & Microcontroller Projects": [
+                "01_LED_Blink.html",
+                "02_Temperature_Sensor.html",
+                "03_Solar_Tracker.html"
+              ],
+              "05 Raspberry Pi Projects": [
+                "01_Setup_Guide.html",
+                "02_Weather_Station.html",
+                "03_Camera_Module.html"
+              ],
+              "06 STEM Activities & Challenges": [
+                "01_Water_Rocket.html",
+                "02_Egg_Drop_Challenge.html",
+                "03_Build_a_Spectroscope.html"
+              ],
+              "07 Educational Games": [
+                "01_Quiz_3_9_Certi.html",
+                "02_Memory_Game.html",
+                "03_Space_Trivia.html"
+              ],
+              "08 Miscellaneous Topics": [
+                "01_Career_Guide.html",
+                "02_Women_in_Space.html"
+              ],
+              "09 Codes": [
+                "01_Python_Orbit_Sim.html",
+                "02_MATLAB_Data_Analysis.html"
+              ]
+            };
+
+            const category = document.getElementById("categorySelect");
+            const file = document.getElementById("fileSelect");
+
+            // Populate Categories
+            Object.keys(data).forEach(cat => {
+                const opt = document.createElement("option");
+                opt.value = cat;
+                opt.textContent = cat;
+                category.appendChild(opt);
+            });
+
+            // Handle Category Change
+            category.addEventListener("change", () => {
+                file.innerHTML = '<option value="">Select Resource</option>';
+                file.disabled = true;
+
+                if (!data[category.value]) return;
+
+                data[category.value].forEach(f => {
+                    const opt = document.createElement("option");
+                    opt.value = f;
+                    opt.textContent = f.replace(".html", "").replace(/_/g, " "); // Clean format
+                    file.appendChild(opt);
+                });
+
+                file.disabled = false;
+            });
+
+            // Handle File Navigation
+            file.addEventListener("change", () => {
+                if (!file.value) return;
+                // Construct the path relative to current location
+                // Use encodeURIComponent to handle spaces and special chars in folder names
+                const folderPath = encodeURIComponent(category.value).replace(/%20/g, "%20"); 
+                // Note: Browsers usually handle " " in href automatically, but safer to rely on exact string if local
+                // Simple concatenation as per request
+                window.location.href = `./${category.value}/${file.value}`;
+            });
+            
+            // Also populate the grid select boxes if they exist (legacy support from previous step)
+             const mapping = {
+                "01 General Astronomy & Space Exploration": "select-01",
+                "02 Solar System": "select-02",
+                "03 Space-Related Topics": "select-03",
+                "04 Arduino & Microcontroller Projects": "select-04",
+                "05 Raspberry Pi Projects": "select-05",
+                "06 STEM Activities & Challenges": "select-06",
+                "07 Educational Games": "select-07",
+                "08 Miscellaneous Topics": "select-08",
+                "09 Codes": "select-09"
+            };
+
+            for (const [folder, selectId] of Object.entries(mapping)) {
+                if (data[folder]) {
+                    const select = document.getElementById(selectId);
+                    if (select) {
+                        data[folder].forEach(file => {
+                            const option = document.createElement('option');
+                            option.value = `${folder}/${file}`;
+                            option.textContent = file.replace('.html', '').replace(/_/g, ' ');
+                            select.appendChild(option);
+                        });
+                    }
+                }
+            }
+        });
     </script>
 </body>
 </html>
