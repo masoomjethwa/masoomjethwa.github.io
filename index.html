@@ -605,55 +605,20 @@
     <!-- Resources Section (New Integration) -->
     <section id="resources" class="py-20 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-4">Educational Resources</h2>
-                <div class="w-20 h-1 bg-space-accent mx-auto rounded-full mb-6"></div>
-                <p class="text-gray-400 max-w-2xl mx-auto">Explore Astronomy, Space Science, and STEM Activities.</p>
-            </div>
-
-            <!-- Dynamic Dropdown Navigation (Integrated) -->
-            <div class="glass p-8 rounded-2xl mb-16 border border-space-accent/20">
-                <div class="flex flex-col md:flex-row items-center justify-center gap-6">
-                    <div class="w-full md:w-1/2">
-                        <label for="categorySelect" class="block text-space-accent font-bold mb-2 ml-1">Category:</label>
-                        <div class="relative">
-                            <select id="categorySelect" class="w-full bg-space-900/80 border border-space-700 text-white rounded-lg px-4 py-3 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer transition-all hover:border-space-accent/50">
-                                <option value="">Select Category</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-space-accent">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="w-full md:w-1/2">
-                        <label for="fileSelect" class="block text-space-accent font-bold mb-2 ml-1">Resource:</label>
-                        <div class="relative">
-                            <select id="fileSelect" disabled class="w-full bg-space-900/80 border border-space-700 text-white rounded-lg px-4 py-3 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:border-space-accent/50">
-                                <option value="">Select Resource</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-space-accent">
-                                <i class="fa-solid fa-chevron-down text-xs"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-center text-xs text-gray-500 mt-4"><i class="fa-solid fa-info-circle mr-1"></i> Select a category to load available resources.</p>
-            </div>
-
             <!-- Visual Grid (Quick Access) -->
-            <div class="text-center mb-8">
-                <h3 class="text-2xl font-display font-bold text-white">Browse by Collection</h3>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-4">Browse by Collection</h2>
+                <div class="w-20 h-1 bg-space-accent mx-auto rounded-full"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Tile 1 -->
+                <!-- Tile 1: Astronomy -->
                 <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
-                    <h3 class="font-bold text-space-accent mb-4 text-xl">General Astronomy & Space Exploration</h3>
+                    <h3 class="font-bold text-space-accent mb-4 text-xl">Astronomy</h3>
                     <div class="relative">
                         <select id="select-01" onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
                             <option value="">Select a resource...</option>
-                            <option value="01%20General%20Astronomy%20%26%20Space%20Exploration/index.html">Browse All Resources</option>
+                            <option value="Astronomy/index.html">Browse All Resources</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -661,13 +626,13 @@
                     </div>
                 </div>
 
-                <!-- Tile 2 -->
+                <!-- Tile 2: Solarsystem -->
                 <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
                     <h3 class="font-bold text-space-accent mb-4 text-xl">Solar System</h3>
                     <div class="relative">
                         <select id="select-02" onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
                             <option value="">Select a resource...</option>
-                            <option value="02%20Solar%20System/index.html">Browse All Resources</option>
+                            <option value="Solarsystem/index.html">Browse All Resources</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -675,13 +640,13 @@
                     </div>
                 </div>
 
-                <!-- Tile 3 -->
+                <!-- Tile 3: Space -->
                 <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
-                    <h3 class="font-bold text-space-accent mb-4 text-xl">Space Science Topics</h3>
+                    <h3 class="font-bold text-space-accent mb-4 text-xl">Space Topics</h3>
                     <div class="relative">
                         <select id="select-03" onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
                             <option value="">Select a resource...</option>
-                            <option value="03%20Space-Related%20Topics/index.html">Browse All Resources</option>
+                            <option value="Space/index.html">Browse All Resources</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -689,13 +654,13 @@
                     </div>
                 </div>
 
-                <!-- Tile 4 -->
+                <!-- Tile 4: Arduino -->
                 <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
                     <h3 class="font-bold text-space-accent mb-4 text-xl">Arduino Projects</h3>
                     <div class="relative">
                         <select id="select-04" onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
                             <option value="">Select a project...</option>
-                            <option value="04%20Arduino%20%26%20Microcontroller%20Projects/index.html">Browse All Projects</option>
+                            <option value="Arduino/index.html">Browse All Projects</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -703,13 +668,13 @@
                     </div>
                 </div>
 
-                <!-- Tile 5 -->
+                <!-- Tile 5: RaspberryPi -->
                 <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
                     <h3 class="font-bold text-space-accent mb-4 text-xl">Raspberry Pi Projects</h3>
                     <div class="relative">
                         <select id="select-05" onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
                             <option value="">Select a project...</option>
-                            <option value="05%20Raspberry%20Pi%20Projects/index.html">Browse All Projects</option>
+                            <option value="RaspberryPi/index.html">Browse All Projects</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -717,13 +682,13 @@
                     </div>
                 </div>
 
-                <!-- Tile 6 -->
+                <!-- Tile 6: STEM -->
                 <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
                     <h3 class="font-bold text-space-accent mb-4 text-xl">STEM Activities</h3>
                     <div class="relative">
                         <select id="select-06" onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
                             <option value="">Select an activity...</option>
-                            <option value="06%20STEM%20Activities%20%26%20Challenges/index.html">Browse All Activities</option>
+                            <option value="STEM/index.html">Browse All Activities</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -731,14 +696,13 @@
                     </div>
                 </div>
 
-                <!-- Tile 7 -->
+                <!-- Tile 7: Games -->
                 <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
                     <h3 class="font-bold text-space-accent mb-4 text-xl">Educational Games</h3>
                     <div class="relative">
                         <select id="select-07" onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
                             <option value="">Select a game...</option>
-                            <option value="07%20Educational%20Games/index.html">Browse All Games</option>
-                            <option value="07%20Educational%20Games/01_Quiz_3_9_Certi.html">Astronomy Quiz & Certification</option>
+                            <option value="Games/index.html">Browse All Games</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -746,13 +710,13 @@
                     </div>
                 </div>
 
-                <!-- Tile 8 -->
+                <!-- Tile 8: Misc -->
                 <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
                     <h3 class="font-bold text-space-accent mb-4 text-xl">Miscellaneous Topics</h3>
                     <div class="relative">
                         <select id="select-08" onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
                             <option value="">Select a resource...</option>
-                            <option value="08%20Miscellaneous%20Topics/index.html">Browse Topics</option>
+                            <option value="Misc/index.html">Browse Topics</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -760,13 +724,13 @@
                     </div>
                 </div>
 
-                <!-- Tile 9 -->
+                <!-- Tile 9: Codes -->
                 <div class="glass p-6 rounded-xl transform hover:-translate-y-2 transition-all duration-300">
                     <h3 class="font-bold text-space-accent mb-4 text-xl">Code Repository</h3>
                     <div class="relative">
                         <select id="select-09" onchange="if(this.value) window.open(this.value, '_blank');" class="w-full bg-space-900/50 border border-space-700 text-gray-300 rounded-lg px-4 py-2 appearance-none focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent cursor-pointer">
                             <option value="">Select a script...</option>
-                            <option value="09%20Codes/index.html">Browse Repositories</option>
+                            <option value="Codes/index.html">Browse Repositories</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -986,43 +950,6 @@
               "Codes": []
             };
 
-            const category = document.getElementById("categorySelect");
-            const file = document.getElementById("fileSelect");
-
-            // Populate Categories
-            Object.keys(data).forEach(cat => {
-                const opt = document.createElement("option");
-                opt.value = cat;
-                opt.textContent = cat;
-                category.appendChild(opt);
-            });
-
-            // Handle Category Change
-            category.addEventListener("change", () => {
-                file.innerHTML = '<option value="">Select Resource</option>';
-                file.disabled = true;
-
-                if (!data[category.value]) return;
-
-                data[category.value].forEach(f => {
-                    const opt = document.createElement("option");
-                    opt.value = f;
-                    opt.textContent = f.replace(".html", "").replace(/_/g, " "); // Clean format
-                    file.appendChild(opt);
-                });
-
-                file.disabled = false;
-            });
-
-            // Handle File Navigation
-            file.addEventListener("change", () => {
-                if (!file.value) return;
-                // Construct the path relative to current location
-                // Use encodeURIComponent to handle spaces and special chars in folder names
-                const folderPath = encodeURIComponent(category.value).replace(/%20/g, "%20"); 
-                window.location.href = `./${category.value}/${file.value}`;
-            });
-            
             // Populate the grid select boxes (mapping new JSON keys to existing tile IDs)
              const mapping = {
                 "Astronomy": "select-01",
