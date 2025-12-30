@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi: Your Little Computer That Can Do Big Things!</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better aesthetics */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light background */
+            color: #334155; /* Darker text */
+        }
+        /* Styling for code blocks */
+        pre {
+            background-color: #1e293b; /* Dark slate background for code */
+            color: #e2e8f0; /* Light text for code */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto; /* Allow horizontal scrolling for long lines */
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+        }
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden; /* Ensures rounded corners apply to table content */
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0; /* Light border */
+        }
+        th {
+            background-color: #3b82f6; /* Blue header */
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f8fafc; /* Slightly different background for even rows */
+        }
+        /* Specific styling for flashcards */
+        .flashcard {
+            background-color: #fff;
+            border: 2px solid #a78bfa; /* Purple border */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 120px; /* Ensure cards have some height */
+            cursor: pointer; /* Indicate that it's clickable */
+            transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+        }
+        .flashcard:hover {
+            transform: translateY(-5px); /* Lift card slightly on hover */
+        }
+        .flashcard-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #6d28d9; /* Darker purple */
+            margin-bottom: 0.5rem;
+        }
+        .flashcard-content {
+            font-size: 1.125rem;
+            color: #334155;
+            display: none; /* Hidden by default */
+            margin-top: 0.5rem;
+        }
+        .flashcard.active .flashcard-content {
+            display: block; /* Show when active */
+        }
+        /* Certificate styling */
+        .certificate-container {
+            border: 5px solid #3b82f6; /* Blue border */
+            padding: 2rem;
+            background-color: #e0f2fe; /* Light blue background */
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            margin: 2rem auto;
+        }
+        .certificate-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1e40af; /* Darker blue */
+            margin-bottom: 1rem;
+        }
+        .certificate-subtitle {
+            font-size: 1.5rem;
+            color: #3b82f6;
+            margin-bottom: 1.5rem;
+        }
+        .certificate-name {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #6d28d9; /* Purple */
+            margin-bottom: 1.5rem;
+            font-family: 'Georgia', serif; /* A more formal font */
+        }
+        .certificate-text {
+            font-size: 1.25rem;
+            color: #334155;
+            margin-bottom: 2rem;
+        }
+        .certificate-signature {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 3rem;
+            font-size: 1.125rem;
+            color: #475569;
+        }
+        .signature-line {
+            border-top: 1px solid #94a3b8;
+            padding-top: 0.5rem;
+            width: 40%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8 md:p-10 lg:p-12">
+
+        <!-- Title Section -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-bold text-blue-700 mb-4">
+                <span class="text-purple-600">🧠💡</span> Raspberry Pi: Your Awesome Mini Computer!
+            </h1>
+            <p class="text-xl sm:text-2xl text-gray-600">
+                🎲 It looks like a small toy… <br> 💻 But it’s a real computer the size of your hand!
+            </p>
+            <p class="mt-4 text-lg text-gray-700">
+                With Raspberry Pi, you can learn coding, build cool robots, create your own games, and control lights, sensors, and so much more! It's perfect for science projects and tech fun.
+            </p>
+        </header>
+
+        <!-- Meet Your Raspberry Pi Section -->
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold text-purple-700 mb-6">🤝 Meet Your Raspberry Pi (Your Tech Buddy!)</h2>
+            <p class="text-lg text-gray-700 mb-6">Let’s imagine your Raspberry Pi is like a super smart robot with special connections 👇</p>
+            <div class="overflow-x-auto rounded-lg shadow-md">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>📍 Part Name</th>
+                            <th>🧸 What It Does</th>
+                            <th>Think of It As…</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>USB Ports</td>
+                            <td>Plug in your mouse, keyboard, or other cool gadgets</td>
+                            <td>Robot's arms 🖐️</td>
+                        </tr>
+                        <tr>
+                            <td>HDMI Port</td>
+                            <td>Connects to a screen or monitor, just like a TV!</td>
+                            <td>Robot's eyes 👀</td>
+                        </tr>
+                        <tr>
+                            <td>MicroSD Card Slot</td>
+                            <td>This is where the "brain" (operating system) and all your projects live</td>
+                            <td>Robot's memory card 💾</td>
+                        </tr>
+                        <tr>
+                            <td>Power Port</td>
+                            <td>Where your Pi gets its energy (using a USB-C cable)</td>
+                            <td>Robot’s food source 🍽️</td>
+                        </tr>
+                        <tr>
+                            <td>GPIO Pins</td>
+                            <td>Special pins to connect wires, sensors, and motors for your inventions</td>
+                            <td>Robot’s hands & sensors 🤖</td>
+                        </tr>
+                        <tr>
+                            <td>Audio Jack</td>
+                            <td>Plug in headphones or speakers to hear sounds from your projects</td>
+                            <td>Robot’s voice 🎧</td>
+                        </tr>
+                        <tr>
+                            <td>CSI Camera Port</td>
+                            <td>Connect a camera module here to take pictures or videos</td>
+                            <td>Robot's camera 📸</td>
+                        </tr>
+                        <tr>
+                            <td>Ethernet Port</td>
+                            <td>Connects your Pi to the internet using a network cable (optional)</td>
+                            <td>Robot’s wired internet 🛜</td>
+                        </tr>
+                        <tr>
+                            <td>Wi-Fi & Bluetooth</td>
+                            <td>Built-in wireless connections for internet and other devices</td>
+                            <td>Robot’s wireless superpowers 📶</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- What You Need Section -->
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold text-green-700 mb-6">📦 What You Need to Start Your Raspberry Pi Adventure:</h2>
+            <div class="overflow-x-auto rounded-lg shadow-md">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>✅ Item</th>
+                            <th>🎒 Why You Need It</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Raspberry Pi 4 (or 3)</td>
+                            <td>Your awesome mini computer! 🧠</td>
+                        </tr>
+                        <tr>
+                            <td>MicroSD card (16GB or more)</td>
+                            <td>Holds the operating system and all your files 💾</td>
+                        </tr>
+                        <tr>
+                            <td>Power Supply (USB-C)</td>
+                            <td>To turn your Pi ON and keep it running 🔌</td>
+                        </tr>
+                        <tr>
+                            <td>Monitor + HDMI Cable</td>
+                            <td>So you can see what’s happening on your Pi 🖥️</td>
+                        </tr>
+                        <tr>
+                            <td>USB Keyboard + Mouse</td>
+                            <td>To type commands and click around ⌨️🖱️</td>
+                        </tr>
+                        <tr>
+                            <td>Breadboard + Jumper Wires</td>
+                            <td>To connect sensors and components safely (like a mini building board!) 🪢</td>
+                        </tr>
+                        <tr>
+                            <td>LEDs, Buzzer, Sensors, Motors</td>
+                            <td>For all your exciting projects! 💡🚨🌡️</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- How to Start Section -->
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold text-blue-700 mb-6">🟢 How to Start Your Raspberry Pi (Easy Steps!)</h2>
+
+            <div class="bg-blue-50 p-6 rounded-lg shadow-inner mb-6">
+                <h3 class="text-2xl font-medium text-blue-800 mb-4">🧠 Step 1: Set Up Your Pi!</h3>
+                <p class="text-lg text-gray-700 mb-4">
+                    First, you'll need to put the special **Raspberry Pi OS** (that's its operating system, like Windows or macOS for your regular computer) onto your microSD card. You'll do this using another computer and a free tool called **Raspberry Pi Imager**. It's super easy!
+                </p>
+                <p class="text-lg text-gray-700 mb-2">Once your microSD card is ready:</p>
+                <ol class="list-decimal list-inside text-lg text-gray-700 space-y-2">
+                    <li>Gently slide your microSD card (with Raspberry Pi OS) into the slot on your Raspberry Pi.</li>
+                    <li>Connect your keyboard, mouse, and the HDMI cable to your monitor.</li>
+                    <li>Plug in the power cable. <span class="font-bold text-red-500">💥</span> Your Raspberry Pi will magically start up!</li>
+                    <li>Follow the on-screen instructions to set up your username, password, Wi-Fi, and other cool stuff.</li>
+                </ol>
+                <p class="mt-4 text-lg text-gray-700">Now your Raspberry Pi is ready to go—just like a regular computer, but way smaller!</p>
+            </div>
+
+            <div class="bg-purple-50 p-6 rounded-lg shadow-inner">
+                <h3 class="text-2xl font-medium text-purple-800 mb-4">🟣 Step 2: Say Hello to Python 🐍</h3>
+                <p class="text-lg text-gray-700 mb-4">Python is the Raspberry Pi’s favorite language for coding! It's like teaching your robot new tricks.</p>
+                <ol class="list-decimal list-inside text-lg text-gray-700 space-y-2">
+                    <li>Click the Raspberry icon (it's like the Start button on a Windows computer).</li>
+                    <li>Go to <strong class="font-semibold">Programming > Thonny Python IDE</strong>.</li>
+                    <li>In the new window that pops up, type this code:
+                        <pre class="mt-2 mb-2"><code>print("Hello, Raspberry Pi!")</code></pre>
+                    </li>
+                    <li>Press the <strong class="font-semibold">Run</strong> ▶️ button!</li>
+                </ol>
+                <p class="mt-4 text-lg text-gray-700">🎉 Wow! Your robot talks back! You’ve just made your very first program!</p>
+            </div>
+        </section>
+
+        <!-- LED Blink Project Section -->
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold text-red-700 mb-6">🛠️ Try This Easy Raspberry Pi Project: "LED Blink with Python"</h2>
+
+            <div class="bg-red-50 p-6 rounded-lg shadow-inner mb-6">
+                <h3 class="text-2xl font-medium text-red-800 mb-4">💡 What It Does:</h3>
+                <p class="text-lg text-gray-700">Your Raspberry Pi will make an LED light blink on and off every second. It's like giving your robot a heartbeat! ❤️💡</p>
+            </div>
+
+            <div class="bg-red-50 p-6 rounded-lg shadow-inner mb-6">
+                <h3 class="text-2xl font-medium text-red-800 mb-4">📦 You Will Need:</h3>
+                <ul class="list-disc list-inside text-lg text-gray-700 space-y-2">
+                    <li>Your Raspberry Pi</li>
+                    <li>A Breadboard (that's the little white board with holes)</li>
+                    <li>1x LED (Light Emitting Diode - it's a tiny light!)</li>
+                    <li>1x 330Ω resistor (a tiny electronic part)</li>
+                    <li>2x jumper wires (these are like small cables)</li>
+                    <li>Python (it's already on your Pi!)</li>
+                </ul>
+            </div>
+
+            <div class="bg-red-50 p-6 rounded-lg shadow-inner mb-6">
+                <h3 class="text-2xl font-medium text-red-800 mb-4">🔌 Circuit Diagram:</h3>
+                <div class="overflow-x-auto rounded-lg shadow-md">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Connect This Pin</th>
+                                <th>To This Component</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>GPIO Pin 17 (pin 11)</td>
+                                <td>Long leg of LED</td>
+                            </tr>
+                            <tr>
+                                <td>GND (Ground, pin 6)</td>
+                                <td>Short leg of LED (via resistor to GND)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-lg text-gray-700 mt-4">
+                    <strong class="font-semibold">Why the Resistor?</strong> The resistor is super important! It's like a tiny safety guard that stops too much electricity from flowing into your LED, which could break it. Always use a resistor with LEDs!
+                </p>
+            </div>
+
+            <div class="bg-red-50 p-6 rounded-lg shadow-inner mb-6">
+                <h3 class="text-2xl font-medium text-red-800 mb-4">👨‍💻 Code:</h3>
+                <pre><code>import RPi.GPIO as GPIO # This line helps our Python code talk to the Pi's pins
+import time             # This line helps us make the Pi wait (like a pause button)
+
+GPIO.setmode(GPIO.BCM)  # We're telling the Pi to use "BCM" numbering for the pins (a common way to name them)
+GPIO.setup(17, GPIO.OUT) # We're setting GPIO pin 17 to send out electricity (output)
+
+while True:             # This means "do these steps over and over forever!"
+    GPIO.output(17, True)   # Turn the electricity ON for pin 17 (LED ON!)
+    time.sleep(1)           # Wait for 1 second
+    GPIO.output(17, False)  # Turn the electricity OFF for pin 17 (LED OFF!)
+    time.sleep(1)           # Wait for another 1 second
+</code></pre>
+                <p class="mt-4 text-lg text-gray-700">Press the <strong class="font-semibold">Run</strong> ▶️ button — And watch your LED blink! <span class="text-green-500">🟢</span><span class="text-yellow-500">🟡</span></p>
+            </div>
+
+            <div class="bg-red-50 p-6 rounded-lg shadow-inner">
+                <h3 class="text-2xl font-medium text-red-800 mb-4">❓ What if it doesn't work? (Troubleshooting Tips!)</h3>
+                <ul class="list-disc list-inside text-lg text-gray-700 space-y-2">
+                    <li><strong class="font-semibold">Double-check your wires!</strong> Make absolutely sure they are pushed in firmly and connected to the correct pins on both your Raspberry Pi and the breadboard.</li>
+                    <li><strong class="font-semibold">Check your LED's legs!</strong> LEDs have a longer leg (positive, for electricity in) and a shorter leg (negative, for electricity out). Make sure the long leg is connected to GPIO 17 and the short leg (with the resistor) goes to GND.</li>
+                    <li><strong class="font-semibold">Is the resistor connected?</strong> Make sure the resistor is securely connected to the short leg of the LED and then to the GND line.</li>
+                    <li><strong class="font-semibold">Did you save and run the code?</strong> Sometimes we forget to hit that "Run" button!</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- More Easy & Fun Projects Section -->
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold text-orange-700 mb-6">🎮 More Easy & Fun Projects for Kids:</h2>
+            <div class="overflow-x-auto rounded-lg shadow-md">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>What It Does</th>
+                            <th>Difficulty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🌡️ Weather Station</td>
+                            <td>Shows room temperature & humidity</td>
+                            <td>Easy</td>
+                        </tr>
+                        <tr>
+                            <td>🏃 Motion Detector Alarm</td>
+                            <td>Beeps when someone walks by!</td>
+                            <td>Easy</td>
+                        </tr>
+                        <tr>
+                            <td>🎤 Sound Sensor Lamp</td>
+                            <td>LED turns on when you clap</td>
+                            <td>Medium</td>
+                        </tr>
+                        <tr>
+                            <td>🎮 Game Controller with Pi</td>
+                            <td>Make buttons to play your own game</td>
+                            <td>Medium</td>
+                        </tr>
+                        <tr>
+                            <td>🧑‍🍳 Smart Kitchen Timer</td>
+                            <td>With button, LED, buzzer and countdown</td>
+                            <td>Medium</td>
+                        </tr>
+                        <tr>
+                            <td>🌱 Smart Plant Watering</td>
+                            <td>Sensor checks soil and turns on pump</td>
+                            <td>Advanced</td>
+                        </tr>
+                        <tr>
+                            <td>🛰️ PiCam Time-Lapse Camera</td>
+                            <td>Take pictures every minute</td>
+                            <td>Advanced</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Magic Tools Section -->
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold text-teal-700 mb-6">🧙 Magic Tools on Raspberry Pi (No Coding Needed!)</h2>
+            <div class="overflow-x-auto rounded-lg shadow-md">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tool</th>
+                            <th>What It Is</th>
+                            <th>What It Can Do</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Scratch 3</td>
+                            <td>Drag-and-drop coding blocks to create stories and games</td>
+                            <td>Animate characters, make them talk, and sense things around them! 🎬</td>
+                        </tr>
+                        <tr>
+                            <td>Sonic Pi</td>
+                            <td>Write code to create awesome music and beats!</td>
+                            <td>Make cool loops, synthesize sounds, and even perform live music 🎵</td>
+                        </tr>
+                        <tr>
+                            <td>Sense HAT App</td>
+                            <td>Works with a special add-on board called Sense HAT</td>
+                            <td>Shows weather info, compass directions, and lets you play games on its LED matrix 🧭</td>
+                        </tr>
+                        <tr>
+                            <td>PiCamera</td>
+                            <td>Works with the Raspberry Pi Camera Module</td>
+                            <td>Take selfies, create time-lapse videos, and record awesome footage 📸</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Save the Planet Section -->
+        <section class="mb-10">
+            <h2 class="text-3xl font-semibold text-green-800 mb-6">🌍 Project Ideas to Save the Planet! (STEM & IoT)</h2>
+            <p class="text-lg text-gray-700 mb-4">Use your Raspberry Pi superpowers to help the Earth!</p>
+            <div class="overflow-x-auto rounded-lg shadow-md">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Skills Learned</th>
+                            <th>Materials</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🌦️ Air Quality Monitor</td>
+                            <td>Coding + using sensors to measure air pollution</td>
+                            <td>Gas sensor, LCD screen</td>
+                        </tr>
+                        <tr>
+                            <td>🚰 Water Level Alarm</td>
+                            <td>Internet of Things (IoT) + creating alert systems</td>
+                            <td>Water sensor + buzzer</td>
+                        </tr>
+                        <tr>
+                            <td>🌞 Sunlight Tracker</td>
+                            <td>Using light sensors + servo motors to follow the sun</td>
+                            <td>2x LDR (light sensors) + SG90 servo motor</td>
+                        </tr>
+                        <tr>
+                            <td>🔥 Fire Detection with Alert</td>
+                            <td>Safety tech + IoT for sending emergency alerts</td>
+                            <td>Flame sensor + Wi-Fi alert system</td>
+                        </tr>
+                        <tr>
+                            <td>🧹 Smart Dustbin</td>
+                            <td>Using ultrasonic sensors + servo motors for automation</td>
+                            <td>Distance sensor + servo motor</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Printable Booklet Section -->
+        <section class="mb-10 bg-yellow-50 p-6 rounded-lg shadow-inner">
+            <h2 class="text-3xl font-semibold text-yellow-800 mb-4">🎁 Awesome Printable Goodies!</h2>
+
+            <!-- Flashcards for GPIO pin meanings -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-medium text-yellow-800 mb-4">✅ Flashcards for GPIO Pin Meanings</h3>
+                <p class="text-lg text-gray-700 mb-4">Cut these out to learn what each "hand" and "sensor" on your Pi does!</p>
+                <p class="text-lg text-gray-700 mb-4 italic">Click on a flashcard to reveal its meaning!</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="flashcard" onclick="toggleFlashcard(this)">
+                        <div class="flashcard-title">GPIO 17 (Pin 11)</div>
+                        <div class="flashcard-content">This is a general-purpose pin you can use for many different projects!</div>
+                    </div>
+                    <div class="flashcard" onclick="toggleFlashcard(this)">
+                        <div class="flashcard-title">GND (Ground, Pin 6)</div>
+                        <div class="flashcard-content">This is the "return path" for electricity, like a drain for power. Essential for circuits!</div>
+                    </div>
+                    <div class="flashcard" onclick="toggleFlashcard(this)">
+                        <div class="flashcard-title">3.3V (Pin 1)</div>
+                        <div class="flashcard-content">Provides a small amount of power (3.3 Volts) perfect for tiny sensors.</div>
+                    </div>
+                    <div class="flashcard" onclick="toggleFlashcard(this)">
+                        <div class="flashcard-title">5V (Pin 2)</div>
+                        <div class="flashcard-content">Provides more power (5 Volts) for things that need a bit more juice, like some motors.</div>
+                    </div>
+                    <div class="flashcard" onclick="toggleFlashcard(this)">
+                        <div class="flashcard-title">GPIO 27 (Pin 13)</div>
+                        <div class="flashcard-content">Another general-purpose pin that's ready for your creative projects!</div>
+                    </div>
+                    <div class="flashcard" onclick="toggleFlashcard(this)">
+                        <div class="flashcard-title">SDA/SCL (I2C)</div>
+                        <div class="flashcard-content">These are special pins used for talking to smart sensors and devices using a "secret code" called I2C.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cartoon poster of Raspberry Pi ports -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-medium text-yellow-800 mb-4">✅ Cartoon Poster of Raspberry Pi Ports</h3>
+                <p class="text-lg text-gray-700">
+                    Imagine a super fun, colorful poster showing your Raspberry Pi as a friendly robot! Each port would be drawn as its "magical part" – like USB ports as its arms, HDMI as its eyes, and so on. This would be an awesome visual guide to hang on your wall or in your classroom!
+                    <img src="https://placehold.co/600x400/FFD700/000000?text=Your+Cartoon+Pi+Poster+Here" alt="Placeholder for Cartoon Raspberry Pi Poster" class="mx-auto mt-4 rounded-lg shadow-md max-w-full h-auto">
+                </p>
+            </div>
+
+            <!-- Scratch + Python mini coding games -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-medium text-yellow-800 mb-4">✅ Scratch + Python Mini Coding Games</h3>
+                <h4 class="text-xl font-semibold text-gray-800 mb-2">Scratch Mini-Game: "Catch the Falling Apple"</h4>
+                <p class="text-lg text-gray-700 mb-2">
+                    **Your Mission:** Move a basket left and right to catch delicious falling apples!
+                </p>
+                <ol class="list-decimal list-inside text-lg text-gray-700 space-y-1 mb-4">
+                    <li>**Basket Sprite:** Use the arrow keys to make your basket move left and right.</li>
+                    <li>**Apple Sprite:** Make apples fall from the top of the screen. When an apple touches your basket, it disappears and a new one appears at the top!</li>
+                    <li>**Score:** Add a variable to keep track of how many apples you catch!</li>
+                </ol>
+
+                <h4 class="text-xl font-semibold text-gray-800 mb-2">Python Mini-Game: "Guess the Number"</h4>
+                <p class="text-lg text-gray-700 mb-2">
+                    **Your Mission:** The computer will pick a secret number, and you have to guess what it is!
+                </p>
+                <pre class="mb-4"><code>import random # This helps the computer pick a random number!
+
+secret_number = random.randint(1, 10) # The computer picks a number from 1 to 10
+guess = 0 # We start your guess at 0
+print("I'm thinking of a number between 1 and 10. Can you guess it?")
+
+while guess != secret_number: # Keep guessing until you get it right!
+    try:
+        guess = int(input("Enter your guess: ")) # Ask the player for their guess
+        if guess < secret_number:
+            print("Too low! Try again.") # Hint if the guess is too small
+        elif guess > secret_number:
+            print("Too high! Try again.") # Hint if the guess is too big
+    except ValueError: # What if they type text instead of a number?
+        print("Oops! That's not a number. Please enter a number.")
+
+print(f"🎉 You got it! The secret number was {secret_number}!") # Hooray!
+</code></pre>
+            </div>
+
+            <!-- 5-Step lesson plans for each project -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-medium text-yellow-800 mb-4">✅ 5-Step Lesson Plan Example: Weather Station</h3>
+                <p class="text-lg text-gray-700 mb-4">
+                    Here’s a cool way to teach the "Weather Station" project in 5 easy steps. You can use this plan for other projects too!
+                </p>
+                <ol class="list-decimal list-inside text-lg text-gray-700 space-y-3">
+                    <li>
+                        <strong class="font-semibold">Step 1: Discover & Discuss (15 min)</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Talk about what a weather station does and why knowing the temperature or humidity is helpful.</li>
+                            <li>Introduce the temperature/humidity sensor (like a DHT11/DHT22) and how it "feels" the air.</li>
+                            <li>Show the Raspberry Pi and explain it's the "brain" that reads the sensor.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong class="font-semibold">Step 2: Connect the Parts (20 min)</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Guide everyone to connect the sensor to the Raspberry Pi using a breadboard and jumper wires. Follow a clear diagram carefully!</li>
+                            <li>Remember to be safe and connect wires correctly.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong class="font-semibold">Step 3: Write the First Code (25 min)</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Open the Thonny Python IDE.</li>
+                            <li>Learn about special "libraries" (like toolkits for Python) that help talk to the sensor.</li>
+                            <li>Write the code to read the temperature and humidity and see it printed on the screen.</li>
+                            <li>Work together to fix any "bugs" (errors) in the code.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong class="font-semibold">Step 4: Improve & Test (20 min)</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Add more cool features: make the readings look nicer, or have the Pi read the weather every few seconds.</li>
+                            <li>Test your weather station to make sure it's working by comparing it to a real thermometer.</li>
+                            <li>Discuss what the numbers for temperature (Celsius/Fahrenheit) and humidity mean.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong class="font-semibold">Step 5: Share & Celebrate (10 min)</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Show off your working weather stations to your classmates or family!</li>
+                            <li>Talk about what you learned, what was tricky, and what other cool things you could add to your weather station (like a tiny screen or sending data online!).</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <!-- Certificate of Completion templates -->
+            <div>
+                <h3 class="text-2xl font-medium text-yellow-800 mb-4">✅ Certificate of Completion Template 🎓</h3>
+                <p class="text-lg text-gray-700 mb-4">Time to celebrate your awesome Raspberry Pi achievements!</p>
+                <div class="certificate-container">
+                    <div class="certificate-title">Certificate of Completion</div>
+                    <div class="certificate-subtitle">This certifies that</div>
+                    <div class="certificate-name">[Your Name Here]</div>
+                    <div class="certificate-text">
+                        has successfully completed the exciting journey into the world of
+                        **Raspberry Pi Adventures** and mastered the basics of
+                        physical computing and Python programming! Keep exploring!
+                    </div>
+                    <div class="certificate-signature">
+                        <div class="signature-line">Date: _______________</div>
+                        <div class="signature-line">Signed: _______________</div>
+                    </div>
+                    <p class="mt-6 text-sm text-gray-600">Issued by: Your Awesome Tech Mentor</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion Section -->
+        <section class="text-center">
+            <h2 class="text-3xl font-semibold text-purple-700 mb-4">💬 Learning is Best When It’s Fun!</h2>
+            <p class="text-xl text-gray-700 mb-2">Your Raspberry Pi is more than just a computer—it’s:</p>
+            <ul class="list-none p-0 text-xl text-gray-800 font-medium space-y-2">
+                <li>Your mini weather station ☁️</li>
+                <li>Your robot brain 🦾</li>
+                <li>Your planet-saving toolkit 🌍</li>
+                <li>Your game console 🎮</li>
+                <li>Your classroom laboratory 🧪</li>
+                <li>**Your very own invention factory!** 🚀</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <script>
+        // JavaScript function to toggle the visibility of flashcard content
+        function toggleFlashcard(cardElement) {
+            // Toggle the 'active' class on the flashcard
+            cardElement.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

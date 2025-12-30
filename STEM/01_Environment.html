@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Lab Curriculum Planner</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf4; /* Light mint green background */
+            color: #1a202c; /* Dark text */
+        }
+        .container-wrapper {
+            background-color: #ffffff;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .grade-section {
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            background-color: #e6fffa; /* Very light teal */
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #b2f5ea;
+        }
+        .grade-heading {
+            color: #047857; /* Dark green */
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .activity-card {
+            background-color: #f0fdfa; /* Lighter background for cards */
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #a7f3d0;
+        }
+        .activity-card h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #065f46; /* Even darker green */
+            margin-bottom: 0.75rem;
+        }
+        .activity-detail {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+        .activity-detail strong {
+            color: #047857;
+        }
+        .toggle-button {
+            background-color: #34d399; /* Green for button */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+        .toggle-button:hover {
+            background-color: #10b981; /* Darker green on hover */
+        }
+        .hidden {
+            display: none;
+        }
+        .table-auto {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .table-auto th, .table-auto td {
+            border: 1px solid #d1fae5; /* Light green border for tables */
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .table-auto th {
+            background-color: #d1fae5; /* Light green for table headers */
+            font-weight: 600;
+            color: #065f46;
+        }
+
+        /* Styles for the compact curriculum dropdown */
+        .compact-curriculum-container {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #ecfdf5; /* Lighter teal */
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #a7f3d0;
+        }
+        .compact-curriculum-container h3 {
+            color: #047857;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .compact-curriculum-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        .compact-curriculum-table th, .compact-curriculum-table td {
+            border: 1px solid #d1fae5;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+            font-size: 0.875rem; /* Smaller font for compactness */
+        }
+        .compact-curriculum-table th {
+            background-color: #d1fae5;
+            font-weight: 600;
+            color: #065f46;
+            position: sticky; /* Make headers sticky for scrolling */
+            top: 0;
+            z-index: 1;
+        }
+        .compact-curriculum-table tbody tr:nth-child(even) {
+            background-color: #f6fdf9; /* Slight stripe for readability */
+        }
+        .compact-grade-heading {
+            color: #059669;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #34d399;
+        }
+        /* Specific styling for the general lab resources boxes */
+        .checklist-box {
+            background-color: #f0fdfa; /* Lighter background for checklist boxes */
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #a7f3d0;
+        }
+        .checklist-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #065f46;
+        }
+        .arrow-icon {
+            transition: transform 0.2s ease-in-out;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        .checklist-box-header[aria-expanded="true"] .arrow-icon {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container-wrapper">
+        <!-- Header Section -->
+        <header class="text-center mb-10 p-6 bg-gradient-to-r from-emerald-600 to-green-700 text-white rounded-xl shadow-lg">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-2 flex items-center justify-center">
+                <span class="mr-3 text-5xl">🌱</span> Environment Lab: Model-Making STEM Activities
+            </h1>
+            <p class="text-lg md:text-xl font-light">Curriculum Planner for Grades 3–9</p>
+        </header>
+
+        <p class="text-center text-lg mb-8 leading-relaxed">
+            This curriculum features **6 hands-on STEM-based model-making TLM activities per grade**, designed to foster scientific observation, STEM reasoning, environmental awareness, and cross-disciplinary integration. Progression increases in complexity with each grade.
+        </p>
+
+        <!-- New button for compact curriculum -->
+        <div class="text-center mb-8">
+            <button class="toggle-button px-6 py-3 text-xl" onclick="toggleDetails('compact-curriculum')">
+                Toggle Compact Curriculum View
+            </button>
+        </div>
+
+        <!-- Compact Curriculum View (Initially Hidden) -->
+        <div id="compact-curriculum" class="compact-curriculum-container hidden">
+            <h2 class="text-center text-3xl font-bold mb-6 text-gray-800">🌱 Environment Lab Curriculum Planner: Grades 3–9 (Compact View)</h2>
+            <p class="text-center text-md mb-6 text-gray-700">
+                This compact view summarizes the learning outcomes, estimated duration, and low-cost materials for each activity.
+            </p>
+
+            <!-- Grade 3 Compact -->
+            <h3 class="compact-grade-heading">🟢 GRADE 3: Exploring Nature Through Senses</h3>
+            <p class="text-md mb-4 text-gray-700"><strong>Theme:</strong> Observing the Environment<br>
+            <strong>Overall Learning Outcomes:</strong> Develop observation skills through sensory exploration; Understand basic environmental cycles (water, plants, air); Foster curiosity about natural phenomena; Build simple models with everyday materials.</p>
+            <table class="compact-curriculum-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Activity</th>
+                        <th>Estimated Duration</th>
+                        <th>Learning Outcomes</th>
+                        <th>Materials List (Low-Cost Options)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Mini Water Cycle in a Bag</td><td>45 mins</td><td>Observe condensation & water cycle phases</td><td>Ziplock bags, water, marker, tape</td></tr>
+                    <tr><td>2</td><td>Seed Sprouter Model</td><td>1 week (daily check)</td><td>Understand seed germination and plant growth</td><td>Clear plastic cups, cotton balls, seeds (beans, peas)</td></tr>
+                    <tr><td>3</td><td>DIY Wind Vane</td><td>1 hour</td><td>Learn wind direction and basic mechanics</td><td>Straws, bottle cap, pin, paper, tape</td></tr>
+                    <tr><td>4</td><td>Pollination Bee Game</td><td>45 mins</td><td>Understand pollination process through play</td><td>Cotton balls, chalk dust, paper flowers</td></tr>
+                    <tr><td>5</td><td>Mini Compost Jar</td><td>1-2 weeks (observe)</td><td>Learn decomposition and waste segregation</td><td>Clear jar, organic waste (vegetable peels), soil</td></tr>
+                    <tr><td>6</td><td>Rain Catcher Model</td><td>Ongoing (1 week)</td><td>Collect and record rainfall data</td><td>Plastic bottle, ruler, marker</td></tr>
+                </tbody>
+            </table>
+
+            <!-- Grade 4 Compact -->
+            <h3 class="compact-grade-heading">🟢 GRADE 4: Introducing Energy and Weather</h3>
+            <p class="text-md mb-4 text-gray-700"><strong>Theme:</strong> Natural Resources & Weather Patterns<br>
+            <strong>Overall Learning Outcomes:</strong> Understand renewable energy basics; Explore atmospheric pressure and weather concepts; Develop skills in simple mechanical and electrical models; Collect and analyze environmental data.</p>
+            <table class="compact-curriculum-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Activity</th>
+                        <th>Estimated Duration</th>
+                        <th>Learning Outcomes</th>
+                        <th>Materials List (Low-Cost Options)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Solar Oven</td><td>2 hours</td><td>Explore solar energy and heat concentration</td><td>Cardboard box, aluminum foil, plastic wrap, black paper</td></tr>
+                    <tr><td>2</td><td>Simple Barometer</td><td>1 hour</td><td>Understand air pressure changes and weather forecasting</td><td>Balloon, jar, straw, rubber band</td></tr>
+                    <tr><td>3</td><td>Windmill Power Generator</td><td>1.5 hours</td><td>Learn basic electricity generation from wind</td><td>Small DC motor, paper pinwheel, LED, tape</td></tr>
+                    <tr><td>4</td><td>Model of a River System</td><td>2 hours</td><td>Observe erosion, water flow, and terrain shaping</td><td>Clay or play dough, sand, tray, water</td></tr>
+                    <tr><td>5</td><td>Shadow Tracker</td><td>Ongoing (1 day)</td><td>Understand Earth’s rotation via shadow movement</td><td>Stick, chalk, open space</td></tr>
+                    <tr><td>6</td><td>Recycling Sort Game</td><td>1 hour</td><td>Learn waste types and importance of recycling</td><td>Cardboard boxes, pictures or real waste items</td></tr>
+                </tbody>
+            </table>
+
+            <!-- Grade 5 Compact -->
+            <h3 class="compact-grade-heading">🟢 GRADE 5: Living Systems & Conservation</h3>
+            <p class="text-md mb-4 text-gray-700"><strong>Theme:</strong> Ecosystems and Biodiversity<br>
+            <strong>Overall Learning Outcomes:</strong> Explore ecosystems and food webs; Understand biodiversity and sustainable living; Build models to visualize animal habitats and plant systems; Apply concepts of water conservation and carbon footprint.</p>
+            <table class="compact-curriculum-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Activity</th>
+                        <th>Estimated Duration</th>
+                        <th>Learning Outcomes</th>
+                        <th>Materials List (Low-Cost Options)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Build a Food Web Board</td><td>1.5 hours</td><td>Understand food chains and ecological connections</td><td>Yarn, printed pictures, pushpins, board</td></tr>
+                    <tr><td>2</td><td>Eco House Diorama</td><td>2 hours</td><td>Model sustainable living elements</td><td>Shoebox, paper, foil, plastic, markers</td></tr>
+                    <tr><td>3</td><td>Animal Habitat Box</td><td>2 hours</td><td>Learn about different habitats and species adaptations</td><td>Shoebox, craft materials, natural elements</td></tr>
+                    <tr><td>4</td><td>Terrarium in a Bottle</td><td>Ongoing (1-2 weeks)</td><td>Observe a closed ecosystem cycle</td><td>Clear plastic bottle, soil, small plants, water</td></tr>
+                    <tr><td>5</td><td>Water Filter Model</td><td>1.5 hours</td><td>Understand water purification and conservation</td><td>Plastic bottle, sand, gravel, cotton balls</td></tr>
+                    <tr><td>6</td><td>Carbon Footprint Tracker</td><td>1 hour</td><td>Reflect on personal energy use and environmental impact</td><td>Chart paper, markers, activity sheets</td></tr>
+                </tbody>
+            </table>
+
+            <!-- Grade 6 Compact -->
+            <h3 class="compact-grade-heading">🟢 GRADE 6: Earth Systems & Observation</h3>
+            <p class="text-md mb-4 text-gray-700"><strong>Theme:</strong> Interconnected Natural Systems<br>
+            <strong>Overall Learning Outcomes:</strong> Understand Earth's layers and natural phenomena like earthquakes; Measure and analyze air quality and solar movement; Simulate environmental systems and climate effects.</p>
+            <table class="compact-curriculum-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Activity</th>
+                        <th>Estimated Duration</th>
+                        <th>Learning Outcomes</th>
+                        <th>Materials List (Low-Cost Options)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>3D Model of Earth Layers</td><td>2 hours</td><td>Identify Earth’s internal structure</td><td>Colored clay/dough, cardboard base</td></tr>
+                    <tr><td>2</td><td>DIY Seismograph</td><td>1.5 hours</td><td>Detect and record vibrations from earthquakes</td><td>Paper roll, pen, string, base</td></tr>
+                    <tr><td>3</td><td>Air Quality Test Station</td><td>1 week (setup + observe)</td><td>Observe pollution via dust collection</td><td>Cards, Vaseline, string</td></tr>
+                    <tr><td>4</td><td>Solar Tracker Model</td><td>2 hours</td><td>Build mechanical system to follow the sun</td><td>Cardboard, paper, pins, protractor</td></tr>
+                    <tr><td>5</td><td>Oxygen-Carbon Cycle Sim.</td><td>1.5 hours</td><td>Model respiration and photosynthesis</td><td>Balloons, straws, arrows on paper</td></tr>
+                    <tr><td>6</td><td>Greenhouse Effect Model</td><td>1 hour</td><td>Compare temperature changes to explain climate effect</td><td>Two jars, plastic wrap, thermometers</td></tr>
+                </tbody>
+            </table>
+
+            <!-- Grade 7 Compact -->
+            <h3 class="compact-grade-heading">🟢 GRADE 7: Applied Environmental Science</h3>
+            <p class="text-md mb-4 text-gray-700"><strong>Theme:</strong> Human Impact and Monitoring<br>
+            <strong>Overall Learning Outcomes:</strong> Monitor environmental parameters using sensors and data logging; Develop scientific field observation skills; Understand sustainability concepts and human effects on ecosystems.</p>
+            <table class="compact-curriculum-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Activity</th>
+                        <th>Estimated Duration</th>
+                        <th>Learning Outcomes</th>
+                        <th>Materials List (Low-Cost Options)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>IoT Rain Gauge</td><td>3 hours + ongoing</td><td>Build sensor to collect & upload rainfall data</td><td>ESP32 board, water sensor, wires, coding platform</td></tr>
+                    <tr><td>2</td><td>DIY Biodiversity Survey Kit</td><td>2 hours + fieldwork</td><td>Create tools for species identification and recording</td><td>Cardboard, magnifying glass, checklist sheets</td></tr>
+                    <tr><td>3</td><td>Landfill vs Compost Model</td><td>1.5 hours</td><td>Compare decomposition rates of waste types</td><td>Jars, organic/inorganic waste, soil</td></tr>
+                    <tr><td>4</td><td>Plastic Decomposition Display</td><td>1 hour</td><td>Visualize decomposition timelines of plastics</td><td>Plastic items, posters, timers</td></tr>
+                    <tr><td>5</td><td>Light Pollution Box</td><td>2 hours</td><td>Model effects of artificial light on nocturnal animals</td><td>Cardboard, LED lights, animal cutouts</td></tr>
+                    <tr><td>6</td><td>Air Quality Charting</td><td>3 hours + ongoing</td><td>Monitor pollution with MQ135 sensor & chart data</td><td>Arduino or ESP8266, MQ135 sensor, laptop</td></tr>
+                </tbody>
+            </table>
+
+            <!-- Grade 8 Compact -->
+            <h3 class="compact-grade-heading">🟢 GRADE 8: Advanced Modeling & Systems Engineering</h3>
+            <p class="text-md mb-4 text-gray-700"><strong>Theme:</strong> Environment as a System<br>
+            <strong>Overall Learning Outcomes:</strong> Design automated environmental systems using sensors; Explore hydrology and robotics concepts; Understand environmental monitoring and remediation techniques.</p>
+            <table class="compact-curriculum-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Activity</th>
+                        <th>Estimated Duration</th>
+                        <th>Learning Outcomes</th>
+                        <th>Materials List (Low-Cost Options)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Smart Irrigation Model</td><td>4 hours + ongoing</td><td>Automate watering using soil moisture sensors and pumps</td><td>Arduino/ESP32, soil moisture sensor, small pump</td></tr>
+                    <tr><td>2</td><td>Water Table & Aquifer Model</td><td>3 hours</td><td>Model groundwater flow and aquifers</td><td>Transparent container, gravel, sand, water</td></tr>
+                    <tr><td>3</td><td>Solar Tracker with Servo</td><td>4 hours</td><td>Build robotic system to track sun using LDR sensors</td><td>Arduino, servo motor, LDRs, solar panel model</td></tr>
+                    <tr><td>4</td><td>Noise Pollution Mapping</td><td>3 hours + data logging</td><td>Measure and map sound levels</td><td>Sound sensor, Arduino, school map</td></tr>
+                    <tr><td>5</td><td>Climate Simulation Globe</td><td>3 hours</td><td>Build globe demonstrating climate elements</td><td>Styrofoam ball, paint, craft materials</td></tr>
+                    <tr><td>6</td><td>Oil Spill Cleanup Challenge</td><td>2 hours</td><td>Test materials for cleaning simulated oil spills</td><td>Water tray, cooking oil, absorbent materials</td></tr>
+                </tbody>
+            </table>
+
+            <!-- Grade 9 Compact -->
+            <h3 class="compact-grade-heading">🟢 GRADE 9: Problem Solving & Research Projects</h3>
+            <p class="text-md mb-4 text-gray-700"><strong>Theme:</strong> Innovation & Environmental Stewardship<br>
+            <strong>Overall Learning Outcomes:</strong> Apply systems thinking to design environmental solutions; Develop prototype devices using sensors and coding; Engage in real-world problem solving and innovation.</p>
+            <table class="compact-curriculum-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Activity</th>
+                        <th>Estimated Duration</th>
+                        <th>Learning Outcomes</th>
+                        <th>Materials List (Low-Cost Options)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Design a Smart Eco City</td><td>Multiple sessions</td><td>Plan integrated sustainable urban systems</td><td>Cardboard, LEDs, sensors, craft materials</td></tr>
+                    <tr><td>2</td><td>Portable Air Purifier Prototype</td><td>4-6 hours</td><td>Build and test air purification with fan and sensors</td><td>Small fan, dust sensor, filter materials, microcontroller</td></tr>
+                    <tr><td>3</td><td>Waste Management Design Challenge</td><td>Multiple sessions</td><td>Design prototype for local waste problem</td><td>Recycled materials, craft supplies</td></tr>
+                    <tr><td>4</td><td>Forest Fire Alert System (IoT)</td><td>5-6 hours</td><td>Create IoT alert using temp/gas sensor and ESP32</td><td>ESP32, temp sensor, gas sensor, buzzer, coding setup</td></tr>
+                    <tr><td>5</td><td>Sustainable Farming Hydroponics</td><td>4-5 hours</td><td>Build working hydroponics system</td><td>Tubes, pump, nutrient solution, plants</td></tr>
+                    <tr><td>6</td><td>Carbon Capture Tower Model</td><td>3 hours</td><td>Demonstrate CO₂ capture with fans and filters</td><td>Fans, filters, cardboard, tubing</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Grade 3 Section (Existing, remains visible initially) -->
+        <section class="grade-section">
+            <h2 class="grade-heading">🟢 GRADE 3: Exploring Nature Through Senses</h2>
+            <p class="text-center text-lg mb-6 text-gray-700"><strong>Theme:</strong> Observing the Environment</p>
+
+            <!-- Activity 1 -->
+            <div class="activity-card">
+                <h4>1. Mini Water Cycle in a Bag</h4>
+                <p class="activity-detail"><strong>Description:</strong> Ziplock bag + water + marker. Tape on a window to observe condensation.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand basic water cycle (evaporation, condensation, precipitation).</p>
+                <p class="activity-detail"><strong>Duration:</strong> 15 mins setup, observe over days.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Observation, Water Cycle understanding.</p>
+                <button class="toggle-button" onclick="toggleDetails('g3a1-materials')">Show Materials</button>
+                <div id="g3a1-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Ziplock bag (quart or gallon size)</li>
+                        <li>Water</li>
+                        <li>Blue food coloring (optional, for visibility)</li>
+                        <li>Permanent marker</li>
+                        <li>Tape (strong adhesive like masking or packing tape)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 2 -->
+            <div class="activity-card">
+                <h4>2. Seed Sprouter Model</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use cotton and clear cups to sprout seeds.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Learn plant life cycle stages (germination, root/shoot growth).</p>
+                <p class="activity-detail"><strong>Duration:</b> 15 mins setup, observe over 1-2 weeks.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Plant life cycle, patience, observation.</p>
+                <button class="toggle-button" onclick="toggleDetails('g3a2-materials')">Show Materials</button>
+                <div id="g3a2-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Clear plastic cups or jars</li>
+                        <li>Cotton balls or paper towels</li>
+                        <li>Various seeds (e.g., beans, lentils, radish seeds)</li>
+                        <li>Water</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 3 -->
+            <div class="activity-card">
+                <h4>3. DIY Wind Vane</h4>
+                <p class="activity-detail"><strong>Description:</strong> Make a working wind direction tool using straws and a bottle cap.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand wind direction and basic weather tools.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 30-45 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</b> Air movement, basic mechanics.</p>
+                <button class="toggle-button" onclick="toggleDetails('g3a3-materials')">Show Materials</button>
+                <div id="g3a3-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>2 straws</li>
+                        <li>Pencil with eraser</li>
+                        <li>Pushpin</li>
+                        <li>Paper plate</li>
+                        <li>Plastic bottle cap (from a water bottle)</li>
+                        <li>Clay or play-doh (for base)</li>
+                        <li>Markers (for N, S, E, W)</li>
+                        <li>Scissors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 4 -->
+            <div class="activity-card">
+                <h4>4. Pollination Bee Game</h4>
+                <p class="activity-detail"><strong>Description:</strong> Cotton ball “bees” carry chalk “pollen” between paper flowers.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Grasp pollination's role in plant reproduction.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 20-30 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Pollination concept, fine motor skills.</p>
+                <button class="toggle-button" onclick="toggleDetails('g3a4-materials')">Show Materials</button>
+                <div id="g3a4-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Construction paper (various colors for flowers)</li>
+                        <li>Cotton balls ("bees")</li>
+                        <li>Chalk or powdered tempera paint (for "pollen")</li>
+                        <li>Scissors</li>
+                        <li>Glue or tape</li>
+                        <li>Optional: String/yarn for "bee" path</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 5 -->
+            <div class="activity-card">
+                <h4>5. Mini Compost Jar</h4>
+                <p class="activity-detail"><strong>Description:</strong> Layer organic and inorganic materials in a clear jar. Watch decomposition.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand decomposition and waste management.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 20 mins setup, observe over weeks.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Waste management, observation, understanding cycles.</p>
+                <button class="toggle-button" onclick="toggleDetails('g3a5-materials')">Show Materials</button>
+                <div id="g3a5-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Clear glass jar with lid (e.g., mason jar)</li>
+                        <li>Soil</li>
+                        <li>Small pieces of fruit/vegetable scraps (e.g., apple core, banana peel)</li>
+                        <li>Dry leaves or small twigs</li>
+                        <li>Small plastic toy or piece of foil (non-biodegradable example)</li>
+                        <li>Water (to moisten)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 6 -->
+            <div class="activity-card">
+                <h4>6. Rain Catcher Model</h4>
+                <p class="activity-detail"><strong>Description:</strong> Make a simple rain gauge from a bottle. Track rainfall.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Measure precipitation and understand weather data collection.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 20-30 mins setup, ongoing observation.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Data collection, measurement, weather observation.</p>
+                <button class="toggle-button" onclick="toggleDetails('g3a6-materials')">Show Materials</button>
+                <div id="g3a6-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Large clear plastic bottle (e.g., 2-liter soda bottle)</li>
+                        <li>Ruler</li>
+                        <li>Scissors</li>
+                        <li>Permanent marker</li>
+                        <li>Tape</li>
+                        <li>Small rocks or pebbles (for stability)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grade 4 Section -->
+        <section class="grade-section">
+            <h2 class="grade-heading">🟢 GRADE 4: Introducing Energy and Weather</h2>
+            <p class="text-center text-lg mb-6 text-gray-700"><strong>Theme:</strong> Natural Resources & Weather Patterns</p>
+
+            <!-- Activity 1 -->
+            <div class="activity-card">
+                <h4>1. Solar Oven</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use foil, a box, and plastic wrap to build a sun-powered cooker.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand solar energy and heat absorption.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 45-60 mins build, 1-2 hours cook time.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Renewable energy, engineering design, heat transfer.</p>
+                <button class="toggle-button" onclick="toggleDetails('g4a1-materials')">Show Materials</button>
+                <div id="g4a1-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Cardboard box (pizza box or similar)</li>
+                        <li>Aluminum foil</li>
+                        <li>Plastic wrap or oven bag</li>
+                        <li>Black construction paper or black non-toxic paint</li>
+                        <li>Tape or glue</li>
+                        <li>Stick or skewer (to prop lid)</li>
+                        <li>Food to cook (e.g., s'mores, hot dogs)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 2 -->
+            <div class="activity-card">
+                <h4>2. Simple Barometer</h4>
+                <p class="activity-detail"><strong>Description:</strong> Balloon, jar, and straw show air pressure changes.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Observe and measure air pressure variations.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 30 mins build, observe over days.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Atmospheric science, observation, measurement.</p>
+                <button class="toggle-button" onclick="toggleDetails('g4a2-materials')">Show Materials</button>
+                <div id="g4a2-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Glass jar (e.g., mason jar)</li>
+                        <li>Balloon</li>
+                        <li>Rubber band</li>
+                        <li>Straw</li>
+                        <li>Ruler</li>
+                        <li>Index card or paper (for scale)</li>
+                        <li>Glue or tape</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 3 -->
+            <div class="activity-card">
+                <h4>3. Windmill Power Generator (LED)</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use motor + pinwheel to light an LED.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand wind energy conversion to electricity.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 45-60 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Basic electricity, renewable energy, engineering.</p>
+                <button class="toggle-button" onclick="toggleDetails('g4a3-materials')">Show Materials</button>
+                <div id="g4a3-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Small DC motor (e.g., 3V-6V)</li>
+                        <li>Small propeller or pinwheel</li>
+                        <li>LED (any color)</li>
+                        <li>Connecting wires (alligator clips or jumper wires)</li>
+                        <li>Cardboard or craft sticks (for stand)</li>
+                        <li>Hot glue gun or strong tape</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 4 -->
+            <div class="activity-card">
+                <h4>4. Model of a River System</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use clay or sand to make a terrain and run water through it.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Observe water flow, erosion, and landform creation.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 45-60 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Water flow, erosion, geography, modeling.</p>
+                <button class="toggle-button" onclick="toggleDetails('g4a4-materials')">Show Materials</button>
+                <div id="g4a4-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Large plastic tray or bin (e.g., under-bed storage bin)</li>
+                        <li>Play-doh, modeling clay, or sand</li>
+                        <li>Water</li>
+                        <li>Small rocks or pebbles</li>
+                        <li>Spray bottle or watering can</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 5 -->
+            <div class="activity-card">
+                <h4>5. Shadow Tracker</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use a stick and chalk to track sun movement.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand Earth’s rotation and sun's apparent movement.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 15 mins setup, observe hourly for a day.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Earth’s rotation, observation, data recording.</p>
+                <button class="toggle-button" onclick="toggleDetails('g4a5-materials')">Show Materials</button>
+                <div id="g4a5-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Large paper or cardboard sheet (or outdoor paved area)</li>
+                        <li>Stick or dowel (approx. 1-2 feet tall)</li>
+                        <li>Pencil or chalk</li>
+                        <li>Sunny spot outdoors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 6 -->
+            <div class="activity-card">
+                <h4>6. Recycling Sort Game</h4>
+                <p class="activity-detail"><strong>Description:</strong> Create bins and sort real/simulated waste materials.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Identify recyclable materials and proper waste disposal.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 30-45 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Waste classification, environmental responsibility.</p>
+                <button class="toggle-button" onclick="toggleDetails('g4a6-materials')">Show Materials</button>
+                <div id="g4a6-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Cardboard boxes or small bins (3-4)</li>
+                        <li>Labels (Paper, Plastic, Metal, Organic/Compost)</li>
+                        <li>Various clean waste items (e.g., paper, plastic bottle, aluminum can, fruit peel)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grade 5 Section -->
+        <section class="grade-section">
+            <h2 class="grade-heading">🟢 GRADE 5: Living Systems & Conservation</h2>
+            <p class="text-center text-lg mb-6 text-gray-700"><strong>Theme:</strong> Ecosystems and Biodiversity</p>
+
+            <!-- Activity 1 -->
+            <div class="activity-card">
+                <h4>1. Build a Food Web Board</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use yarn, pictures, and pushpins to connect organisms.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand interdependence in ecosystems (food chains/webs).</p>
+                <p class="activity-detail"><strong>Duration:</strong> 45-60 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Ecology, systems thinking, classification.</p>
+                <button class="toggle-button" onclick="toggleDetails('g5a1-materials')">Show Materials</button>
+                <div id="g5a1-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Large foam board or cardboard</li>
+                        <li>Pictures or drawings of various organisms (plants, herbivores, carnivores, omnivores)</li>
+                        <li>Yarn or string (different colors if desired)</li>
+                        <li>Pushpins or glue</li>
+                        <li>Markers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 2 -->
+            <div class="activity-card">
+                <h4>2. Eco House Diorama</h4>
+                <p class="activity-detail"><strong>Description:</strong> Create a model home with solar panels, garden, rainwater tank.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Identify sustainable features in home design.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 60-90 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Sustainable design, creativity, problem-solving.</p>
+                <button class="toggle-button" onclick="toggleDetails('g5a2-materials')">Show Materials</button>
+                <div id="g5a2-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Shoebox or small cardboard box (for house structure)</li>
+                        <li>Construction paper</li>
+                        <li>Small craft materials (e.g., foil for solar panels, green paper for garden, small bottle for rainwater tank)</li>
+                        <li>Scissors</li>
+                        <li>Glue or tape</li>
+                        <li>Markers/crayons</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 3 -->
+            <div class="activity-card">
+                <h4>3. Animal Habitat Box</h4>
+                <p class="activity-detail"><strong>Description:</strong> Build different animal habitats in shoeboxes (e.g., desert, rainforest).</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Recognize habitat diversity and animal adaptations.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 45-60 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Habitat adaptation, creativity, research (optional).</p>
+                <button class="toggle-button" onclick="toggleDetails('g5a3-materials')">Show Materials</button>
+                <div id="g5a3-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Shoeboxes</li>
+                        <li>Various craft materials (e.g., sand, cotton, twigs, leaves, blue paper for water, green paper for plants)</li>
+                        <li>Toy animals or animal cutouts</li>
+                        <li>Scissors</li>
+                        <li>Glue or tape</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 4 -->
+            <div class="activity-card">
+                <h4>4. Terrarium in a Bottle</h4>
+                <p class="activity-detail"><strong>Description:</strong> Create a closed ecosystem with soil, plants, water.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand closed ecosystems and photosynthesis.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 30-45 mins setup, observe over weeks.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Photosynthesis, ecosystem understanding, observation.</p>
+                <button class="toggle-button" onclick="toggleDetails('g5a4-materials')">Show Materials</button>
+                <div id="g5a4-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Clear plastic bottle or glass jar with lid (wide mouth preferred)</li>
+                        <li>Small pebbles or gravel (for drainage layer)</li>
+                        <li>Activated charcoal (optional, for odor control)</li>
+                        <li>Potting soil</li>
+                        <li>Small plants (e.g., moss, small ferns, small succulents)</li>
+                        <li>Spray bottle with water</li>
+                        <li>Long spoon or stick (for arranging)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 5 -->
+            <div class="activity-card">
+                <h4>5. Water Filter Model</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use sand, gravel, cotton to filter dirty water.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand water purification and conservation.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 30-45 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Water conservation, engineering, problem-solving.</p>
+                <button class="toggle-button" onclick="toggleDetails('g5a5-materials')">Show Materials</button>
+                <div id="g5a5-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Plastic bottle (top cut off, inverted funnel)</li>
+                        <li>Cotton balls or cloth</li>
+                        <li>Layers of gravel (coarse and fine)</li>
+                        <li>Layers of sand (coarse and fine)</li>
+                        <li>Activated charcoal (optional)</li>
+                        <li>Dirty water sample</li>
+                        <li>Clear collection cup</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 6 -->
+            <div class="activity-card">
+                <h4>6. Carbon Footprint Tracker</h4>
+                <p class="activity-detail"><strong>Description:</strong> Create a model or chart of personal CO₂ usage.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Recognize personal environmental impact and ways to reduce it.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 45-60 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Environmental responsibility, data visualization, awareness.</p>
+                <button class="toggle-button" onclick="toggleDetails('g5a6-materials')">Show Materials</button>
+                <div id="g5a6-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Large poster board or chart paper</li>
+                        <li>Markers, crayons, or colored pencils</li>
+                        <li>Pictures or drawings representing energy usage (e.g., lights, car, food, water heater)</li>
+                        <li>Stickers or markers for tracking/scoring</li>
+                        <li>Optional: Calculator for simple calculations</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grade 6 Section -->
+        <section class="grade-section">
+            <h2 class="grade-heading">🟢 GRADE 6: Earth Systems & Observation</h2>
+            <p class="text-center text-lg mb-6 text-gray-700"><strong>Theme:</strong> Interconnected Natural Systems</p>
+
+            <!-- Activity 1 -->
+            <div class="activity-card">
+                <h4>1. 3D Model of Layers of the Earth</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use colored clay or dough.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Identify Earth's layers and their characteristics.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 45-60 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Earth science, spatial reasoning, modeling.</p>
+                <button class="toggle-button" onclick="toggleDetails('g6a1-materials')">Show Materials</button>
+                <div id="g6a1-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Different colored modeling clay or play-doh (e.g., yellow, orange, red, blue)</li>
+                        <li>Plastic knife or string (for cutting the model in half)</li>
+                        <li>Label tags or small flags</li>
+                        <li>Reference image/diagram of Earth's layers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 2 -->
+            <div class="activity-card">
+                <h4>2. DIY Seismograph</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use a suspended pen and paper roll to detect vibrations.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand earthquake detection and wave principles.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 60-90 mins build, test as needed.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Earthquakes, engineering, observation, physics.</p>
+                <button class="toggle-button" onclick="toggleDetails('g6a2-materials')">Show Materials</button>
+                <div id="g6a2-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Cardboard box (tall, sturdy)</li>
+                        <li>String</li>
+                        <li>Heavy weight (e.g., large nut, washer, small rock)</li>
+                        <li>Pen or marker</li>
+                        <li>Paper roll (e.g., from an old paper towel roll cut lengthwise, or butcher paper)</li>
+                        <li>Tape</li>
+                        <li>Scissors</li>
+                        <li>Wooden dowel or ruler (to support paper roll)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 3 -->
+            <div class="activity-card">
+                <h4>3. Air Quality Test Station</h4>
+                <p class="activity-detail"><strong>Description:</strong> Hang Vaseline-coated cards to collect dust.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Observe airborne particulates and local air quality.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 15 mins setup, observe over days/weeks.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Observation of pollution, data collection, environmental awareness.</p>
+                <button class="toggle-button" onclick="toggleDetails('g6a3-materials')">Show Materials</button>
+                <div id="g6a3-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Index cards or small cardboard squares</li>
+                        <li>Petroleum jelly (Vaseline)</li>
+                        <li>String or yarn</li>
+                        <li>Hole punch</li>
+                        <li>Magnifying glass</li>
+                        <li>Optional: Microscope for detailed observation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 4 -->
+            <div class="activity-card">
+                <h4>4. Solar Tracker Model</h4>
+                <p class="activity-detail"><strong>Description:</strong> Build a rotating platform to follow sun movement.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand solar energy capture and basic mechanics.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 60-90 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Engineering design, solar energy, mechanics.</p>
+                <button class="toggle-button" onclick="toggleDetails('g6a4-materials')">Show Materials</button>
+                <div id="g6a4-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Cardboard or foam board (for base and rotating platform)</li>
+                        <li>Protractor</li>
+                        <li>Pencil</li>
+                        <li>Small mirror or reflective material (to show sun's path)</li>
+                        <li>Tape or glue</li>
+                        <li>Compass (for orientation)</li>
+                        <li>Sunny spot outdoors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 5 -->
+            <div class="activity-card">
+                <h4>5. Oxygen-Carbon Cycle Simulation</h4>
+                <p class="activity-detail"><strong>Description:</strong> Model breathing/respiration in plants/animals with balloons and arrows.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Grasp the interconnectedness of oxygen and carbon cycles.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 45-60 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Systems thinking, ecological understanding, modeling.</p>
+                <button class="toggle-button" onclick="toggleDetails('g6a5-materials')">Show Materials</button>
+                <div id="g6a5-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Large poster board or whiteboard</li>
+                        <li>Markers (different colors)</li>
+                        <li>Pictures or drawings of plants, animals, humans, factories</li>
+                        <li>Balloons (green for oxygen, red for CO2)</li>
+                        <li>Arrows (cut from paper)</li>
+                        <li>Tape or glue</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 6 -->
+            <div class="activity-card">
+                <h4>6. Simple Greenhouse Effect Model</h4>
+                <p class="activity-detail"><strong>Description:</strong> Compare temperature in two jars (one covered, one not).</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand the basic principle of the greenhouse effect.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 15 mins setup, 30-60 mins observation.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Climate science, experimentation, data comparison.</p>
+                <button class="toggle-button" onclick="toggleDetails('g6a6-materials')">Show Materials</button>
+                <div id="g6a6-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Two clear glass jars with lids (e.g., mason jars)</li>
+                        <li>Two thermometers</li>
+                        <li>Soil (to fill jars partially)</li>
+                        <li>Water (to moisten soil)</li>
+                        <li>Sunny spot</li>
+                        <li>Optional: Stopwatch for timing readings</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grade 7 Section -->
+        <section class="grade-section">
+            <h2 class="grade-heading">🟢 GRADE 7: Applied Environmental Science</h2>
+            <p class="text-center text-lg mb-6 text-gray-700"><strong>Theme:</strong> Human Impact and Monitoring</p>
+
+            <!-- Activity 1 -->
+            <div class="activity-card">
+                <h4>1. IoT Rain Gauge</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use ESP32 + water sensor to send rainfall data online.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Collect real-time weather data and understand IoT applications.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 60-90 mins setup, ongoing data collection.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Coding, data science, IoT, environmental monitoring.</p>
+                <button class="toggle-button" onclick="toggleDetails('g7a1-materials')">Show Materials</button>
+                <div id="g7a1-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>ESP32 board</li>
+                        <li>Rain sensor module (e.g., YL-83 or tipping bucket sensor)</li>
+                        <li>Breadboard</li>
+                        <li>Jumper wires</li>
+                        <li>USB cable (for ESP32)</li>
+                        <li>Laptop with Arduino IDE (or MicroPython setup)</li>
+                        <li>Wi-Fi access</li>
+                        <li>ThingSpeak or similar IoT platform account</li>
+                        <li>Small plastic container (to collect rain for sensor)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 2 -->
+            <div class="activity-card">
+                <h4>2. DIY Biodiversity Survey Kit</h4>
+                <p class="activity-detail"><strong>Description:</strong> Build observation boxes & checklists to identify species in school yard.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Identify local species and understand biodiversity importance.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 45-60 mins build, 30-60 mins survey.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Field science, observation, classification, data recording.</p>
+                <button class="toggle-button" onclick="toggleDetails('g7a2-materials')">Show Materials</button>
+                <div id="g7a2-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Small observation boxes (e.g., clear plastic containers with lids, or shoeboxes with clear tops)</li>
+                        <li>Magnifying glass</li>
+                        <li>Small nets (optional, for insects)</li>
+                        <li>Local field guide or laminated identification sheets</li>
+                        <li>Clipboard and pencil</li>
+                        <li>Data recording sheets</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 3 -->
+            <div class="activity-card">
+                <h4>3. Model Landfill vs. Compost Bin</h4>
+                <p class="activity-detail"><strong>Description:</strong> Compare two jars – one with biodegradable waste.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Differentiate waste types and understand decomposition rates.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 20 mins setup, observe over weeks/months.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Sustainability, waste management, observation, comparison.</p>
+                <button class="toggle-button" onclick="toggleDetails('g7a3-materials')">Show Materials</button>
+                <div id="g7a3-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Two clear plastic jars with lids</li>
+                        <li>Soil</li>
+                        <li>Biodegradable waste (e.g., fruit peels, vegetable scraps, dry leaves)</li>
+                        <li>Non-biodegradable waste (e.g., plastic bottle cap, small piece of foil, styrofoam)</li>
+                        <li>Water (to moisten soil)</li>
+                        <li>Labels for "Landfill" and "Compost"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 4 -->
+            <div class="activity-card">
+                <h4>4. Plastic Decomposition Timeline Display</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use fake or real samples to show how long items take to break down.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Visualize plastic pollution scale and long-term impact.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 45-60 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Environmental awareness, data representation, research.</p>
+                <button class="toggle-button" onclick="toggleDetails('g7a4-materials')">Show Materials</button>
+                <div id="g7a4-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Large poster board or display board</li>
+                        <li>Various plastic items (e.g., plastic bottle, plastic bag, styrofoam cup, plastic cutlery) - can be real or images</li>
+                        <li>Labels with estimated decomposition times (e.g., plastic bag: 10-1000 years, plastic bottle: 450 years)</li>
+                        <li>String or glue</li>
+                        <li>Markers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 5 -->
+            <div class="activity-card">
+                <h4>5. Light Pollution Box</h4>
+                <p class="activity-detail"><strong>Description:</strong> Build a cardboard city and show how light disrupts nocturnal animals.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand light pollution's impact on ecosystems.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 60-90 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Ecosystem disruption, environmental awareness, modeling.</p>
+                <button class="toggle-button" onclick="toggleDetails('g7a5-materials')">Show Materials</button>
+                <div id="g7a5-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Large cardboard box (e.g., appliance box)</li>
+                        <li>Black paint or black construction paper</li>
+                        <li>Small LED lights (battery-powered fairy lights work well)</li>
+                        <li>Toy buildings or cardboard cutouts of buildings/trees</li>
+                        <li>Small animal cutouts (especially nocturnal animals)</li>
+                        <li>Scissors, glue, tape</li>
+                        <li>Optional: Light sensor (LDR) to show light intensity</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 6 -->
+            <div class="activity-card">
+                <h4>6. Air Quality Charting (with MQ135 sensor)</h4>
+                <p class="activity-detail"><strong>Description:</strong> Monitor and plot pollution with an Arduino setup.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Collect and visualize air quality data.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 60-90 mins setup, ongoing data collection.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> IoT + environment, data plotting, sensor use, coding.</p>
+                <button class="toggle-button" onclick="toggleDetails('g7a6-materials')">Show Materials</button>
+                <div id="g7a6-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Arduino Uno or Nano</li>
+                        <li>MQ135 gas sensor module</li>
+                        <li>Breadboard</li>
+                        <li>Jumper wires</li>
+                        <li>USB cable (for Arduino)</li>
+                        <li>Laptop with Arduino IDE installed</li>
+                        <li>Graph paper or spreadsheet software (e.g., Google Sheets)</li>
+                        <li>Optional: Small fan to direct air to sensor</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grade 8 Section -->
+        <section class="grade-section">
+            <h2 class="grade-heading">🟢 GRADE 8: Advanced Modeling & Systems Engineering</h2>
+            <p class="text-center text-lg mb-6 text-gray-700"><strong>Theme:</strong> Environment as a System</p>
+
+            <!-- Activity 1 -->
+            <div class="activity-card">
+                <h4>1. Smart Irrigation Model</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use soil moisture sensor + pump + Arduino.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand automated systems for resource conservation.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 90-120 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> IoT and automation, engineering, resource management, coding.</p>
+                <button class="toggle-button" onclick="toggleDetails('g8a1-materials')">Show Materials</button>
+                <div id="g8a1-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Arduino Uno or Nano</li>
+                        <li>Soil moisture sensor module</li>
+                        <li>Small submersible pump (e.g., 3-6V mini pump)</li>
+                        <li>Small water container (for pump reservoir)</li>
+                        <li>LED (for pump indicator)</li>
+                        <li>Breadboard</li>
+                        <li>Jumper wires</li>
+                        <li>USB cable (for Arduino)</li>
+                        <li>Small plant in a pot with soil</li>
+                        <li>Optional: Relay module (if pump requires more current than Arduino pin)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 2 -->
+            <div class="activity-card">
+                <h4>2. Water Table & Aquifer Model</h4>
+                <p class="activity-detail"><strong>Description:</strong> Transparent container + gravel layers to simulate groundwater.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Visualize groundwater systems and pollution pathways.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 60-90 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Hydrology, geology, modeling, environmental impact.</p>
+                <button class="toggle-button" onclick="toggleDetails('g8a2-materials')">Show Materials</button>
+                <div id="g8a2-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Large clear plastic container (e.g., clear storage bin, old fish tank)</li>
+                        <li>Gravel (various sizes)</li>
+                        <li>Sand</li>
+                        <li>Clay (to create impermeable layer)</li>
+                        <li>Small sponge (to simulate aquifer)</li>
+                        <li>Water</li>
+                        <li>Small plastic houses/trees (for surface features)</li>
+                        <li>Food coloring (to simulate pollution)</li>
+                        <li>Spray bottle or watering can</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 3 -->
+            <div class="activity-card">
+                <h4>3. Solar Tracker with Servo</h4>
+                <p class="activity-detail"><strong>Description:</strong> Auto-rotate panel using LDRs & Arduino.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand light sensing, servo control, and solar efficiency.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 90-120 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Robotics, engineering, coding, renewable energy.</p>
+                <button class="toggle-button" onclick="toggleDetails('g8a3-materials')">Show Materials</button>
+                <div id="g8a3-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Arduino Uno or Nano</li>
+                        <li>2x LDRs (Light Dependent Resistors)</li>
+                        <li>2x 10kΩ resistors</li>
+                        <li>Small servo motor</li>
+                        <li>Small solar panel (toy or small hobby panel)</li>
+                        <li>Breadboard</li>
+                        <li>Jumper wires</li>
+                        <li>USB cable (for Arduino)</li>
+                        <li>Cardboard or craft sticks (for frame/mount)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 4 -->
+            <div class="activity-card">
+                <h4>4. Noise Pollution Mapping</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use a sound sensor + map to track noise around school.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Measure and visualize noise levels in different environments.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 60 mins setup/data collection, 30 mins mapping.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Environmental monitoring, data mapping, sensor use, data visualization.</p>
+                <button class="toggle-button" onclick="toggleDetails('g8a4-materials')">Show Materials</button>
+                <div id="g8a4-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Arduino Uno or Nano</li>
+                        <li>Sound sensor module (e.g., KY-038 or similar microphone module)</li>
+                        <li>Breadboard</li>
+                        <li>Jumper wires</li>
+                        <li>USB cable (for Arduino)</li>
+                        <li>Laptop with Arduino IDE (for serial monitor output)</li>
+                        <li>Printed map of school area or large blank paper</li>
+                        <li>Markers/colored pencils (to indicate noise levels)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 5 -->
+            <div class="activity-card">
+                <h4>5. Climate Simulation Globe</h4>
+                <p class="activity-detail"><strong>Description:</strong> Build globe with layers showing carbon, ice, water.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Visualize components of Earth's climate system and their interactions.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 60-90 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Climate science, modeling, systems thinking.</p>
+                <button class="toggle-button" onclick="toggleDetails('g8a5-materials')">Show Materials</button>
+                <div id="g8a5-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Inflatable globe or large ball (e.g., beach ball)</li>
+                        <li>Markers (permanent, various colors)</li>
+                        <li>Clear plastic sheets or cling wrap (to represent layers)</li>
+                        <li>Labels for "Carbon Cycle," "Ice Caps," "Water Cycle," "Atmosphere"</li>
+                        <li>Scissors, tape</li>
+                        <li>Reference images of Earth's climate systems</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 6 -->
+            <div class="activity-card">
+                <h4>6. Oil Spill Cleanup Challenge</h4>
+                <p class="activity-detail"><strong>Description:</strong> Simulate oil spill in water tray and test materials to clean.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Investigate methods for environmental remediation.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 45-60 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Environmental engineering, problem-solving, experimentation.</p>
+                <button class="toggle-button" onclick="toggleDetails('g8a6-materials')">Show Materials</button>
+                <div id="g8a6-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Large shallow tray or bin</li>
+                        <li>Water</li>
+                        <li>Vegetable oil (to simulate crude oil)</li>
+                        <li>Various cleanup materials (e.g., cotton balls, feathers, sponges, paper towels, dish soap, straw, spoon)</li>
+                        <li>Small plastic animals or boats (optional)</li>
+                        <li>Timer</li>
+                        <li>Paper for recording observations</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grade 9 Section -->
+        <section class="grade-section">
+            <h2 class="grade-heading">🟢 GRADE 9: Problem Solving & Research Projects</h2>
+            <p class="text-center text-lg mb-6 text-gray-700"><strong>Theme:</strong> Innovation & Environmental Stewardship</p>
+
+            <!-- Activity 1 -->
+            <div class="activity-card">
+                <h4>1. Design a Smart Eco City</h4>
+                <p class="activity-detail"><strong>Description:</strong> Group model using sensors, renewable power, green space.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Apply sustainable design principles to urban planning.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 120-180 mins (can be multi-session).</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Systems design, urban planning, collaboration, innovation.</p>
+                <button class="toggle-button" onclick="toggleDetails('g9a1-materials')">Show Materials</button>
+                <div id="g9a1-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Large baseboard (plywood, foam board, or sturdy cardboard)</li>
+                        <li>Various recycled materials (cardboard boxes, plastic bottles, caps, etc.)</li>
+                        <li>Craft supplies (construction paper, paint, markers, glue, scissors)</li>
+                        <li>Optional: Mini sensors (temperature, light), LEDs, wires, small microcontrollers (e.g., ESP32 for conceptual integration)</li>
+                        <li>Optional: Small toy cars, trees, people</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 2 -->
+            <div class="activity-card">
+                <h4>2. Portable Air Purifier Prototype</h4>
+                <p class="activity-detail"><strong>Description:</strong> Small fan + filter + dust sensor.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Design and build a functional environmental solution.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 90-120 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Applied electronics, engineering, problem-solving, prototyping.</p>
+                <button class="toggle-button" onclick="toggleDetails('g9a2-materials')">Show Materials</button>
+                <div id="g9a2-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Small DC fan (e.g., computer fan)</li>
+                        <li>Small filter material (e.g., coffee filter, activated carbon cloth, HEPA filter scrap)</li>
+                        <li>Small enclosure (cardboard box or plastic container)</li>
+                        <li>Small battery pack (e.g., 9V battery with connector, or AA battery pack)</li>
+                        <li>Optional: Dust sensor (GP2Y1010AU0F or similar) for monitoring effectiveness</li>
+                        <li>Wires, switch, hot glue/tape</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 3 -->
+            <div class="activity-card">
+                <h4>3. Design Thinking Challenge: Waste Management</h4>
+                <p class="activity-detail"><strong>Description:</strong> Solve a real local issue, build a model prototype.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Apply design thinking to solve real-world environmental problems.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 120-180 mins (can be multi-session, research heavy).</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Problem solving, critical thinking, collaboration, innovation.</p>
+                <button class="toggle-button" onclick="toggleDetails('g9a3-materials')">Show Materials</button>
+                <div id="g9a3-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Whiteboard or large paper for brainstorming</li>
+                        <li>Markers, sticky notes</li>
+                        <li>Various waste items (real or simulated) from local area</li>
+                        <li>Craft materials for prototypes (cardboard, paper, plastic, fabric, etc.)</li>
+                        <li>Access to internet for research</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 4 -->
+            <div class="activity-card">
+                <h4>4. Forest Fire Alert System (IoT)</h4>
+                <p class="activity-detail"><strong>Description:</strong> Temp/gas sensor + ESP32 to trigger alert.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Design an IoT system for environmental safety.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 90-120 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> IoT safety system, coding, sensor integration, data communication.</p>
+                <button class="toggle-button" onclick="toggleDetails('g9a4-materials')">Show Materials</button>
+                <div id="g9a4-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>ESP32 board</li>
+                        <li>Flame sensor module</li>
+                        <li>DHT11/DHT22 temperature sensor</li>
+                        <li>Buzzer or LED (for alert)</li>
+                        <li>Breadboard</li>
+                        <li>Jumper wires</li>
+                        <li>USB cable (for ESP32)</li>
+                        <li>Laptop with Arduino IDE (or MicroPython setup)</li>
+                        <li>Wi-Fi access</li>
+                        <li>ThingSpeak or Blynk account (for alerts/dashboard)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 5 -->
+            <div class="activity-card">
+                <h4>5. Sustainable Farming Hydroponics Model</h4>
+                <p class="activity-detail"><strong>Description:</strong> Build small-scale working hydroponics setup.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Understand water-efficient farming and plant growth without soil.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 90-120 mins build, ongoing observation.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Agriculture & innovation, engineering, plant science.</p>
+                <button class="toggle-button" onclick="toggleDetails('g9a5-materials')">Show Materials</button>
+                <div id="g9a5-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Small plastic containers (e.g., food storage containers, one for reservoir, one for plant holders)</li>
+                        <li>Small air pump + air stone (aquarium type)</li>
+                        <li>Nutrient solution (hydroponic specific)</li>
+                        <li>Growing medium (e.g., rockwool cubes, hydroton clay pebbles)</li>
+                        <li>Small plants or seeds (e.g., lettuce, basil, herbs)</li>
+                        <li>Optional: Small grow light</li>
+                        <li>Drill or hole punch (to make holes for plants/tubing)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Activity 6 -->
+            <div class="activity-card">
+                <h4>6. Carbon Capture Tower Model</h4>
+                <p class="activity-detail"><strong>Description:</strong> Use fans, filters, and CO₂ concept to demonstrate capture.</p>
+                <p class="activity-detail"><strong>Outcomes:</strong> Explore climate change mitigation technologies.</p>
+                <p class="activity-detail"><strong>Duration:</strong> 60-90 mins.</p>
+                <p class="activity-detail"><strong>Skills Developed:</strong> Environmental tech, climate science, engineering, chemistry.</p>
+                <button class="toggle-button" onclick="toggleDetails('g9a6-materials')">Show Materials</button>
+                <div id="g9a6-materials" class="hidden p-4 bg-gray-50 rounded-lg border border-gray-200 mt-4">
+                    <h5 class="font-semibold mb-2">Materials:</h5>
+                    <ul class="list-disc pl-5 text-sm">
+                        <li>Clear plastic bottle or tube (tall)</li>
+                        <li>Small fan (e.g., computer fan)</li>
+                        <li>Filter material (e.g., activated carbon, soda lime, or simple coffee filter for concept)</li>
+                        <li>Small container for CO2 source (e.g., bottle with vinegar + baking soda)</li>
+                        <li>Tubing (to direct CO2)</li>
+                        <li>Rubber stoppers or clay (to seal)</li>
+                        <li>Optional: CO2 sensor (MQ-135 or similar) to show reduction</li>
+                        <li>Matches or lighter (to show CO2 presence by extinguishing flame)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- General Materials and Budget Sections -->
+        <section class="mt-10 p-6 bg-gray-100 rounded-xl shadow-lg border-2 border-gray-300">
+            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800 flex items-center justify-center">
+                <span class="mr-3 text-4xl">📚</span> General Lab Resources
+            </h2>
+
+            <!-- Box: Microcontrollers & Boards (MCUs) -->
+            <div class="checklist-box">
+                <div class="checklist-box-header" onclick="toggleDetails('master-mcu-details')" aria-expanded="false">
+                    <h3 class="flex items-center"><span class="mr-2 text-3xl">🧠</span> Microcontrollers & Boards (MCUs)</h3>
+                    <span class="arrow-icon">▶️</span>
+                </div>
+                <div id="master-mcu-details" class="hidden mt-4 p-4 bg-gray-100 rounded-lg border border-gray-200">
+                    <table class="table-auto text-base w-full">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4">Item</th>
+                                <th class="py-2 px-4">Suggested Boards</th>
+                                <th class="py-2 px-4">Qty (Min)</th>
+                                <th class="py-2 px-4">Approx Cost (USD)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Entry-level MCU</td><td>Arduino Uno, Nano, or micro:bit</td><td>4–6</td><td>$6–$12 each</td></tr>
+                            <tr><td>Wi-Fi Enabled MCU</td><td>ESP8266 (NodeMCU) or ESP32</td><td>3–5</td><td>$5–$8 each</td></tr>
+                            <tr><td>SBC (for image-based tasks)</td><td>Raspberry Pi Zero 2W or Pi 3</td><td>1–2</td><td>$15–$35 each</td></tr>
+                            <tr><td>USB data cables (Micro USB/USB-C depending on board)</td><td></td><td>Varies</td><td>$2–$5 each</td></tr>
+                            <tr><td>Laptop with Arduino IDE / Thonny / Mu Editor installed</td><td></td><td>1 per group</td><td>Existing/Free Software</td></tr>
+                            <tr><td>Power banks or battery packs (for outdoor/mobile projects)</td><td></td><td>2–3</td><td>$10–$20 each</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Box: Suggested Basic Electronics Toolkit per Group -->
+            <div class="checklist-box">
+                <div class="checklist-box-header" onclick="toggleDetails('master-toolkit-details')" aria-expanded="false">
+                    <h3 class="flex items-center"><span class="mr-2 text-3xl">🧰</span> Suggested Basic Electronics Toolkit per Group</h3>
+                    <span class="arrow-icon">▶️</span>
+                </div>
+                <div id="master-toolkit-details" class="hidden mt-4 p-4 bg-gray-100 rounded-lg border border-gray-200">
+                    <ul class="list-disc pl-6 text-base space-y-1">
+                        <li>Breadboard (1 per group)</li>
+                        <li>Jumper wires (male-male, female-male)</li>
+                        <li>USB cable (for MCU)</li>
+                        <li>Resistors (10kΩ for LDRs, 220Ω for LEDs)</li>
+                        <li>LEDs (for visual indicators)</li>
+                        <li>Power banks or battery holders (optional)</li>
+                        <li>Wi-Fi access for cloud dashboards</li>
+                        <li>Small screwdrivers, wire strippers, and multimeter (optional but helpful)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Box: Estimated Budget (Per Group/Station) -->
+            <div class="checklist-box">
+                <div class="checklist-box-header" onclick="toggleDetails('master-budget-details')" aria-expanded="false">
+                    <h3 class="flex items-center"><span class="mr-2 text-3xl">💰</span> Estimated Budget (Per Group/Station)</h3>
+                    <span class="arrow-icon">▶️</span>
+                </div>
+                <div id="master-budget-details" class="hidden mt-4 p-4 bg-gray-100 rounded-lg border border-gray-200">
+                    <table class="table-auto text-base w-full">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4">Category</th>
+                                <th class="py-2 px-4">Approx. Cost (USD)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Basic MCU (Arduino/micro:bit)</td><td>$6–$12</td></tr>
+                            <tr><td>Wi-Fi MCU (ESP32/ESP8266)</td><td>$5–$8</td></tr>
+                            <tr><td>Sensors (per station)</td><td>$2–$8</td></tr>
+                            <tr><td>Misc. components (wires, resistors, breadboard)</td><td>$5</td></tr>
+                            <tr><td><strong>Total per full station (avg)</strong></td><td><strong>$15–$25</strong></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Box: Full Master Checklist -->
+            <div class="checklist-box">
+                <div class="checklist-box-header" onclick="toggleDetails('full-master-checklist')" aria-expanded="false">
+                    <h3 class="flex items-center"><span class="mr-2 text-3xl">✅</span> Full Master Checklist</h3>
+                    <span class="arrow-icon">▶️</span>
+                </div>
+                <div id="full-master-checklist" class="hidden mt-4 p-4 bg-gray-100 rounded-lg border border-gray-200">
+                    <!-- 1. Microcontrollers & Boards -->
+                    <div class="mb-4">
+                        <h4 class="text-xl font-semibold mb-2 flex items-center text-gray-700">
+                            <span class="mr-2 text-2xl">🧠</span> 1. Microcontrollers & Boards
+                        </h4>
+                        <table class="table-auto text-base w-full">
+                            <thead><tr><th class="py-2 px-4">Item</th><th class="py-2 px-4">✅ Check</th></tr></thead>
+                            <tbody>
+                                <tr><td>Arduino Uno or Nano (x4–6)</td><td>[ ]</td></tr>
+                                <tr><td>ESP8266 or ESP32 (x3–5)</td><td>[ ]</td></tr>
+                                <tr><td>micro:bit (x2–4 for light & magnetism projects)</td><td>[ ]</td></tr>
+                                <tr><td>Raspberry Pi (Zero 2W or Pi 3 with camera) (x1–2)</td><td>[ ]</td></tr>
+                                <tr><td>USB data cables (Micro USB/USB-C depending on board)</td><td>[ ]</td></tr>
+                                <tr><td>Laptop with Arduino IDE / Thonny / Mu Editor installed</td><td>[ ]</td></tr>
+                                <tr><td>Power banks or battery packs (for outdoor/mobile projects)</td><td>[ ]</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 2. Common Electronics & Tools -->
+                    <div class="mb-4">
+                        <h4 class="text-xl font-semibold mb-2 flex items-center text-gray-700">
+                            <span class="mr-2 text-2xl">🔌</span> 2. Common Electronics & Tools
+                        </h4>
+                        <table class="table-auto text-base w-full">
+                            <thead><tr><th class="py-2 px-4">Item</th><th class="py-2 px-4">✅ Check</th></tr></thead>
+                            <tbody>
+                                <tr><td>Breadboards (1 per group)</td><td>[ ]</td></tr>
+                                <tr><td>Jumper wires (male-male, female-male)</td><td>[ ]</td></tr>
+                                <tr><td>Resistors (10kΩ for LDR, 220Ω for LEDs)</td><td>[ ]</td></tr>
+                                <tr><td>LEDs (Red, Green – for status or visualization)</td><td>[ ]</td></tr>
+                                <tr><td>Small screwdrivers, wire strippers, and multimeter (optional but helpful)</td><td>[ ]</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 3. Sensors -->
+                    <div class="mb-4">
+                        <h4 class="text-xl font-semibold mb-2 flex items-center text-gray-700">
+                            <span class="mr-2 text-2xl">💡</span> 3. Sensors
+                        </h4>
+                        <table class="table-auto text-base w-full">
+                            <thead><tr><th class="py-2 px-4">Sensor Type</th><th class="py-2 px-4">Used In</th><th class="py-2 px-4">✅ Check</th></tr></thead>
+                            <tbody>
+                                <tr><td>TCS34725 Color Sensor</td><td>Color Detective</td><td>[ ]</td></tr>
+                                <tr><td>LDR (Light Dependent Resistor)</td><td>Glow Watch, Light Tracker</td><td>[ ]</td></tr>
+                                <tr><td>BH1750 Light Sensor (optional)</td><td>For more accurate light readings</td><td>[ ]</td></tr>
+                                <tr><td>pH Sensor / Probe</td><td>Cloudy Water Analyzer, Mini Lab</td><td>[ ]</td></tr>
+                                <tr><td>TDS/Conductivity Sensor</td><td>Cloudy Water Analyzer</td><td>[ ]</td></tr>
+                                <tr><td>MQ135 Gas Sensor</td><td>Pollution Sniffer</td><td>[ ]</td></tr>
+                                <tr><td>Dust Sensor (GP2Y1010AU0F) (optional)</td><td>Pollution Sniffer</td><td>[ ]</td></tr>
+                                <tr><td>DHT11/DHT22 (Temperature & Humidity)</td><td>Urban Heat Explorer</td><td>[ ]</td></tr>
+                                <tr><td>HMC5883L Magnetometer</td><td>Magnet Explorer</td><td>[ ]</td></tr>
+                                <tr><td>Waterproof DS18B20 (optional)</td><td>For water temp in quality testing</td><td>[ ]</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 4. Chemistry & Lab Supplies -->
+                    <div class="mb-4">
+                        <h4 class="text-xl font-semibold mb-2 flex items-center text-gray-700">
+                            <span class="mr-2 text-2xl">🧪</span> 4. Chemistry & Lab Supplies
+                        </h4>
+                        <table class="table-auto text-base w-full">
+                            <thead><tr><th class="py-2 px-4">Item</th><th class="py-2 px-4">✅ Check</th></tr></thead>
+                            <tbody>
+                                <tr><td>Red cabbage (or pH indicator paper)</td><td>[ ]</td></tr>
+                                <tr><td>Household acids/bases (vinegar, lemon juice, baking soda, soap, etc.)</td><td>[ ]</td></tr>
+                                <tr><td>Food coloring (various colors)</td><td>[ ]</td></tr>
+                                <tr><td>Test tubes or small clear plastic cups (10–20)</td><td>[ ]</td></tr>
+                                <tr><td>Droppers / Pipettes</td><td>[ ]</td></tr>
+                                <tr><td>Distilled water or rainwater samples</td><td>[ ]</td></tr>
+                                <tr><td>Measuring spoons / scales (for salt/sugar conductivity test)</td><td>[ ]</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 5. Chromatography Materials -->
+                    <div class="mb-4">
+                        <h4 class="text-xl font-semibold mb-2 flex items-center text-gray-700">
+                            <span class="mr-2 text-2xl">🎨</span> 5. Chromatography Materials
+                        </h4>
+                        <table class="table-auto text-base w-full">
+                            <thead><tr><th class="py-2 px-4">Item</th><th class="py-2 px-4">✅ Check</th></tr></thead>
+                            <tbody>
+                                <tr><td>Coffee filter or chromatography paper</td><td>[ ]</td></tr>
+                                <tr><td>Water-soluble markers (black + color)</td><td>[ ]</td></tr>
+                                <tr><td>Small jars or cups for developing solvent</td><td>[ ]</td></tr>
+                                <tr><td>Smartphone or camera for photo documentation</td><td>[ ]</td></tr>
+                                <tr><td>Ruler (to measure dye travel)</td><td>[ ]</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 6. IoT & Data Tools -->
+                    <div class="mb-4">
+                        <h4 class="text-xl font-semibold mb-2 flex items-center text-gray-700">
+                            <span class="mr-2 text-2xl">💻</span> 6. IoT & Data Tools
+                        </h4>
+                        <table class="table-auto text-base w-full">
+                            <thead><tr><th class="py-2 px-4">Item</th><th class="py-2 px-4">✅ Check</th></tr></thead>
+                            <tbody>
+                                <tr><td>Wi-Fi access point (or hotspot) for ESP boards</td><td>[ ]</td></tr>
+                                <tr><td>ThingSpeak / Blynk / Adafruit IO accounts setup</td><td>[ ]</td></tr>
+                                <tr><td>Google Sheets / Google Maps API (for visual dashboards, optional)</td><td>[ ]</td></tr>
+                                <tr><td>Internet-enabled devices (Chromebooks, tablets, or laptops)</td><td>[ ]</td></tr>
+                                <tr><td>Data dashboard template (spreadsheet or online tool)</td><td>[ ]</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 7. Fabrication & Simulation -->
+                    <div class="mb-4">
+                        <h4 class="text-xl font-semibold mb-2 flex items-center text-gray-700">
+                            <span class="mr-2 text-2xl">🔧</span> 7. Fabrication & Simulation
+                        </h4>
+                        <table class="table-auto text-base w-full">
+                            <thead><tr><th class="py-2 px-4">Item</th><th class="py-2 px-4">✅ Check</th></tr></thead>
+                            <tbody>
+                                <tr><td>Cardboard sheets (for DIY models like Earth + spectroscope)</td><td>[ ]</td></tr>
+                                <tr><td>Magnets + metal paperclips (Magnet Explorer maze)</td><td>[ ]</td></tr>
+                                <tr><td>Clear plastic domes/cups (for sunlight sensor)</td><td>[ ]</td></tr>
+                                <tr><td>Glow sticks / glow-in-dark toys (Glow Watch)</td><td>[ ]</td></tr>
+                                <tr><td>Optional: Geiger counter app (for radiation simulation)</td><td>[ ]</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 8. Classroom & Activity Management -->
+                    <div class="mb-4">
+                        <h4 class="text-xl font-semibold mb-2 flex items-center text-gray-700">
+                            <span class="mr-2 text-2xl">📋</span> 8. Classroom & Activity Management
+                        </h4>
+                        <table class="table-auto text-base w-full">
+                            <thead><tr><th class="py-2 px-4">Item</th><th class="py-2 px-4">✅ Check</th></tr></thead>
+                            <tbody>
+                                <tr><td>Printed activity instruction sheets or QR codes to access them</td><td>[ ]</td></tr>
+                                <tr><td>Safety goggles & gloves (for water/chemical tests)</td><td>[ ]</td></tr>
+                                <tr><td>Student data recording sheets (or digital form)</td><td>[ ]</td></tr>
+                                <tr><td>Timer or stopwatch</td><td>[ ]</td></tr>
+                                <tr><td>Labels/stikers for identifying components</td><td>[ ]</td></tr>
+                                <tr><td>Folders/bins for storing each station’s components</td><td>[ ]</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-10 text-gray-600 text-lg">
+            <p>This comprehensive curriculum aims to foster a deep understanding of environmental science through engaging, hands-on STEM activities!</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleDetails(id) {
+            const element = document.getElementById(id);
+            const header = element.previousElementSibling; // Get the header element for checklist boxes
+            if (element) {
+                const isHidden = element.classList.contains('hidden');
+                element.classList.toggle('hidden');
+                // For the main checklist boxes, update aria-expanded
+                if (header && header.classList.contains('checklist-box-header')) {
+                    header.setAttribute('aria-expanded', !isHidden);
+                    const arrowIcon = header.querySelector('.arrow-icon');
+                    if (arrowIcon) {
+                        arrowIcon.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(90deg)';
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

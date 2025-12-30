@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planetary Auroras Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Darker, almost black for a sleek, modern feel */
+            color: #e2e8f0; /* Off-white for main text */
+            line-height: 1.8; /* Slightly increased line-height for better readability */
+            overflow-x: hidden; /* Prevent horizontal scroll on small screens */
+        }
+        .dashboard-container {
+            max-width: 1300px; /* Slightly wider container */
+            margin: 0 auto;
+            padding: 2.5rem; /* Increased padding */
+        }
+        h1, h2, h3, h4 {
+            color: #f8fafc; /* Pure white for headings */
+            font-weight: 800; /* Extra bold for headings */
+            letter-spacing: -0.025em; /* Tighter letter spacing for modern look */
+        }
+        h1 { font-size: 3.5rem; } /* Larger main title */
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.85rem; }
+        h4 { font-size: 1.45rem; }
+        .card {
+            background-color: #1a202c; /* Darker card background */
+            border-radius: 1.25rem; /* Even more pronounced rounded corners */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 10px 15px rgba(0, 0, 0, 0.2); /* Deeper, softer shadow */
+            padding: 2.5rem; /* Increased padding */
+            margin-bottom: 2rem; /* Increased margin */
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother, more complex transition */
+            border: 1px solid rgba(49, 60, 80, 0.5); /* Subtle, slightly transparent border */
+            position: relative; /* For potential future absolute positioning of elements */
+            overflow: hidden; /* Ensure content respects border-radius */
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.03) 100%); /* Subtle gradient overlay */
+            border-radius: 1.25rem;
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 0;
+        }
+        .card:hover::before {
+            opacity: 1;
+        }
+        .card:hover {
+            transform: translateY(-12px); /* More pronounced lift on hover */
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 15px 25px rgba(0, 0, 0, 0.3);
+        }
+        .section-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0; /* Increased padding */
+            margin-bottom: 0.5rem; /* Add some space below header */
+        }
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-out; /* Slower transition for content */
+        }
+        .section-content.expanded {
+            max-height: 3000px; /* Even larger arbitrary value */
+            transition: max-height 0.9s ease-in; /* Slower transition for expansion */
+        }
+        .arrow {
+            transition: transform 0.4s ease-in-out;
+            color: #8b5cf6; /* Violet for arrows */
+            font-size: 2.2rem; /* Larger arrow icon */
+        }
+        .arrow.rotated {
+            transform: rotate(90deg);
+        }
+        table {
+            width: 100%;
+            border-collapse: separate; /* Use separate for rounded corners on cells */
+            border-spacing: 0; /* Remove default spacing */
+            margin-top: 2rem; /* Increased margin */
+            background-color: #2d3748; /* Darker background for tables */
+            border-radius: 0.75rem; /* Rounded corners for the table itself */
+            overflow: hidden; /* Ensures content respects border-radius */
+        }
+        th, td {
+            border: none; /* Remove individual cell borders */
+            padding: 1.25rem; /* Increased padding */
+            text-align: left;
+            color: #e2e8f0;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.6); /* Subtle bottom border for rows */
+        }
+        th {
+            background-color: #3f4e64; /* Slightly lighter header background */
+            font-weight: 700; /* Bolder header text */
+            color: #f8fafc;
+            text-transform: uppercase; /* Uppercase headers */
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        tr:last-child td {
+            border-bottom: none; /* No border on the last row */
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #3b82f6, #6366f1); /* Gradient button */
+            color: white;
+            padding: 1rem 2rem; /* Larger padding */
+            border-radius: 0.75rem;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            letter-spacing: 0.025em;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #2563eb, #4f46e5); /* Darker gradient on hover */
+            transform: translateY(-3px); /* More pronounced lift */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-left-color: #ffffff;
+            border-radius: 50%;
+            width: 32px; /* Even larger spinner */
+            height: 32px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 1rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .icon {
+            font-size: 2rem; /* Larger icon size */
+            margin-right: 1rem;
+            color: #a78bfa; /* Lighter violet for icons */
+        }
+        .equation {
+            background-color: #2d3748; /* Darker background for equations */
+            padding: 1.25rem; /* Increased padding */
+            border-radius: 0.75rem; /* More rounded corners */
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Times New Roman', serif;
+            overflow-x: auto;
+            color: #e0f2fe;
+            border: 1px solid rgba(71, 85, 105, 0.5); /* Subtle border for equations */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inner shadow */
+        }
+        .input-field {
+            background-color: #2d3748; /* Darker input background */
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid #475569;
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); /* Focus ring */
+        }
+        .placeholder-gray-400::placeholder {
+            color: #94a3b8; /* Lighter placeholder text */
+        }
+        .generated-image {
+            border: 2px solid #6366f1; /* Stronger, colored border for images */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Soft shadow for images */
+        }
+        .footer-text {
+            color: #64748b; /* Lighter gray for footer */
+            font-size: 0.9rem;
+            letter-spacing: 0.025em;
+        }
+        /* Specific styles for planetary cards */
+        .planet-card {
+            background-color: #2d3748; /* Slightly different background for nested cards */
+            border: 1px solid #475569;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .planet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="dashboard-container">
+        <header class="text-center mb-16 p-10 bg-gradient-to-br from-blue-900 to-indigo-950 text-white rounded-2xl shadow-3xl relative overflow-hidden">
+            <h1 class="text-6xl md:text-7xl font-extrabold mb-4 tracking-tight leading-tight">Auroras on Different Planets</h1>
+            <p class="text-2xl text-blue-300 font-light mb-2">A Comparative Analysis of Celestial Light Shows</p>
+            <p class="text-xl text-blue-400 font-medium">Authored by Dr. E. V. Nyx – Planetary Magnetospheric Physics Division</p>
+            <p class="text-lg text-blue-500 mt-2">Solar System Aurora Research Consortium (SSARC) | July 2, 2025</p>
+            <!-- Background subtle animation elements -->
+            <div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
+                <div class="absolute w-40 h-40 bg-blue-500 rounded-full blur-3xl opacity-50 -top-10 -left-10 animate-pulse"></div>
+                <div class="absolute w-60 h-60 bg-indigo-500 rounded-full blur-3xl opacity-50 -bottom-20 -right-20 animate-pulse delay-500"></div>
+            </div>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Introduction Card -->
+            <div id="introduction" class="card lg:col-span-3">
+                <h2 class="text-3xl font-semibold mb-6 flex items-center text-blue-400"><span class="icon">✨</span> Introduction: Celestial Light Shows</h2>
+                <p class="mb-5 text-gray-300 text-lg">Auroras are spectacular light emissions in a planet’s upper atmosphere, resulting from the interaction between energetic charged particles (often from the solar wind) and the planet’s magnetic field and atmospheric constituents. While Earth’s aurorae are extensively studied, these phenomena are observed across the solar system, each unique to its host's:</p>
+                <ul class="list-disc list-inside ml-6 text-gray-300 text-lg space-y-2">
+                    <li>Magnetic field strength and configuration.</li>
+                    <li>Atmospheric composition.</li>
+                    <li>Rotation rate.</li>
+                    <li>Interaction with the solar wind or surrounding plasma.</li>
+                </ul>
+                <p class="mt-5 text-gray-300 text-lg">This dashboard provides a comparative analysis of auroras, focusing on their morphology, generation mechanisms, emission spectra, and observational data across various planets and moons.</p>
+            </div>
+
+            <!-- Fundamental Physics Card -->
+            <div id="fundamental-physics" class="card">
+                <div class="section-header" onclick="toggleSection('fundamental-physics-content', 'fundamental-physics-arrow')">
+                    <h2 class="text-2xl font-semibold text-blue-400 flex items-center"><span class="icon">🔬</span> Fundamental Physics of Auroras</h2>
+                    <span id="fundamental-physics-arrow" class="arrow text-3xl">&#9654;</span>
+                </div>
+                <div id="fundamental-physics-content" class="section-content">
+                    <h3 class="text-xl font-medium mt-5 mb-3 text-indigo-300 flex items-center"><span class="icon text-xl">💡</span> Aurora Formation</h3>
+                    <p class="mb-3 text-gray-300 text-base">Auroras are created when:</p>
+                    <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-1">
+                        <li>Charged particles (primarily electrons and ions) are accelerated along magnetic field lines.</li>
+                        <li>These particles collide with atmospheric gases in the ionosphere.</li>
+                        <li>The resulting excitation and de-excitation of atoms and molecules emit light in various wavelengths (UV, visible, IR).</li>
+                    </ul>
+
+                    <h3 class="text-xl font-medium mt-6 mb-3 text-indigo-300 flex items-center"><span class="icon text-xl">⚡</span> Sources of Energetic Particles</h3>
+                    <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-1">
+                        <li>Solar wind (e.g., Earth, Mars, Uranus).</li>
+                        <li>Magnetospheric plasma (e.g., Jupiter, Saturn, Io plasma torus).</li>
+                        <li>Internal electrodynamic coupling (e.g., satellite-planet interaction).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Comparative Planetary Auroras Card (full width) -->
+            <div id="comparative-auroras" class="card lg:col-span-3">
+                <h2 class="text-3xl font-semibold mb-6 flex items-center text-blue-400"><span class="icon">🌍</span> Comparative Planetary Auroras</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-5">
+                    <!-- Earth -->
+                    <div class="planet-card p-7 rounded-xl">
+                        <h3 class="text-xl font-medium mb-3 text-indigo-300 flex items-center"><span class="icon text-xl">🔵</span> Earth</h3>
+                        <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-1">
+                            <li><strong>Magnetic Field:</strong> Dipolar, tilted $\sim11^\circ$ from rotation axis.</li>
+                            <li><strong>Auroral Zones:</strong> Oval-shaped, centered on magnetic poles.</li>
+                            <li><strong>Spectral Lines:</strong> Green ($557.7 \text{ nm}$) from $\text{O}$, Red ($630.0 \text{ nm}$) from $\text{O}$, Blue/purple from $\text{N}_2^+$.</li>
+                            <li><strong>Drivers:</strong> Solar wind–magnetosphere interaction, Substorms.</li>
+                            <li><strong>Altitude:</strong> $80-300 \text{ km}$.</li>
+                            <li><strong>Missions:</strong> THEMIS, DMSP, IMAGE, Polar.</li>
+                        </ul>
+                    </div>
+                    <!-- Jupiter -->
+                    <div class="planet-card p-7 rounded-xl">
+                        <h3 class="text-xl font-medium mb-3 text-indigo-300 flex items-center"><span class="icon text-xl">🟠</span> Jupiter</h3>
+                        <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-1">
+                            <li><strong>Magnetic Field:</strong> Strongest planetary field ($\sim4.3 \text{ Gauss}$ at equator).</li>
+                            <li><strong>Features:</strong> Main Oval, Satellite Footprints (Io, Europa, Ganymede), Polar Emissions.</li>
+                            <li><strong>Emissions:</strong> UV (Lyman-$\alpha$, $\text{H}_2$ bands), IR ($\text{H}_3^+$ emission $3-4 \text{ µm}$).</li>
+                            <li><strong>Drivers:</strong> Internal plasma dynamics (Io plasma torus), Solar wind.</li>
+                            <li><strong>Altitude:</strong> Peaks near $200-500 \text{ km}$.</li>
+                            <li><strong>Missions:</strong> Juno, HST, Galileo, Voyager.</li>
+                        </ul>
+                    </div>
+                    <!-- Saturn -->
+                    <div class="planet-card p-7 rounded-xl">
+                        <h3 class="text-xl font-medium mb-3 text-indigo-300 flex items-center"><span class="icon text-xl">🟡</span> Saturn</h3>
+                        <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-1">
+                            <li><strong>Magnetic Field:</strong> Nearly axisymmetric dipole ($\sim0.2 \text{ Gauss}$).</li>
+                            <li><strong>Structure:</strong> Similar to Jupiter, fainter/more variable. Strong correlation with solar wind.</li>
+                            <li><strong>Emissions:</strong> UV ($\text{H}_2$, Lyman-$\alpha$), IR (Strong $\text{H}_3^+$ emission).</li>
+                            <li><strong>Unique:</strong> Spiral-shaped auroras during solar storms.</li>
+                            <li><strong>Missions:</strong> Cassini (UVIS, VIMS), HST.</li>
+                        </ul>
+                    </div>
+                    <!-- Uranus -->
+                    <div class="planet-card p-7 rounded-xl">
+                        <h3 class="text-xl font-medium mb-3 text-indigo-300 flex items-center"><span class="icon text-xl">🟢</span> Uranus</h3>
+                        <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-1">
+                            <li><strong>Magnetic Field:</strong> Highly tilted ($\sim59^\circ$), offset from center.</li>
+                            <li><strong>Aurora Type:</strong> Transient spots near magnetic poles.</li>
+                            <li><strong>Emissions:</strong> Primarily UV ($\text{H}_2$ Lyman and Werner bands).</li>
+                            <li><strong>Drivers:</strong> Complex due to extreme tilt; solar wind shocks.</li>
+                            <li><strong>Challenges:</strong> Weak field, distant orbit.</li>
+                            <li><strong>Missions:</strong> Voyager 2, HST.</li>
+                        </ul>
+                    </div>
+                    <!-- Neptune -->
+                    <div class="planet-card p-7 rounded-xl">
+                        <h3 class="text-xl font-medium mb-3 text-indigo-300 flex items-center"><span class="icon text-xl">🟣</span> Neptune</h3>
+                        <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-1">
+                            <li><strong>Magnetic Field:</strong> Strongly tilted ($\sim47^\circ$), offset.</li>
+                            <li><strong>Detection:</strong> Extremely faint, mostly in UV.</li>
+                            <li><strong>Drivers:</strong> Solar wind–magnetosphere interaction suspected.</li>
+                            <li><strong>Difficulty:</strong> Very limited due to distance and weak signal.</li>
+                            <li><strong>Missions:</strong> Voyager 2, HST attempts.</li>
+                        </ul>
+                    </div>
+                    <!-- Mars -->
+                    <div class="planet-card p-7 rounded-xl">
+                        <h3 class="text-xl font-medium mb-3 text-indigo-300 flex items-center"><span class="icon text-xl">🔴</span> Mars</h3>
+                        <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-1">
+                            <li><strong>Magnetic Field:</strong> No global field; patchy crustal fields.</li>
+                            <li><strong>Aurora Type:</strong> "Discrete auroras" over magnetic anomalies.</li>
+                            <li><strong>Emissions:</strong> UV auroras (MAVEN/IAL). Possibly visible under intense storms.</li>
+                            <li><strong>Drivers:</strong> Electron precipitation from solar wind during magnetotail events.</li>
+                            <li><strong>Missions:</strong> MAVEN, SPICAM (Mars Express).</li>
+                        </ul>
+                    </div>
+                    <!-- Venus -->
+                    <div class="planet-card p-7 rounded-xl">
+                        <h3 class="text-xl font-medium mb-3 text-indigo-300 flex items-center"><span class="icon text-xl">🟤</span> Venus</h3>
+                        <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-1">
+                            <li><strong>Magnetic Field:</strong> None intrinsic; induced magnetosphere.</li>
+                            <li><strong>Evidence:</strong> Weak nightglow emissions in UV, $\text{OI }130.4 \text{ nm}$.</li>
+                            <li><strong>Drivers:</strong> Solar wind interaction with upper atmosphere.</li>
+                            <li><strong>Missions:</strong> Venus Express (ASPERA, SPICAV), Pioneer Venus Orbiter.</li>
+                        </ul>
+                    </div>
+                    <!-- Ganymede -->
+                    <div class="planet-card p-7 rounded-xl">
+                        <h3 class="text-xl font-medium mb-3 text-indigo-300 flex items-center"><span class="icon text-xl">⚪</span> Ganymede (Jupiter’s Moon)</h3>
+                        <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-1">
+                            <li><strong>Magnetic Field:</strong> Has its own intrinsic field.</li>
+                            <li><strong>Aurora Type:</strong> Polar ovals modulated by Jovian magnetospheric currents.</li>
+                            <li><strong>Emissions:</strong> UV, visible; detected via HST.</li>
+                            <li><strong>Significance:</strong> Used to infer subsurface ocean via auroral oscillation.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spectral Characteristics Card -->
+            <div id="spectral-characteristics" class="card">
+                <h2 class="text-2xl font-semibold mb-6 flex items-center text-blue-400"><span class="icon">🌈</span> Spectral Characteristics of Auroras</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-base">
+                        <thead>
+                            <tr>
+                                <th class="py-3 px-5">Body</th>
+                                <th class="py-3 px-5">Main Emission Bands</th>
+                                <th class="py-3 px-5">Dominant Species</th>
+                                <th class="py-3 px-5">Wavelengths</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-3 px-5">Earth</td>
+                                <td class="py-3 px-5">Visible, UV, IR</td>
+                                <td class="py-3 px-5">O, $\text{N}_2$</td>
+                                <td class="py-3 px-5">$557.7 \text{ nm}$, $630.0 \text{ nm}$</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">Jupiter</td>
+                                <td class="py-3 px-5">UV, IR</td>
+                                <td class="py-3 px-5">$\text{H}_2$, $\text{H}_3^+$</td>
+                                <td class="py-3 px-5">$120-170 \text{ nm}$, $3.4 \text{ µm}$</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">Saturn</td>
+                                <td class="py-3 px-5">UV, IR</td>
+                                <td class="py-3 px-5">$\text{H}_2$, $\text{H}_3^+$</td>
+                                <td class="py-3 px-5">$115-170 \text{ nm}$, $3.4 \text{ µm}$</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">Uranus</td>
+                                <td class="py-3 px-5">UV</td>
+                                <td class="py-3 px-5">$\text{H}_2$</td>
+                                <td class="py-3 px-5">$110-170 \text{ nm}$</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">Mars</td>
+                                <td class="py-3 px-5">UV</td>
+                                <td class="py-3 px-5">$\text{CO}_2$, $\text{O}$</td>
+                                <td class="py-3 px-5">$130.4 \text{ nm}$, $297.2 \text{ nm}$</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">Venus</td>
+                                <td class="py-3 px-5">UV</td>
+                                <td class="py-3 px-5">$\text{O}$, $\text{CO}_2^+$</td>
+                                <td class="py-3 px-5">$130.4 \text{ nm}$, $280-300 \text{ nm}$</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Auroral Drivers Card -->
+            <div id="auroral-drivers" class="card">
+                <h2 class="text-2xl font-semibold mb-6 flex items-center text-blue-400"><span class="icon">🚀</span> Auroral Drivers: Solar Wind vs Internal Sources</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-base">
+                        <thead>
+                            <tr>
+                                <th class="py-3 px-5">Planet</th>
+                                <th class="py-3 px-5">Solar Wind Driven</th>
+                                <th class="py-3 px-5">Internal Source Driven (e.g. moon, rotation)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-3 px-5">Earth</td>
+                                <td class="py-3 px-5">✅</td>
+                                <td class="py-3 px-5">❌</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">Jupiter</td>
+                                <td class="py-3 px-5">✅ (partial)</td>
+                                <td class="py-3 px-5">✅ (Io plasma)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">Saturn</td>
+                                <td class="py-3 px-5">✅</td>
+                                <td class="py-3 px-5">✅ (rotation)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">Uranus</td>
+                                <td class="py-3 px-5">✅</td>
+                                <td class="py-3 px-5">❌</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">Mars</td>
+                                <td class="py-3 px-5">✅</td>
+                                <td class="py-3 px-5">❌</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">Ganymede</td>
+                                <td class="py-3 px-5">✅ (Jupiter)</td>
+                                <td class="py-3 px-5">✅ (own field)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">Venus</td>
+                                <td class="py-3 px-5">✅</td>
+                                <td class="py-3 px-5">❌</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Scientific Significance Card -->
+            <div id="scientific-significance" class="card">
+                <h2 class="text-2xl font-semibold mb-6 flex items-center text-blue-400"><span class="icon">🔭</span> Scientific Significance of Planetary Auroras</h2>
+                <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-2">
+                    <li><strong>Ionospheric Diagnostics:</strong> Reveal structure, composition, and energy deposition.</li>
+                    <li><strong>Magnetospheric Mapping:</strong> Define field lines, plasma sources, reconnection regions.</li>
+                    <li><strong>Space Weather Monitoring:</strong> Act as indicators of solar wind interaction.</li>
+                    <li><strong>Internal Magnetic Fields:</strong> Help detect and characterize intrinsic magnetospheres.</li>
+                    <li><strong>Subsurface Oceans:</strong> (e.g., Ganymede) via magnetic modulation of auroral footprints.</li>
+                </ul>
+            </div>
+
+            <!-- Observational Techniques Card -->
+            <div id="observational-techniques" class="card">
+                <h2 class="text-2xl font-semibold mb-6 flex items-center text-blue-400"><span class="icon">📡</span> Observational Techniques</h2>
+                <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-2">
+                    <li><strong>Remote Sensing:</strong>
+                        <ul class="list-circle list-inside ml-8">
+                            <li>UV/visible telescopes (e.g., HST, Cassini-UVIS).</li>
+                            <li>Ground-based IR telescopes (e.g., Keck, VLT).</li>
+                        </ul>
+                    </li>
+                    <li><strong>In Situ:</strong>
+                        <ul class="list-circle list-inside ml-8">
+                            <li>Particle spectrometers (e.g., Juno JADE, MAVEN SWEA).</li>
+                            <li>Magnetometers (e.g., MAG on Galileo, Juno).</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Future Prospects Card (full width) -->
+            <div id="future-prospects" class="card lg:col-span-2">
+                <h2 class="text-2xl font-semibold mb-6 flex items-center text-blue-400"><span class="icon">🔮</span> Future Prospects</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-base">
+                        <thead>
+                            <tr>
+                                <th class="py-3 px-5">Mission</th>
+                                <th class="py-3 px-5">Target</th>
+                                <th class="py-3 px-5">Contribution</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-3 px-5">JUICE (ESA, 2025+)</td>
+                                <td class="py-3 px-5">Jupiter system</td>
+                                <td class="py-3 px-5">High-resolution aurora observations at Ganymede.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">Dragonfly (2030s)</td>
+                                <td class="py-3 px-5">Titan</td>
+                                <td class="py-3 px-5">Auroral-like emissions possible from plasma interaction.</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-5">LUVOIR / HabEx</td>
+                                <td class="py-3 px-5">Exoplanets</td>
+                                <td class="py-3 px-5">Detect auroral emissions as habitability proxy.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Conclusion Card -->
+            <div id="conclusion" class="card">
+                <h2 class="text-2xl font-semibold mb-6 flex items-center text-blue-400"><span class="icon">✅</span> Conclusion</h2>
+                <p class="mb-4 text-gray-300 text-base">Auroras are dynamic manifestations of magnetosphere-atmosphere coupling, and each planetary aurora system provides unique insights into plasma physics, planetary magnetism, and atmospheric composition.</p>
+                <p class="text-gray-300 text-base">Comparative auroral science is essential not only for understanding planetary environments in our solar system but also for interpreting potential auroral signals from exoplanets.</p>
+            </div>
+
+            <!-- References Card (full width) -->
+            <div id="references" class="card lg:col-span-3">
+                <h2 class="text-2xl font-semibold mb-6 flex items-center text-blue-400"><span class="icon">📚</span> References</h2>
+                <ul class="list-disc list-inside ml-6 text-gray-300 text-base space-y-2">
+                    <li>Clarke, J. T. et al. (2004). Ultraviolet emissions from the magnetic footprints of Io, Ganymede and Europa on Jupiter. Nature, 415, 997–1000.</li>
+                    <li>Nichols, J. D. et al. (2017). Jupiter's aurora: HST campaigns. Journal of Geophysical Research: Space Physics, 122(10).</li>
+                    <li>Gérard, J.-C. et al. (2015). Aurora on Mars and Venus: MAVEN and VEX results. Space Sci Rev., 187, 49–67.</li>
+                    <li>Bonfond, B. et al. (2012). The multiple auroral morphologies of Jupiter. Planetary and Space Science, 77, 9–20.</li>
+                </ul>
+            </div>
+
+            <!-- Image Generator Section (Full width) -->
+            <div id="image-generator" class="card lg:col-span-3 bg-blue-950 border-l-4 border-blue-600">
+                <h2 class="text-3xl font-semibold mb-6 text-blue-300 flex items-center"><span class="icon" style="color: #6366f1;">🖼️</span> Visualize Planetary Auroras</h2>
+                <p class="mb-5 text-blue-200 text-lg">Enter a description to generate a stunning image related to auroras on any planet or moon. Witness the cosmic light shows!</p>
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <input type="text" id="image-prompt" placeholder="e.g., Jupiter's aurora from Juno, Earth's aurora borealis, Martian discrete aurora" class="flex-grow p-4 bg-gray-800 text-white input-field placeholder-gray-400">
+                    <button id="generate-image-btn" class="btn-primary">
+                        Generate Image
+                        <span id="loading-spinner" class="loading-spinner hidden"></span>
+                    </button>
+                </div>
+                <div id="image-output" class="mt-8 text-center">
+                    <img id="generated-image" src="" alt="Generated Planetary Aurora Image" class="max-w-full h-auto rounded-lg generated-image mx-auto" style="display: none;">
+                    <p id="image-error" class="text-red-400 mt-4 hidden text-base"></p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-center mt-16 pt-10 border-t border-gray-700 text-gray-500 text-sm footer-text">
+            &copy; 2025 Solar System Aurora Research Consortium (SSARC). All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        // Function to toggle section visibility
+        function toggleSection(contentId, arrowId) {
+            const content = document.getElementById(contentId);
+            const arrow = document.getElementById(arrowId);
+
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                arrow.classList.remove('rotated');
+            } else {
+                content.classList.add('expanded');
+                arrow.classList.add('rotated');
+            }
+        }
+
+        // Image Generation Logic
+        const generateImageBtn = document.getElementById('generate-image-btn');
+        const imagePromptInput = document.getElementById('image-prompt');
+        const generatedImage = document.getElementById('generated-image');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const imageError = document.getElementById('image-error');
+
+        generateImageBtn.addEventListener('click', async () => {
+            const prompt = imagePromptInput.value.trim();
+            if (!prompt) {
+                imageError.textContent = 'Please enter a description for the image.';
+                imageError.classList.remove('hidden');
+                generatedImage.style.display = 'none';
+                return;
+            }
+
+            // Show loading spinner and hide previous image/error
+            loadingSpinner.classList.remove('hidden');
+            generateImageBtn.disabled = true;
+            generatedImage.style.display = 'none';
+            imageError.classList.add('hidden');
+
+            try {
+                const payload = {
+                    instances: { prompt: prompt },
+                    parameters: { "sampleCount": 1 }
+                };
+                const apiKey = ""; // Canvas will provide this at runtime
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API error: ${errorData.error.message || response.statusText}`);
+                }
+
+                const result = await response.json();
+
+                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                    const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                    generatedImage.src = imageUrl;
+                    generatedImage.style.display = 'block';
+                    imageError.classList.add('hidden');
+                } else {
+                    throw new Error('No image data received from the API.');
+                }
+            } catch (error) {
+                console.error('Error generating image:', error);
+                imageError.textContent = `Failed to generate image: ${error.message}. Please try again.`;
+                generatedImage.style.display = 'none';
+                imageError.classList.remove('hidden');
+            } finally {
+                loadingSpinner.classList.add('hidden');
+                generateImageBtn.disabled = false;
+            }
+        });
+
+        // Initialize collapsible sections to be collapsed by default
+        document.addEventListener('DOMContentLoaded', () => {
+            // No need to explicitly call toggleSection here, as max-height: 0
+            // and display: none are the default states.
+            // If you wanted some sections open by default, you'd add 'expanded' class to them.
+        });
+    </script>
+</body>
+</html>

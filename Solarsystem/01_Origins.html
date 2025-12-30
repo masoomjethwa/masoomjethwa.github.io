@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Explorer: Theories of Solar System Origin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Deep Space & Neon Accents -->
+    <!-- Application Structure Plan: The SPA uses a tab-based navigation system to separate theories into logical groups (Monistic, Dualistic, Other). This structure was chosen over a linear scroll to allow users to directly access the information that interests them most, facilitating easier comparison between related theories. A dedicated, full-width timeline visualization provides a macro-level chronological overview, complementing the detailed information within the tabs. This non-linear, user-driven approach enhances exploration and understanding. -->
+    <!-- Visualization & Content Choices: 
+        - [Theories] -> Goal: Inform/Compare -> Viz: HTML/CSS Cards -> Interaction: Tab selection -> Justification: Cards provide a structured, scannable format for comparing details like proponents and dates, now with subtle hover effects.
+        - [Chronology] -> Goal: Change -> Viz: Chart.js Scatter Plot Timeline -> Interaction: Hover tooltips -> Justification: A scatter plot effectively visualizes the timing and clustering of scientific ideas over two centuries. (Library: Chart.js, Method: Canvas)
+        - [Dualistic Process] -> Goal: Organize -> Viz: HTML/CSS Diagram -> Interaction: Static display -> Justification: A simple flexbox-based diagram clearly explains the core concept of the dualistic hypothesis without relying on prohibited SVG or Mermaid JS. (Library: None, Method: HTML/CSS) -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0E2A;
+            color: #E0F7FA;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .tab-btn {
+            transition: all 0.3s ease;
+            color: #BBDEFB;
+        }
+        .tab-btn.active {
+            border-color: #81D4FA;
+            background-color: #1A237E;
+            color: #81D4FA;
+        }
+        .tab-btn:hover {
+            background-color: #1A237E;
+            color: #81D4FA;
+        }
+        .flow-diagram-element {
+            border: 2px solid #81D4FA;
+            background-color: #1A237E;
+            color: #E0F7FA;
+        }
+        .flow-diagram-arrow {
+            color: #9575CD;
+        }
+        .card-glow:hover {
+            box-shadow: 0 0 15px rgba(129, 212, 250, 0.6); /* Subtle glow */
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="text-[#E0F7FA]">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#E0F7FA] leading-tight">✨ Theories of Cosmic Origin ✨</h1>
+            <p class="text-lg text-[#BBDEFB] mt-2 max-w-3xl mx-auto">An interactive explorer of the scientific hypotheses about the formation of our Solar System.</p>
+        </header>
+
+        <main>
+            <section id="interactive-explorer" class="mb-16">
+                <div class="w-full max-w-4xl mx-auto">
+                    <div class="mb-8">
+                        <p class="text-center text-[#BBDEFB]">The quest to understand our origins is a story of evolving ideas. Early theories imagined a single, self-contained genesis, while later concepts introduced dramatic cosmic interactions. Use the tabs below to explore these distinct categories of thought and see how scientific understanding has progressed.</p>
+                    </div>
+                    <div id="tabs-container" class="flex justify-center space-x-2 md:space-x-4 mb-8 border-b border-[#1A237E] pb-4">
+                        <button data-tab="monistic" class="tab-btn px-4 py-2 rounded-md font-semibold border-2 border-transparent">Monistic</button>
+                        <button data-tab="dualistic" class="tab-btn px-4 py-2 rounded-md font-semibold border-2 border-transparent">Dualistic</button>
+                        <button data-tab="other" class="tab-btn px-4 py-2 rounded-md font-semibold border-2 border-transparent">Other Theories</button>
+                    </div>
+
+                    <div id="tabs-content" class="min-h-[400px]">
+                        
+                    </div>
+                </div>
+            </section>
+
+            <section id="timeline-view" class="mb-16">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-[#E0F7FA]">A Timeline of Thought</h2>
+                    <p class="max-w-3xl mx-auto mt-2 text-[#BBDEFB]">This timeline visualizes the evolution of these major theories from the 18th century to the mid-20th century. Hover over any point to see details. Notice the long gap before the burst of new ideas in the 1900s, driven by advances in physics and astronomy.</p>
+                </div>
+                <div class="bg-[#1A237E] rounded-lg shadow-lg p-4 md:p-6">
+                    <div class="chart-container">
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-12 pt-8 border-t border-[#1A237E]">
+            <p class="text-[#BBDEFB]">This interactive application was generated to provide an engaging overview of complex scientific history.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const theoriesData = [
+            { name: 'Gaseous Hypothesis', proponent: 'Immanuel Kant', year: 1755, category: 'monistic', idea: 'The Solar System began as a swirling mass of gas that coalesced into the Sun and planets under its own gravity.', importance: 'Emphasized the central role of a gaseous nebula and gravitational collapse.' },
+            { name: 'Nebular Hypothesis', proponent: 'Pierre-Simon Laplace', year: 1796, category: 'monistic', idea: 'A rotating nebula of gas and dust flattened into a disk, forming the Sun at the center and shedding rings that condensed into planets.', importance: 'Laid the foundation for the modern understanding of solar system formation.' },
+            { name: 'Planetesimal Hypothesis', proponent: 'Chamberlin & Moulton', year: 1905, category: 'dualistic', idea: 'A passing star\'s gravity pulled material (planetesimals) from the Sun, which then collided and coalesced to form planets.', importance: 'Introduced the idea of gravitational interactions with another star influencing planet formation.' },
+            { name: 'Tidal Hypothesis', proponent: 'Jeans & Jeffreys', year: 1919, category: 'dualistic', idea: 'A passing star stretched a "cigar-shaped" filament of material from the Sun via tidal forces, which then condensed into planets.', importance: 'Emphasized tidal forces as a mechanism for extracting material from the Sun.' },
+            { name: 'Double Star Hypothesis', proponent: 'R.A. Littleton', year: 1939, category: 'other', idea: 'Our system formed in a binary star system, where interaction with a third star ejected material that formed the Sun and planets.', importance: 'Incorporated the concept of binary star systems into formation theories.' },
+            { name: 'Binary Star Theory', proponent: 'H.N. Russell', year: 1937, category: 'other', idea: 'Similar to Littleton\'s theory, it suggests our system formed from material ejected during interactions within a binary star system.', importance: 'Based on the idea that binary systems are common environments for planet formation.' },
+            { name: 'Interstellar Dust Hypothesis', proponent: 'Otto Schmidt', year: 1943, category: 'other', idea: 'The Sun captured a cloud of interstellar dust, which then formed a disk and coalesced into planets.', importance: 'Focused on the accumulation of dust particles as a key process.' },
+            { name: 'Interstellar Cloud Hypothesis', proponent: 'Hannes Alfven', year: 0, category: 'other', idea: 'The collapse of an interstellar cloud, possibly triggered by external shockwaves, formed the solar system.', importance: 'Highlights the role of external triggers and instabilities in cloud collapse.' },
+            { name: 'Cepheid Hypothesis', proponent: 'A.C. Bannerjee', year: 1947, category: 'other', idea: 'Pulsations from Cepheid variable stars could have triggered the collapse of a gas cloud, leading to star and planet formation.', importance: 'Introduced variable stars as a potential influence on star formation.' }
+        ];
+
+        function createTheoryCard(theory) {
+            return `
+                <div class="bg-[#1A237E] rounded-lg shadow-lg p-6 transition-all duration-300 transform hover:scale-[1.02] card-glow">
+                    <h3 class="text-xl font-bold text-[#E0F7FA]">${theory.name}</h3>
+                    <p class="text-sm text-[#BBDEFB] mb-4">
+                        <span class="font-semibold">${theory.proponent}</span> (${theory.year || 'Date unspecified'})
+                    </p>
+                    <p class="text-[#E0F7FA] mb-4"><span class="font-semibold">Key Idea:</span> ${theory.idea}</p>
+                    <p class="text-[#BBDEFB] italic"><span class="font-semibold not-italic">Importance:</span> ${theory.importance}</p>
+                </div>
+            `;
+        }
+
+        function createDualisticDiagram() {
+            return `
+                <div class="bg-[#1A237E] rounded-lg shadow-lg p-6 mb-8 transition-all duration-300 transform hover:scale-[1.01]">
+                    <h3 class="text-xl font-bold text-[#E0F7FA] text-center mb-4">The Dualistic Process</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
+                        <div class="p-4 rounded-lg text-center flow-diagram-element border-2 border-[#81D4FA] bg-[#1A237E] text-[#E0F7FA]">1. Sun Exists</div>
+                        <div class="flow-diagram-arrow text-4xl font-light transform md:rotate-0 rotate-90 text-[#9575CD]">+</div>
+                        <div class="p-4 rounded-lg text-center flow-diagram-element border-2 border-[#81D4FA] bg-[#1A237E] text-[#E0F7FA]">2. Another Star Passes</div>
+                        <div class="flow-diagram-arrow text-4xl font-light transform md:rotate-0 rotate-90 text-[#9575CD]">→</div>
+                        <div class="p-4 rounded-lg text-center flow-diagram-element border-2 border-[#81D4FA] bg-[#1A237E] text-[#E0F7FA]">3. Material is Ejected</div>
+                        <div class="flow-diagram-arrow text-4xl font-light transform md:rotate-0 rotate-90 text-[#9575CD]">→</div>
+                        <div class="p-4 rounded-lg text-center flow-diagram-element border-2 border-[#81D4FA] bg-[#1A237E] text-[#E0F7FA]">4. Planets Form</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderTabContent(tabId) {
+            const contentEl = document.getElementById('tabs-content');
+            let filteredTheories = theoriesData.filter(t => t.category === tabId);
+            
+            let contentHTML = '';
+            if (tabId === 'dualistic') {
+                contentHTML += createDualisticDiagram();
+            }
+
+            contentHTML += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+            filteredTheories.forEach(theory => {
+                contentHTML += createTheoryCard(theory);
+            });
+            contentHTML += '</div>';
+
+            contentEl.innerHTML = contentHTML;
+        }
+
+        function setupTabs() {
+            const tabsContainer = document.getElementById('tabs-container');
+            const tabButtons = tabsContainer.querySelectorAll('.tab-btn');
+
+            tabsContainer.addEventListener('click', (event) => {
+                const target = event.target.closest('.tab-btn');
+                if (!target) return;
+
+                const tabId = target.dataset.tab;
+                
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                target.classList.add('active');
+                
+                renderTabContent(tabId);
+            });
+
+            // Activate the first tab by default
+            tabsContainer.querySelector('.tab-btn').click();
+        }
+
+        function renderTimelineChart() {
+            const ctx = document.getElementById('timelineChart').getContext('2d');
+            
+            const data = theoriesData.filter(t => t.year > 0).map(t => ({
+                x: t.year,
+                y: t.category === 'monistic' ? 1 : (t.category === 'dualistic' ? 2 : 3),
+                name: t.name,
+                proponent: t.proponent
+            }));
+
+            new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Monistic',
+                        data: data.filter(d => d.y === 1),
+                        backgroundColor: '#81D4FA',
+                        borderColor: '#81D4FA',
+                    }, {
+                        label: 'Dualistic',
+                        data: data.filter(d => d.y === 2),
+                        backgroundColor: '#9575CD',
+                        borderColor: '#9575CD',
+                    }, {
+                        label: 'Other',
+                        data: data.filter(d => d.y === 3),
+                        backgroundColor: '#BBDEFB',
+                        borderColor: '#BBDEFB',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#BBDEFB',
+                                font: { size: 14 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const point = context.dataset.data[context.dataIndex];
+                                    return `${point.name} (${point.proponent}, ${point.x})`;
+                                }
+                            },
+                            backgroundColor: '#0A0E2A',
+                            titleFont: { size: 0 },
+                            bodyFont: { size: 14, color: '#E0F7FA' },
+                            padding: 12,
+                            displayColors: false,
+                            borderColor: '#81D4FA',
+                            borderWidth: 1,
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: 'Year of Proposal',
+                                color: '#BBDEFB',
+                                font: { size: 16, weight: '600' }
+                            },
+                             ticks: { color: '#BBDEFB' },
+                             grid: {
+                                color: 'rgba(187, 222, 251, 0.1)'
+                             }
+                        },
+                        y: {
+                            display: false,
+                            min: 0,
+                            max: 4,
+                            grid: {
+                                color: 'rgba(187, 222, 251, 0.1)'
+                            }
+                        }
+                    },
+                     elements: {
+                        point: {
+                            radius: 7,
+                            hoverRadius: 10
+                        }
+                    }
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            setupTabs();
+            renderTimelineChart();
+            
+            const contentEl = document.getElementById('tabs-content');
+            const keyframes = `
+                @keyframes fade-in {
+                    from { opacity: 0; transform: translateY(15px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            const styleSheet = document.createElement("style");
+            styleSheet.innerText = keyframes;
+            document.head.appendChild(styleSheet);
+            contentEl.classList.add('animate-fade-in');
+        });
+    </script>
+
+</body>
+</html>

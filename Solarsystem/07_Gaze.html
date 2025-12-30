@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stellar Gaze Magazine - Sample Issue</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Updated Google Fonts: Orbitron for headlines, Lora for body, Inter for general/fallback -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom font families */
+        body {
+            font-family: 'Inter', sans-serif; /* Default sans-serif for general text */
+        }
+        .font-headline {
+            font-family: 'Orbitron', sans-serif; /* Using Orbitron for headlines */
+        }
+        .font-body {
+            font-family: 'Lora', serif; /* Using Lora for body text */
+        }
+        /* Dropdown specific styles */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        /* Simple spinner for loading */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #8B5CF6; /* Purple-500 */
+            width: 24px;
+            height: 24px;
+            -webkit-animation: spin 1s linear infinite; /* Safari */
+            animation: spin 1s linear infinite;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-950 to-black text-gray-200">
+
+    <!-- Magazine Cover Section -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden rounded-b-2xl shadow-xl mb-16">
+        <!-- Background Image (Placeholder for stunning astronomical image) -->
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://placehold.co/1920x1080/0A0A2A/DDDDDD?text=Stunning+Cosmic+View');">
+            <!-- Subtle Dark Overlay -->
+            <div class="absolute inset-0 bg-black opacity-60"></div>
+        </div>
+
+        <div class="relative z-10 text-center p-8">
+            <!-- Masthead / Magazine Title -->
+            <h1 class="font-headline text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 mb-6 rounded-2xl">
+                STELLAR GAZE
+            </h1>
+            <!-- Main Headline -->
+            <h2 class="font-headline text-4xl md:text-6xl font-bold text-white mb-8 leading-tight rounded-2xl">
+                Unveiling the Secrets of the Andromeda Galaxy
+            </h2>
+            <!-- Sub-headline / Issue Details including Volume and Issue -->
+            <p class="font-body text-xl md:text-2xl text-gray-300 italic rounded-2xl">
+                Quarterly Edition - Q3 2025 | Volume 1, Issue 3: Journey to Our Cosmic Neighbor
+            </p>
+            <!-- Month Year added -->
+            <p class="font-body text-lg md:text-xl text-gray-400 mt-4 rounded-2xl">
+                July 2025
+            </p>
+        </div>
+    </header>
+
+    <!-- Table of Contents (Simplified) -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mb-16">
+        <h3 class="font-headline text-4xl font-bold text-purple-400 mb-8 text-center rounded-2xl">In This Issue</h3>
+
+        <!-- GoTo Dropdown Menu -->
+        <div class="relative inline-block text-left w-full flex justify-center mb-10 dropdown">
+            <button id="featuresDropdownBtn" class="inline-flex justify-center items-center rounded-xl border border-gray-700 shadow-sm px-8 py-4 bg-gray-800 text-xl font-medium text-gray-200 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-colors duration-200">
+                GoTo
+                <svg class="-mr-1 ml-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+
+            <div id="featuresDropdownContent" class="dropdown-content absolute mt-14 w-full max-w-sm rounded-xl shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 z-20 hidden">
+                <div class="py-2" role="menu" aria-orientation="vertical" aria-labelledby="featuresDropdownBtn">
+                    <a href="#andromeda-grand-approach" class="block px-6 py-3 text-lg text-gray-200 hover:bg-gray-700 rounded-xl transition-colors duration-150" role="menuitem">01. Andromeda's Embrace: A deep dive into the galactic collision course.</a>
+                    <a href="#martian-missions-update" class="block px-6 py-3 text-lg text-gray-200 hover:bg-gray-700 rounded-xl transition-colors duration-150" role="menuitem">02. Martian Missions Update: Latest discoveries from the Red Planet explorers.</a>
+                    <a href="#life-cycle-of-stars" class="block px-6 py-3 text-lg text-gray-200 hover:bg-gray-700 rounded-xl transition-colors duration-150" role="menuitem">03. The Life Cycle of Stars: From stellar nurseries to black holes.</a>
+                    <a href="#astrophotography-tips" class="block px-6 py-3 text-lg text-gray-200 hover:bg-gray-700 rounded-xl transition-colors duration-150" role="menuitem">04. Astrophotography Tips: Capture the night sky like a pro.</a>
+                    <a href="#webb-telescopes-first-year" class="block px-6 py-3 text-lg text-gray-200 hover:bg-gray-700 rounded-xl transition-colors duration-150" role="menuitem">05. The Webb Telescope's First Year: Unprecedented views of the early universe.</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cover Story Box -->
+        <div class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-8 px-6 mb-10 rounded-2xl shadow-xl text-center">
+            <p class="font-headline text-4xl md:text-5xl font-bold uppercase tracking-wider">
+                Cover Story
+            </p>
+        </div>
+
+        <!-- New section for 3 small boxes -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md flex flex-col items-center justify-center text-center h-36 hover:scale-105 transition-transform duration-300">
+                <a href="#featured-article-section" class="font-headline text-2xl font-semibold text-blue-300 mb-2 hover:underline">Featured Article</a>
+                <p class="font-body text-base text-gray-400">Collection of Scientific articles</p>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md flex flex-col items-center justify-center text-center h-36 hover:scale-105 transition-transform duration-300">
+                <a href="#this-months-sky-section" class="font-headline text-2xl font-semibold text-purple-300 mb-2 hover:underline">This Month's Sky</a>
+                <p class="font-body text-base text-gray-400">Sun, Moon and Planets, Star Hopping, Deep Sky Wonders</p>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md flex flex-col items-center justify-center text-center h-36 hover:scale-105 transition-transform duration-300">
+                <a href="#reports-section" class="font-headline text-2xl font-semibold text-teal-300 mb-2 hover:underline">Reports</a>
+                <p class="font-body text-base text-gray-400">Product review, Quick look</p>
+            </div>
+        </div>
+
+        <!-- Section for 9 small boxes in a 3x3 grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md flex items-center justify-center text-center h-28 hover:scale-105 transition-transform duration-300">
+                <a href="#earths-night-sky-section" class="font-headline text-base font-semibold text-blue-300 hover:underline">Earth's Night Sky</a>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md flex items-center justify-center text-center h-28 hover:scale-105 transition-transform duration-300">
+                <a href="#our-sun-heliosphere-section" class="font-headline text-base font-semibold text-purple-300 hover:underline">Our Sun & Heliosphere</a>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md flex items-center justify-center text-center h-28 hover:scale-105 transition-transform duration-300">
+                <a href="#planetary-explorations-section" class="font-headline text-base font-semibold text-teal-300 hover:underline">Planetary Explorations</a>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md flex items-center justify-center text-center h-28 hover:scale-105 transition-transform duration-300">
+                <a href="#beyond-solar-system-section" class="font-headline text-base font-semibold text-yellow-300 hover:underline">Beyond Our Solar System</a>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md flex items-center justify-center text-center h-28 hover:scale-105 transition-transform duration-300">
+                <a href="#galaxies-clusters-section" class="font-headline text-base font-semibold text-orange-300 hover:underline">Galaxies & Clusters</a>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md flex items-center justify-center text-center h-28 hover:scale-105 transition-transform duration-300">
+                <a href="#cosmic-phenomena-section" class="font-headline text-base font-semibold text-green-300 hover:underline">Cosmic Phenomena</a>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md flex items-center justify-center text-center h-28 hover:scale-105 transition-transform duration-300">
+                <a href="#early-universe-section" class="font-headline text-base font-semibold text-red-300 hover:underline">Early Universe</a>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md flex items-center justify-center text-center h-28 hover:scale-105 transition-transform duration-300">
+                <a href="#observational-astronomy-section" class="font-headline text-base font-semibold text-gray-300 hover:underline">Observational Astronomy</a>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md flex items-center justify-center text-center h-28 hover:scale-105 transition-transform duration-300">
+                <a href="#astronomical-instrumentation-section" class="font-headline text-base font-semibold text-cyan-300 hover:underline">Astronomical Instrumentation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Break Page Section -->
+    <section class="relative h-screen flex items-center justify-center text-white text-center py-20 px-8 rounded-2xl shadow-xl my-16 bg-cover bg-center" style="background-image: url('https://placehold.co/1920x1080/0A0A2A/DDDDDD?text=Journey+Beyond');">
+        <div class="absolute inset-0 bg-black opacity-70"></div>
+        <div class="relative z-10">
+            <h2 class="font-headline text-6xl md:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 mb-8 rounded-2xl">
+                Journey Beyond
+            </h2>
+            <p class="font-body text-2xl md:text-3xl text-gray-300 leading-relaxed max-w-4xl mx-auto rounded-2xl">
+                Delve deeper into the cosmos with our feature articles, bringing you the latest discoveries and profound insights from the universe.
+            </p>
+            <a href="#andromeda-grand-approach" class="mt-10 inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-colors duration-300 text-xl">
+                Continue Reading
+            </a>
+        </div>
+    </section>
+
+    <!-- Sample Article Section (Andromeda's Grand Approach) -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="andromeda-grand-approach">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Article Content -->
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    Andromeda's Grand Approach: A Galactic Destiny
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    For billions of years, the Andromeda galaxy, our nearest large galactic neighbor, has been steadily moving towards the Milky Way. This cosmic ballet, driven by the relentless pull of gravity, is set to culminate in a spectacular merger. Far from a destructive collision, this event will transform both galaxies into a new, grander elliptical galaxy, often dubbed 'Milkomeda'. Astronomers predict this astronomical encounter will begin in approximately 4.5 billion years, offering future inhabitants of Earth a celestial spectacle unlike any seen before.
+                </p>
+
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/1A1A4A/EEEEEE?text=Simulated+Galactic+Merger" alt="Simulated galactic merger" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure 1.</span> A simulated image depicting the merger of two spiral galaxies, similar to the anticipated collision of the Milky Way and Andromeda. (Credit: Placeholder Simulation Team)
+                    </figcaption>
+                </figure>
+
+                <h5 class="font-headline text-3xl font-semibold text-purple-300 mb-8 rounded-2xl">
+                    The Science Behind the Cosmic Dance
+                </h5>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Using advanced simulations and observations of galaxy dynamics, scientists have been able to model the trajectory and eventual fate of both the Milky Way and Andromeda. While individual stars are highly unlikely to collide due to the vast distances between them, the gravitational forces will profoundly reshape both galaxies, stirring up gas and dust, and likely triggering new bursts of star formation. The central supermassive black holes of each galaxy are also expected to merge, forming an even more massive cosmic behemoth. This ongoing research provides crucial insights into galaxy evolution across the universe.
+                </p>
+
+                <!-- Pull Quote -->
+                <blockquote class="border-l-4 border-blue-500 pl-6 py-4 my-8 bg-gray-800 bg-opacity-50 rounded-xl shadow-md">
+                    <p class="font-body text-xl italic text-gray-200">
+                        "The Milkomeda merger isn't just a distant prediction; it's a testament to the dynamic, ever-changing nature of our universe."
+                    </p>
+                    <footer class="text-right text-gray-400 text-sm mt-3 rounded-xl">— Dr. Elena Petrova, Astrophysicist</footer>
+                </blockquote>
+
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    The gravitational interaction has already begun, subtly influencing the outskirts of each galaxy. Future telescopes and missions will provide even more detailed observations, allowing us to refine our predictions and witness the earliest stages of this grand cosmic event. Understanding galactic mergers helps us comprehend how large structures in the universe form and evolve over billions of years.
+                </p>
+            </div>
+
+            <!-- Sidebar / Callout Box -->
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Did You Know?
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>Andromeda is approaching the Milky Way at a speed of approximately 110 kilometers per second (68 miles per second).</li>
+                    <li>Despite the collision, individual stars are so far apart that direct stellar impacts are extremely rare.</li>
+                    <li>The merger is expected to last for billions of years, eventually settling into a stable elliptical galaxy.</li>
+                    <li>Our Sun is unlikely to be destroyed in the merger, but its position within the new galaxy might shift.</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    The Local Group
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/003366/FFFFFF?text=Local+Group+Diagram" alt="Local Group Diagram" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Diagram of the Local Group, our small cluster of galaxies.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    The Milky Way and Andromeda are the two largest members of the Local Group, a modest cluster of over 50 galaxies. This gravitational association also includes the Triangulum Galaxy (M33) and numerous dwarf galaxies like the Large and Small Magellanic Clouds. Understanding the dynamics of the Local Group helps predict the future interactions of its major members.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    Future of Milkomeda
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/663366/FFFFFF?text=Milkomeda+Future" alt="Milkomeda Future" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Artistic impression of the future Milkomeda galaxy.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    After the initial galactic "dance," the two galaxies will coalesce into a single, much larger elliptical galaxy. This new entity, informally called Milkomeda or Milkdromeda, will have a different appearance from the spiral galaxies we know today. Star formation is expected to surge during the merger phases as gas clouds collide, but eventually, the new galaxy will settle into a more quiescent state.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 mt-8 rounded-2xl">
+                    Further Reading
+                </h6>
+                <ul class="space-y-4 font-body text-gray-300 rounded-2xl">
+                    <li><a href="#" class="text-blue-400 hover:underline">NASA: The Milky Way and Andromeda Collision</a></li>
+                    <li><a href="#" class="text-blue-400 hover:underline">ESA: When Galaxies Collide</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Article Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="featured-article-section">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    Featured Article: The Enigmas of Dark Energy
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Dark energy remains one of the universe's most profound mysteries. It is a hypothetical form of energy that permeates all of space and tends to increase the rate of expansion of the universe. This acceleration was a surprising discovery in the late 1990s, suggesting that something is actively pushing galaxies apart, counteracting the gravitational pull that would otherwise slow down the expansion. While its exact nature is unknown, current theories suggest it could be a cosmological constant, a property of space itself, or a new dynamic energy fluid or field.
+                </p>
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/3A1A4A/DDDDDD?text=Dark+Energy" alt="Dark Energy Concept" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure A.</span> Conceptual illustration of the universe's accelerated expansion driven by dark energy. (Credit: Placeholder Institute)
+                    </figcaption>
+                </figure>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Observations of distant supernovae, the cosmic microwave background, and the large-scale structure of the universe all point to the existence of dark energy. It is estimated to constitute approximately 68% of the total mass-energy of the universe, with dark matter making up about 27% and ordinary matter only about 5%. Unraveling the true nature of dark energy is a central challenge in modern cosmology, with ongoing and future missions dedicated to probing its properties and implications for the ultimate fate of the universe.
+                </p>
+            </div>
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Dark Energy Insights
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>Accounts for about 68% of the universe's total mass-energy.</li>
+                    <li>Causes the expansion of the universe to accelerate.</li>
+                    <li>Its nature remains one of the greatest mysteries in cosmology.</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    Evidence for Dark Energy
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/0A3366/DDDDDD?text=Supernova+Data" alt="Supernova Data" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Type Ia Supernova observations provide key evidence for accelerated expansion.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    The primary evidence for dark energy comes from observations of Type Ia supernovae, which act as "standard candles" for measuring cosmic distances. These supernovae appeared fainter than expected for a decelerating universe, implying that the expansion has been accelerating. Additional evidence comes from the Cosmic Microwave Background and large-scale structure surveys.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    Alternative Theories
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/660066/DDDDDD?text=Modified+Gravity" alt="Modified Gravity" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Illustrating concepts of modified gravity.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    While the cosmological constant (Lambda CDM model) is the leading candidate, other theories propose different explanations for cosmic acceleration. These include theories of modified gravity, where Einstein's theory of general relativity is altered on cosmic scales, or models involving new fundamental fields, sometimes referred to as 'quintessence'.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- This Month's Sky Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="this-months-sky-section">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    This Month's Sky: July 2025 Highlights
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    July's night sky offers a celestial feast for observers. As twilight fades, look towards the eastern horizon to catch Jupiter, shining brightly as the "evening star," with Saturn following a few hours later. The faint, wispy band of the Milky Way will become visible in dark locations, stretching across the zenith in the early hours before dawn. For those with a clear view, keep an eye out for meteors from the Southern Delta Aquariids shower, which peaks around late July, offering a moderate display of swift, faint streakers.
+                </p>
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/4A1A3A/DDDDDD?text=July+Night+Sky" alt="July Night Sky Chart" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure B.</span> A star chart highlighting prominent constellations and planetary positions for July. (Credit: Stellar Gaze Astromaps)
+                    </figcaption>
+                </figure>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    The Summer Triangle (Vega, Altair, and Deneb) will dominate the overhead sky through most of the night. Early risers can spot Venus low in the east just before sunrise, a brilliant beacon in the morning twilight. For deep-sky enthusiasts, July provides excellent opportunities to observe globular clusters like M13 in Hercules and nebulae like the Lagoon Nebula (M8) in Sagittarius, especially with binoculars or a small telescope. Remember to check local moon phases for optimal dark sky conditions.
+                </p>
+            </div>
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Skygazing Tips
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>Look for Jupiter and Saturn in the early morning sky.</li>
+                    <li>The Perseid meteor shower peaks in mid-August (look out for early stragglers in late July).</li>
+                    <li>Spot the Summer Triangle high overhead after sunset.</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    Planetary Visibility
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/006699/DDDDDD?text=Planetary+Alignment" alt="Planetary Alignment" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Diagram showing relative planetary positions for July 2025.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Throughout July, Jupiter will be visible in the predawn sky, rising earlier each day. Saturn also joins the morning lineup, offering views of its rings even through small telescopes. Mars continues its slow journey across the morning sky. Mercury and Venus will be challenging to observe, remaining low on the horizon.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    Lunar Phases & Eclipses
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/9966CC/DDDDDD?text=Moon+Phases" alt="Moon Phases Chart" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Illustrating the moon phases for July.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    The New Moon occurs on July 5th, providing ideal dark skies for deep-sky observing in the days immediately before and after. The First Quarter Moon is on July 12th, Full Moon on July 20th, and Last Quarter Moon on July 27th. No major lunar or solar eclipses are visible from North America in July 2025.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reports Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="reports-section">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    Reports: Review of the New Celestron AstroMaster 130EQ
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    The Celestron AstroMaster 130EQ is often recommended as a solid entry-level telescope for aspiring astronomers. Featuring a 130mm (5.1-inch) aperture Newtonian reflector, it gathers ample light for viewing planets, the Moon, and brighter deep-sky objects. Its equatorial mount, while requiring some learning, allows for easier tracking of celestial objects as they move across the night sky, a significant advantage over simpler alt-azimuth mounts for prolonged observation sessions and basic astrophotography.
+                </p>
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/1A4A4A/DDDDDD?text=Telescope+Review" alt="Telescope Review Image" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure C.</span> The Celestron AstroMaster 130EQ in use during a night observation. (Credit: Stellar Gaze Reviews)
+                    </figcaption>
+                </figure>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Our test unit showed clear views of Jupiter's bands, Saturn's rings, and the craters of the Moon. Setup was straightforward for a beginner, and the included eyepieces provide a decent range of magnification. While the finderscope can be a bit challenging to align initially, and minor chromatic aberration was observed on very bright objects, its overall performance for its price point is commendable. This telescope stands as an excellent choice for those embarking on their stargazing journey, offering a balance of performance and accessibility.
+                </p>
+            </div>
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Review Summary
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>**Pros:** Easy setup, good aperture for beginners, sturdy equatorial mount for tracking.</li>
+                    <li>**Cons:** Minor chromatic aberration, finderscope alignment can be tricky.</li>
+                    <li>**Overall:** An excellent choice for amateur astronomers looking for their first serious telescope.</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    Telescope Accessories
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/006633/DDDDDD?text=Telescope+Accessories" alt="Telescope Accessories" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Essential accessories for a better observing experience.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    To enhance your AstroMaster 130EQ experience, consider investing in a few key accessories. A good quality Barlow lens can double your magnification, while a set of planetary filters can bring out more detail on bright planets. A comfortable observing chair and a red-light flashlight are also invaluable for prolonged sessions in the dark.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    First Light Experience
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/993366/DDDDDD?text=First+Light" alt="First Light Observation" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        An amateur astronomer enjoying their first light with a new telescope.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    For our "first light" session with the Celestron AstroMaster 130EQ, we targeted Jupiter and its four Galilean moons. The views were crisp, and the moons were clearly distinguishable. Moving to the Orion Nebula (M42), its cloudy structure was discernible, albeit without fine detail, which is expected for an entry-level instrument. The equatorial mount made tracking surprisingly intuitive after initial alignment.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Earth's Night Sky Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="earths-night-sky-section">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    Earth's Night Sky: A Canvas of Light Pollution
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Once a universal spectacle, Earth's night sky is increasingly obscured by light pollution. Excessive, misdirected, or unshielded artificial outdoor lighting scatters light into the atmosphere, creating a "sky-glow" that washes out the fainter stars and interferes with astronomical observations. Beyond its impact on stargazing, light pollution disrupts ecosystems, affects human circadian rhythms, and wastes energy. Preserving dark skies is crucial not only for astronomy but for environmental health and our connection to the cosmos.
+                </p>
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/0A0A5A/DDDDDD?text=Light+Pollution" alt="Light Pollution over City" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure D.</span> Urban skyglow obscuring the Milky Way, a common sight due to light pollution. (Credit: Placeholder Environmental Group)
+                    </figcaption>
+                </figure>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Efforts to combat light pollution include the adoption of "dark-sky friendly" lighting fixtures that direct light downwards, using warmer color temperatures for LEDs, and advocating for less overall illumination where not strictly necessary. International Dark-Sky Association (IDA) works to designate and protect areas with naturally dark skies, providing sanctuaries for stargazers and nocturnal wildlife. Through awareness and responsible lighting practices, we can work towards reclaiming the beauty of our night sky.
+                </p>
+            </div>
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Preserving Darkness
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>Dark sky preserves are crucial for observational astronomy.</li>
+                    <li>LED lighting solutions can reduce light spill.</li>
+                    <li>Education about responsible outdoor lighting.</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    Impact on Wildlife
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/003300/DDDDDD?text=Wildlife+Impact" alt="Wildlife Impact" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Artificial light disrupting nocturnal wildlife behavior.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Light pollution significantly impacts nocturnal wildlife. It disorients migratory birds, disrupts the hunting and breeding patterns of many animals, and can even affect plant growth cycles. Sea turtle hatchlings, for example, rely on natural light cues from the moon to find the ocean, but artificial lights can lure them inland to their demise.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    Dark Sky Initiatives
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/330033/DDDDDD?text=Dark+Sky+Park" alt="Dark Sky Park Sign" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Sign for an International Dark Sky Park.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Organizations like the International Dark-Sky Association (IDA) lead efforts to protect and preserve dark sites around the world through certified Dark Sky Parks, Reserves, and Communities. These initiatives promote responsible lighting policies and public education to reduce light pollution and safeguard our natural night environments.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Sun & Heliosphere Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="our-sun-heliosphere-section">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    Our Sun & Heliosphere: The Dynamic Duo
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Our Sun, a relatively average star, is a dynamic engine of energy that profoundly influences our entire solar system. Beyond its visible surface, the Sun continuously ejects a stream of charged particles known as the solar wind. This wind extends far beyond the orbits of the planets, creating a vast bubble in interstellar space called the heliosphere. The heliosphere acts as a protective shield, deflecting harmful cosmic rays and interstellar dust, thus safeguarding life on Earth.
+                </p>
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/5A0A0A/DDDDDD?text=Sun+and+Heliosphere" alt="Sun and Heliosphere" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure E.</span> An illustration of the Sun and its heliosphere, protecting our solar system from interstellar radiation. (Credit: Placeholder Solar Studies)
+                    </figcaption>
+                </figure>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Solar activity, including solar flares and coronal mass ejections (CMEs), can send bursts of energy and particles through the heliosphere, leading to space weather phenomena that can affect satellites, power grids, and even cause auroras on Earth. Missions like NASA's Parker Solar Probe and ESA's Solar Orbiter are actively studying the Sun and the inner heliosphere, providing unprecedented insights into our star's complex processes and helping us predict and mitigate potential space weather impacts.
+                </p>
+            </div>
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Solar Influence
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>The heliosphere is the protective bubble created by the solar wind.</li>
+                    <li>Solar flares and coronal mass ejections can impact Earth.</li>
+                    <li>Understanding solar activity is vital for space weather prediction.</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    Solar Flares & CMEs
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/CC0000/DDDDDD?text=Solar+Flare" alt="Solar Flare" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        A powerful solar flare erupting from the Sun's surface.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Solar flares are intense bursts of radiation, while Coronal Mass Ejections (CMEs) are massive expulsions of plasma and magnetic field from the Sun's corona. Both can cause geomagnetic storms if directed towards Earth, leading to strong auroras, power grid disruptions, and communication blackouts.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    Missions to the Sun
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/990099/DDDDDD?text=Solar+Probe" alt="Parker Solar Probe" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        An artist's concept of the Parker Solar Probe nearing the Sun.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    The Parker Solar Probe has made record-breaking close approaches to the Sun, diving into its corona to measure solar wind and magnetic fields directly. ESA's Solar Orbiter is taking high-resolution images of the Sun's poles and gathering data on the solar wind from a unique perspective. These missions are vital for understanding solar physics.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planetary Explorations Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="planetary-explorations-section">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    Planetary Explorations: Beyond the Red Planet
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    While Mars often captures headlines, robotic spacecraft are continuously venturing to other corners of our solar system, revealing astounding diversity and potential for life. NASA's Juno spacecraft continues to orbit Jupiter, providing breathtaking images and crucial data on the gas giant's internal structure, powerful magnetic field, and turbulent atmosphere, including its iconic Great Red Spot. The Cassini mission, though concluded, revolutionized our understanding of Saturn and its complex ring system, as well as its intriguing moons Titan and Enceladus, both considered prime targets in the search for extraterrestrial life due to their subsurface oceans.
+                </p>
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/0A5A0A/DDDDDD?text=Jupiter+Exploration" alt="Jupiter Exploration" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure F.</span> The Juno spacecraft orbiting Jupiter, studying its atmosphere and magnetic field. (Credit: NASA/JPL-Caltech)
+                    </figcaption>
+                </figure>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Future missions are planned to further explore these ocean worlds, with Europa Clipper aiming to investigate Jupiter's moon Europa, and potential concepts for landers to directly sample the plumes of Enceladus. Even the distant ice giants, Uranus and Neptune, remain high-priority targets for future orbital missions, as our knowledge of these mysterious worlds is still relatively limited, based primarily on Voyager 2 flybys decades ago. These ongoing and planned explorations are continuously expanding our understanding of the solar system's formation and its potential to harbor life.
+                </p>
+            </div>
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Gas Giant Discoveries
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>Jupiter's Great Red Spot is a persistent anticyclonic storm.</li>
+                    <li>Saturn's rings are primarily composed of ice particles.</li>
+                    <li>Ice moons like Europa and Enceladus may harbor subsurface oceans.</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    Icy Moons of Outer Planets
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/004466/DDDDDD?text=Europa+Enceladus" alt="Europa and Enceladus" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Europa (left) and Enceladus (right), key targets for astrobiology.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Jupiter's moon Europa and Saturn's moon Enceladus are prime candidates in the search for life beyond Earth. Both are believed to harbor vast subsurface oceans of liquid water beneath their icy shells, heated by tidal forces. Plumes observed on Enceladus have even ejected material from its ocean into space, offering a way to sample it.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    Future Missions
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/663399/DDDDDD?text=Future+Explorer" alt="Future Mission Concept" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Conceptual image of a future mission exploring an outer planet.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    NASA's Europa Clipper mission, launching in the coming years, will perform multiple close flybys of Europa to investigate its ocean's potential for life. Concepts for landers and submersibles are also being developed for direct exploration of these ocean worlds. Beyond that, orbiters for Uranus and Neptune are on the drawing board.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beyond Our Solar System Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="beyond-solar-system-section">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    Beyond Our Solar System: Exoplanet Hunting
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    The search for exoplanets – planets orbiting stars other than our Sun – has exploded in the past few decades, revolutionizing our understanding of planetary systems. Thousands of exoplanets have been confirmed, ranging from scorching hot "super-Earths" to gas giants larger than Jupiter. Astronomers use various ingenious methods to detect these distant worlds, including the transit method (observing the slight dip in a star's brightness as a planet passes in front of it) and the radial velocity method (detecting the tiny wobble in a star's motion caused by a planet's gravitational pull).
+                </p>
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/0A4A0A/DDDDDD?text=Exoplanet+Discovery" alt="Exoplanet Discovery" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure G.</span> Artist's concept of a potentially habitable exoplanet orbiting its star. (Credit: Placeholder Exoplanet Research)
+                    </figcaption>
+                </figure>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    The ultimate goal of exoplanet research is to find potentially habitable worlds – those with conditions suitable for liquid water on their surface. Missions like NASA's Kepler and TESS have been instrumental in this quest, identifying numerous candidates. Future telescopes, such as the James Webb Space Telescope and planned ground-based observatories, aim to characterize the atmospheres of these exoplanets, searching for biosignatures that could indicate the presence of life. The exploration of exoplanets continues to push the boundaries of our knowledge about where life might exist in the vast cosmos.
+                </p>
+            </div>
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Exoplanet Methods
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>**Transit Method:** Detecting dimming of a star's light.</li>
+                    <li>**Radial Velocity:** Measuring stellar "wobble" due to gravity.</li>
+                    <li>**Direct Imaging:** Directly capturing light from an exoplanet (challenging).</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    The Habitable Zone
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/003300/DDDDDD?text=Habitable+Zone" alt="Habitable Zone Diagram" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Illustration of a star's habitable zone.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    The habitable zone, or "Goldilocks zone," is the region around a star where conditions are just right for liquid water to exist on a planet's surface. Not too hot for water to boil away, and not too cold for it to freeze solid. While a key factor, habitability also depends on other planetary characteristics like atmosphere, magnetic field, and geological activity.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    Exoplanet Characterization
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/330033/DDDDDD?text=Exoplanet+Spectrum" alt="Exoplanet Spectrum Analysis" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Analyzing the light spectrum from an exoplanet's atmosphere.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Characterizing exoplanet atmospheres is crucial for detecting biosignatures. When an exoplanet transits its star, a tiny portion of the starlight passes through its atmosphere. By analyzing the spectrum of this light, astronomers can identify specific gases like oxygen, methane, or water vapor, which could indicate the presence of life.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galaxies & Clusters Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="galaxies-clusters-section">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    Galaxies & Clusters: The Universe's Grand Structures
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Galaxies, vast collections of stars, gas, dust, and dark matter, are the fundamental building blocks of the universe. They are not randomly distributed but are organized into a hierarchical structure, from small groups to massive galaxy clusters. These clusters, containing hundreds or even thousands of galaxies, are the largest gravitationally bound structures in the cosmos. Beyond clusters, galaxies and clusters themselves are arranged into an intricate "cosmic web" of filaments and voids, shaped by gravity over billions of years.
+                </p>
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/0A0A6A/DDDDDD?text=Galaxy+Cluster" alt="Galaxy Cluster" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure H.</span> A dense cluster of galaxies, part of the cosmic web. (Credit: Placeholder Astro-Imaging)
+                    </figcaption>
+                </figure>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Studying galaxies and clusters provides crucial insights into how the universe evolved from its smooth, early state to the clumpy, structured cosmos we see today. Interactions between galaxies, including collisions and mergers, play a vital role in their evolution, triggering bursts of star formation and shaping their morphology. The distribution of these grand structures also offers powerful clues about the nature of dark matter and dark energy, the mysterious components that dominate the universe's mass-energy budget.
+                </p>
+            </div>
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Cosmic Structures
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>Galaxies group into clusters, which in turn form superclusters.</li>
+                    <li>Dark matter plays a crucial role in the formation of these structures.</li>
+                    <li>The largest structures in the universe are filaments and voids.</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    Types of Galaxies
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/003399/DDDDDD?text=Galaxy+Types" alt="Galaxy Types" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Examples of spiral, elliptical, and irregular galaxies.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Galaxies come in various shapes and sizes: spiral (like our Milky Way and Andromeda), elliptical (smooth, oval-shaped, often found in clusters), and irregular (lacking a defined shape, often resulting from galactic interactions). Each type offers clues about its formation history and environment.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    Galaxy Evolution
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/6600FF/DDDDDD?text=Galaxy+Evolution" alt="Galaxy Evolution Simulation" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Simulation showing how galaxies evolve through mergers and accretion.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Galaxies are not static; they evolve through processes like star formation, mergers with other galaxies, and interactions with their environment within clusters. Mergers, especially between large galaxies, can transform spiral galaxies into ellipticals, playing a dominant role in shaping the most massive galaxies in the universe.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cosmic Phenomena Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="cosmic-phenomena-section">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    Cosmic Phenomena: Exploring the Extreme Universe
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    The universe is home to an incredible array of extreme and exotic phenomena, from the cataclysmic deaths of stars to the most powerful engines of light in the cosmos. Quasars, incredibly luminous and distant objects, are thought to be powered by supermassive black holes at the centers of young galaxies, actively accreting matter and emitting colossal amounts of radiation across the electromagnetic spectrum. These cosmic lighthouses offer glimpses into the early universe.
+                </p>
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/6A0A0A/DDDDDD?text=Quasar" alt="Quasar Illustration" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure I.</span> An artist's rendering of a quasar, a highly luminous active galactic nucleus. (Credit: Placeholder Astronomical Artist)
+                    </figcaption>
+                </figure>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Another spectacular event is the Gamma-Ray Burst (GRB), the most energetic explosions known in the universe, believed to originate from the collapse of massive stars or the merger of neutron stars. These brief but intense flashes of gamma-rays are detectable across billions of light-years. Supernovae, the violent explosions of stars, not only mark a stellar demise but also play a crucial role in enriching the universe with heavy elements necessary for planet formation and life. These phenomena continually push the boundaries of our physical understanding.
+                </p>
+            </div>
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Exotic Events
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>**Quasars:** Extremely bright and distant active galactic nuclei.</li>
+                    <li>**Gamma-Ray Bursts (GRBs):** Most powerful explosions in the universe.</li>
+                    <li>**Supernovae:** Exploding stars marking the end of their lives.</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    Black Hole Types
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/0A1A8A/DDDDDD?text=Black+Hole+Types" alt="Black Hole Types" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Comparing stellar-mass, intermediate, and supermassive black holes.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Astronomers categorize black holes by mass: stellar-mass black holes (formed from collapsed massive stars), intermediate-mass black holes (a mysterious mid-range), and supermassive black holes (millions to billions times the Sun's mass, found at galaxy centers). Each type forms through different processes and plays unique roles in cosmic evolution.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    Gravitational Waves
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/8A0A8A/DDDDDD?text=Gravitational+Waves" alt="Gravitational Wave Ripples" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Illustration of spacetime ripples from merging black holes.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Predicted by Einstein, gravitational waves are ripples in spacetime created by accelerating massive objects, like merging black holes or neutron stars. Observatories like LIGO and Virgo have directly detected these waves, opening a new window onto the most violent events in the universe and providing a novel way to study cosmic phenomena.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Early Universe Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="early-universe-section">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    Early Universe: Echoes of the Big Bang
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Our universe began with the Big Bang approximately 13.8 billion years ago. In its earliest moments, the universe was an incredibly hot, dense, and rapidly expanding plasma. A crucial period known as inflation, a brief epoch of exponential expansion, is theorized to have smoothed out the universe and set the stage for large-scale structure formation. Roughly 380,000 years after the Big Bang, the universe cooled sufficiently for protons and electrons to combine, forming neutral hydrogen atoms. This event, called recombination, made the universe transparent, allowing photons to travel freely, which we observe today as the Cosmic Microwave Background (CMB).
+                </p>
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/0A3A0A/DDDDDD?text=Cosmic+Microwave+Background" alt="Cosmic Microwave Background" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure J.</span> A map of the Cosmic Microwave Background, revealing temperature fluctuations from the early universe. (Credit: Placeholder Cosmology Project)
+                    </figcaption>
+                </figure>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Following recombination, the universe entered a "Dark Ages" where no stars or galaxies existed. It was a period dominated by neutral hydrogen and helium. Gravity slowly began to pull denser regions of matter together, eventually leading to the birth of the first stars and galaxies approximately a few hundred million years after the Big Bang. These pioneering stars, much more massive and short-lived than our Sun, played a critical role in reionizing the universe, illuminating the cosmos and setting the stage for the formation of the complex structures we observe today.
+                </p>
+            </div>
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Key Moments
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>**Big Bang:** The universe's origin.</li>
+                    <li>**Inflation:** Rapid expansion shortly after the Big Bang.</li>
+                    <li>**Recombination:** Formation of neutral atoms, making the universe transparent.</li>
+                    <li>**First Stars:** The birth of the first stars, ending the "Dark Ages."</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    Inflation Theory
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/000033/DDDDDD?text=Cosmic+Inflation" alt="Cosmic Inflation" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Diagram illustrating the rapid expansion during cosmic inflation.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Inflation theory proposes a period of extremely rapid expansion in the first fraction of a second after the Big Bang. This theory elegantly explains several cosmological puzzles, such as the flatness of the universe, the uniformity of the CMB, and the origin of large-scale structures through quantum fluctuations.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    First Stars & Reionization
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/330066/DDDDDD?text=First+Stars" alt="First Stars" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Artistic rendition of the first stars illuminating the early universe.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    After the "Dark Ages," the first stars, known as Population III stars, formed from primordial hydrogen and helium. These massive, short-lived stars emitted powerful ultraviolet radiation that reionized the neutral hydrogen in the universe, transforming it from opaque to transparent again. This "Epoch of Reionization" marked a crucial transition.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Observational Astronomy Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="observational-astronomy-section">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    Observational Astronomy: Glimpsing the Cosmos
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Observational astronomy is the branch of astronomy that uses telescopes and other instruments to study celestial objects and phenomena. Unlike theoretical astronomy, which uses mathematical models and simulations, observational astronomy relies on gathering data through direct observation of electromagnetic radiation (light, radio waves, X-rays, etc.), cosmic rays, neutrinos, and gravitational waves. These observations allow astronomers to test theories, discover new objects, and map the universe.
+                </p>
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/0A6A0A/DDDDDD?text=Observatory" alt="Observatory Telescope" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure K.</span> A large professional telescope housed in an observatory dome. (Credit: Placeholder Observatory)
+                    </figcaption>
+                </figure>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Modern observational astronomy utilizes a wide range of sophisticated instruments, from ground-based optical and radio telescopes to orbiting space observatories. Each type of instrument is designed to capture different wavelengths of light, allowing astronomers to see objects and processes that are invisible to the human eye. Techniques like spectroscopy (analyzing the spectrum of light to determine composition and motion), photometry (measuring light intensity), and astrometry (measuring positions and movements of celestial objects) are fundamental to extracting scientific information from observations, constantly pushing the boundaries of what we can learn about the cosmos.
+                </p>
+            </div>
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Techniques
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>**Visual Observing:** Using eyes and small telescopes.</li>
+                    <li>**Astrophotography:** Capturing long-exposure images.</li>
+                    <li>**Spectroscopy:** Analyzing light to determine composition and motion.</li>
+                    <li>**Radio Astronomy:** Observing celestial objects at radio wavelengths.</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    Different Wavelengths
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/006600/DDDDDD?text=Electromagnetic+Spectrum" alt="Electromagnetic Spectrum" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Illustrating different parts of the electromagnetic spectrum used in astronomy.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Astronomers observe the universe across the entire electromagnetic spectrum, from radio waves to gamma rays. Each wavelength reveals different aspects of cosmic objects and processes. For example, radio waves penetrate dust clouds to reveal star-forming regions, while X-rays detect hot gas in galaxy clusters and emissions from black holes.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    Citizen Science
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/669900/DDDDDD?text=Citizen+Astronomer" alt="Citizen Astronomer" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        A person participating in a citizen science astronomy project.
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Citizen science plays an increasingly vital role in observational astronomy. Projects like Galaxy Zoo allow volunteers to classify galaxies, while others enable amateur astronomers to contribute to data collection for variable stars or exoplanet transits. These efforts significantly expand the scientific reach of professional research.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Astronomical Instrumentation Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="astronomical-instrumentation-section">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h4 class="font-headline text-5xl font-bold text-blue-400 mb-10 leading-tight rounded-2xl">
+                    Astronomical Instrumentation: Tools of Discovery
+                </h4>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Astronomical instrumentation is the backbone of modern astrophysics, enabling scientists to gather the data needed to understand the universe. Beyond the primary mirror or antenna, telescopes are equipped with an array of sophisticated instruments. Spectrographs, for instance, break down light into its component wavelengths, allowing astronomers to deduce the chemical composition, temperature, density, and velocity of celestial objects. Photometers measure the brightness of objects over time, crucial for studying variable stars, exoplanet transits, and supernovae.
+                </p>
+                <figure class="mb-8 rounded-2xl overflow-hidden shadow-lg">
+                    <img src="https://placehold.co/1200x600/7A0A0A/DDDDDD?text=Instrument+Detail" alt="Astronomy Instrument Detail" class="w-full h-auto object-cover rounded-2xl">
+                    <figcaption class="text-sm text-gray-400 mt-3 text-center rounded-2xl">
+                        <span class="font-bold">Figure L.</span> A close-up of advanced astronomical instrumentation attached to a telescope. (Credit: Placeholder Engineering)
+                    </figcaption>
+                </figure>
+                <p class="font-body text-lg text-gray-300 mb-8 leading-relaxed rounded-2xl">
+                    Advanced systems like adaptive optics use deformable mirrors to correct for the blurring effects of Earth's atmosphere, enabling ground-based telescopes to achieve resolutions comparable to space telescopes. Interferometers combine light from multiple telescopes, effectively creating a giant virtual telescope with immense resolving power, used for detailed imaging of stellar surfaces or the environments around black holes. Each new generation of instrumentation pushes the boundaries of sensitivity and resolution, unveiling previously unseen details of our cosmos.
+                </p>
+            </div>
+            <div class="lg:col-span-1 bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-xl space-y-8">
+                <h6 class="font-headline text-3xl font-bold text-teal-300 mb-6 rounded-2xl">
+                    Key Instruments
+                </h6>
+                <ul class="list-disc list-inside space-y-4 font-body text-gray-300 mb-8 rounded-2xl">
+                    <li>**Spectrographs:** Analyze light spectra for composition.</li>
+                    <li>**Photometers:** Measure the intensity of light.</li>
+                    <li>**Adaptive Optics Systems:** Correct for atmospheric distortion.</li>
+                    <li>**Interferometers:** Combine light from multiple telescopes for higher resolution.</li>
+                </ul>
+
+                <h6 class="font-headline text-3xl font-bold text-blue-300 mb-6 mt-8 rounded-2xl">
+                    Space vs. Ground Telescopes
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/0A0A4A/DDDDDD?text=Hubble+vs+VLT" alt="Hubble vs VLT" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Comparing a space telescope (Hubble) with a ground-based array (VLT).
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Space telescopes avoid atmospheric distortion and absorption, allowing observation across the full electromagnetic spectrum (e.g., Hubble, Webb). Ground-based telescopes can be much larger and more cost-effective to build and maintain, often utilizing adaptive optics to compensate for atmospheric blurring (e.g., VLT, Keck). Both are essential.
+                </p>
+
+                <h6 class="font-headline text-3xl font-bold text-purple-300 mb-6 mt-8 rounded-2xl">
+                    Future Instrumentation
+                </h6>
+                <figure class="rounded-lg overflow-hidden shadow-md mb-4">
+                    <img src="https://placehold.co/400x250/4A0A4A/DDDDDD?text=ELT+Concept" alt="ELT Concept" class="w-full h-auto object-cover">
+                    <figcaption class="text-xs text-gray-400 mt-2 text-center">
+                        Artist's impression of the Extremely Large Telescope (ELT).
+                    </figcaption>
+                </figure>
+                <p class="font-body text-base text-gray-300">
+                    Upcoming instruments like the Extremely Large Telescope (ELT) and the Square Kilometre Array (SKA) promise unprecedented resolution and sensitivity. ELT will be the world's largest optical/infrared telescope, while SKA will be the largest radio telescope, exploring the early universe, dark energy, and the origins of life with unparalleled detail.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- QnA Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="qna-section">
+        <h3 class="font-headline text-4xl font-bold text-orange-400 mb-8 text-center rounded-2xl">Q\&A: Your Cosmic Questions Answered</h3>
+        <div class="space-y-8">
+            <div>
+                <p class="font-headline text-xl font-semibold text-white mb-3">Q: What's the farthest object visible to the naked eye?</p>
+                <p class="font-body text-gray-300 leading-relaxed">
+                    A: The Andromeda Galaxy (M31) is the most distant object you can see without a telescope. Under very dark skies, it appears as a faint smudge of light, even though it's about 2.5 million light-years away. It's on a collision course with our Milky Way galaxy, an event expected in about 4.5 billion years.
+                </p>
+            </div>
+            <div>
+                <p class="font-headline text-xl font-semibold text-white mb-3">Q: How do black holes form?</p>
+                <p class="font-body text-gray-300 leading-relaxed">
+                    A: Stellar-mass black holes form when very massive stars (typically more than 20 times the mass of our Sun) run out of nuclear fuel. Without the outward pressure from fusion, the star's core collapses under its immense gravity, leading to a supernova explosion. If the remaining core is dense enough (more than about 3 times the Sun's mass), it continues to collapse into an infinitely dense point called a singularity, forming a black hole.
+                </p>
+            </div>
+            <div>
+                <p class="font-headline text-xl font-semibold text-white mb-3">Q: What is the Cosmic Microwave Background?</p>
+                <p class="font-body text-gray-300 leading-relaxed">
+                    A: The Cosmic Microwave Background (CMB) is the faint afterglow radiation from the Big Bang. It's the oldest light in the universe, dating back to about 380,000 years after the Big Bang, when the universe cooled enough for atoms to form and photons could travel freely. The CMB is a crucial piece of evidence supporting the Big Bang theory.
+                </p>
+            </div>
+            <div>
+                <p class="font-headline text-xl font-semibold text-white mb-3">Q: Are there other universes?</p>
+                <p class="font-body text-gray-300 leading-relaxed">
+                    A: The concept of a "multiverse" suggests there might be other universes beyond our own. This is a highly speculative but fascinating area of theoretical physics, often arising from theories like eternal inflation, string theory, or quantum mechanics. Currently, there is no direct observational evidence to confirm or deny the existence of other universes.
+                </p>
+            </div>
+        </div>
+
+        <!-- Gemini AI Q&A Feature -->
+        <div class="mt-12 p-6 bg-gray-800 rounded-xl shadow-md">
+            <h4 class="font-headline text-3xl font-bold text-yellow-300 mb-6 text-center">
+                Ask Gemini Our AI Assistant ✨
+            </h4>
+            <div class="flex flex-col md:flex-row gap-4 mb-4">
+                <input type="text" id="userQuestionInput" placeholder="Ask a question about space or astronomy..."
+                       class="flex-grow p-3 rounded-lg bg-gray-700 text-gray-200 border border-gray-600 focus:outline-none focus:border-blue-500 placeholder-gray-400">
+                <button id="askGeminiBtn"
+                        class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg shadow-lg transition-colors duration-300 flex items-center justify-center">
+                    <span id="buttonText">Ask Gemini ✨</span>
+                    <div id="loadingSpinner" class="spinner ml-2 hidden"></div>
+                </button>
+            </div>
+            <div id="geminiResponse" class="mt-6 p-4 bg-gray-700 rounded-lg border border-gray-600 hidden">
+                <p class="font-headline text-lg font-semibold text-teal-300 mb-2">Gemini's Answer:</p>
+                <p class="font-body text-gray-200 leading-relaxed" id="geminiAnswerContent"></p>
+            </div>
+            <div id="geminiError" class="mt-6 p-4 bg-red-800 text-red-100 rounded-lg border border-red-600 hidden">
+                <p class="font-body text-white leading-relaxed" id="geminiErrorMessage"></p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Workshops Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="workshops-section">
+        <h3 class="font-headline text-4xl font-bold text-yellow-400 mb-8 text-center rounded-2xl">Upcoming Workshops & Events</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md hover:scale-105 transition-transform duration-300">
+                <p class="font-headline text-xl font-semibold text-white mb-3">Beginner Astrophotography Workshop</p>
+                <p class="font-body text-gray-400 text-base">
+                    Date: August 15, 2025 | Location: Online (Zoom) | Time: 7:00 PM - 9:00 PM EST. This workshop covers essential gear, camera settings, and basic image processing for capturing stunning night sky images with a DSLR or mirrorless camera.
+                </p>
+                <a href="#" class="text-blue-400 hover:underline text-base mt-4 block">Register Now</a>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md hover:scale-105 transition-transform duration-300">
+                <p class="font-headline text-xl font-semibold text-white mb-3">Exploring the Planets: A Virtual Tour</p>
+                <p class="font-body text-gray-400 text-base">
+                    Date: September 5, 2025 | Location: Virtual (Webinar) | Time: 6:00 PM - 8:00 PM EST. Join us for a guided virtual journey through our solar system, exploring the unique features and latest discoveries from each planet, from Mercury to Neptune.
+                </p>
+                <a href="#" class="text-blue-400 hover:underline text-base mt-4 block">Register Now</a>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md hover:scale-105 transition-transform duration-300">
+                <p class="font-headline text-xl font-semibold text-white mb-3">Deep Sky Objects: Beyond the Planets</p>
+                <p class="font-body text-gray-400 text-base">
+                    Date: October 10, 2025 | Location: Local Observatory (On-site) | Time: 8:00 PM - 11:00 PM EDT. A practical observing session focusing on galaxies, nebulae, and star clusters. Telescopes will be provided, but feel free to bring your own!
+                </p>
+                <a href="#" class="text-blue-400 hover:underline text-base mt-4 block">Register Now</a>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md hover:scale-105 transition-transform duration-300">
+                <p class="font-headline text-xl font-semibold text-white mb-3">Cosmic Collisions: Galaxy Mergers Explained</p>
+                <p class="font-body text-gray-400 text-base">
+                    Date: November 1, 2025 | Location: Online (Webinar) | Time: 7:30 PM - 9:00 PM EST. A lecture and Q&A session on the mechanics and outcomes of galaxy mergers, including our own Milky Way's future collision with Andromeda.
+                </p>
+                <a href="#" class="text-blue-400 hover:underline text-base mt-4 block">Register Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Astrophotographs from Readers Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="astrophotographs-section">
+        <h3 class="font-headline text-4xl font-bold text-pink-400 mb-8 text-center rounded-2xl">Astrophotographs from Our Readers</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <div class="rounded-2xl overflow-hidden shadow-md group hover:shadow-xl transition-shadow duration-300">
+                <img src="https://placehold.co/400x300/1A1A4A/EEEEEE?text=Orion+Nebula+Photo" alt="Reader astrophotograph 1" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                <p class="text-sm text-gray-400 mt-3 p-3 bg-gray-800 rounded-b-2xl">"Orion Nebula" by Jane Doe, captured from rural Arizona.</p>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-md group hover:shadow-xl transition-shadow duration-300">
+                <img src="https://placehold.co/400x300/1A1A4A/EEEEEE?text=Moon+Photo" alt="Reader astrophotograph 2" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                <p class="text-sm text-gray-400 mt-3 p-3 bg-gray-800 rounded-b-2xl">"Lunar Crescent" by John Smith, showcasing stunning detail from his backyard observatory.</p>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-md group hover:shadow-xl transition-shadow duration-300">
+                <img src="https://placehold.co/400x300/1A1A4A/EEEEEE?text=Galaxy+Photo" alt="Reader astrophotograph 3" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                <p class="text-sm text-gray-400 mt-3 p-3 bg-gray-800 rounded-b-2xl">"Distant Galaxy (M81)" by Alex Lee, a beautiful spiral captured in visible light.</p>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-md group hover:shadow-xl transition-shadow duration-300">
+                <img src="https://placehold.co/400x300/1A1A4A/EEEEEE?text=Starfield+Photo" alt="Reader astrophotograph 4" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                <p class="text-sm text-gray-400 mt-3 p-3 bg-gray-800 rounded-b-2xl">"Milky Way Core" by Maria Gomez, a wide-field shot revealing the galactic center.</p>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-md group hover:shadow-xl transition-shadow duration-300">
+                <img src="https://placehold.co/400x300/1A1A4A/EEEEEE?text=Planetary+Nebula" alt="Reader astrophotograph 5" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                <p class="text-sm text-gray-400 mt-3 p-3 bg-gray-800 rounded-b-2xl">"Ring Nebula" by David Chen, a colorful planetary nebula in Lyra.</p>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-md group hover:shadow-xl transition-shadow duration-300">
+                <img src="https://placehold.co/400x300/1A1A4A/EEEEEE?text=Star+Cluster" alt="Reader astrophotograph 6" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                <p class="text-sm text-gray-400 mt-3 p-3 bg-gray-800 rounded-b-2xl">"Pleiades Cluster" by Sarah Kim, a gorgeous open star cluster.</p>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-md group hover:shadow-xl transition-shadow duration-300">
+                <img src="https://placehold.co/400x300/1A1A4A/EEEEEE?text=Sunspot" alt="Reader astrophotograph 7" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                <p class="text-sm text-gray-400 mt-3 p-3 bg-gray-800 rounded-b-2xl">"Active Sunspot Region" by Robert Green, taken with a specialized solar filter.</p>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-md group hover:shadow-xl transition-shadow duration-300">
+                <img src="https://placehold.co/400x300/1A1A4A/EEEEEE?text=Aurora" alt="Reader astrophotograph 8" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                <p class="text-sm text-gray-400 mt-3 p-3 bg-gray-800 rounded-b-2xl">"Northern Lights Dance" by Emily White, a vibrant display of the aurora borealis.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marketplace & Affiliate Links Section -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="marketplace-section">
+        <h3 class="font-headline text-4xl font-bold text-green-400 mb-8 text-center rounded-2xl">Marketplace & Affiliate Links</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md hover:scale-105 transition-transform duration-300">
+                <p class="font-headline text-2xl font-semibold text-white mb-3">Telescopes & Optics</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-400 font-body text-base">
+                    <li><a href="#" class="text-blue-400 hover:underline">Beginner Telescopes</a></li>
+                    <li><a href="#" class="text-blue-400 hover:underline">Advanced Optics</a></li>
+                    <li><a href="#" class="text-blue-400 hover:underline">Eyepieces & Filters</a></li>
+                </ul>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md hover:scale-105 transition-transform duration-300">
+                <p class="font-headline text-2xl font-semibold text-white mb-3">Books & Resources</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-400 font-body text-base">
+                    <li><a href="#" class="text-blue-400 hover:underline">Astronomy Guides</a></li>
+                    <li><a href="#" class="text-blue-400 hover:underline">Cosmology Texts</a></li>
+                    <li><a href="#" class="text-blue-400 hover:underline">Stargazing Atlases</a></li>
+                </ul>
+            </div>
+            <div class="p-6 bg-gray-800 bg-opacity-50 rounded-2xl shadow-md hover:scale-105 transition-transform duration-300">
+                <p class="font-headline text-2xl font-semibold text-white mb-3">Accessories & Gifts</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-400 font-body text-base">
+                    <li><a href="#" class="text-blue-400 hover:underline">Star Projectors</a></li>
+                    <li><a href="#" class="text-blue-400 hover:underline">Space-themed Apparel</a></li>
+                    <li><a href="#" class="text-blue-400 hover:underline">Constellation Maps</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- In This Issue Word Index -->
+    <section class="container mx-auto p-8 bg-gray-900 bg-opacity-80 rounded-2xl shadow-xl mt-16 mb-16" id="word-index-section">
+        <h3 class="font-headline text-4xl font-bold text-purple-400 mb-8 text-center rounded-2xl">In This Issue: Word Index (A-Z)</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 text-gray-300 font-body">
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">A</p>
+                <ul class="space-y-2">
+                    <li><a href="#andromeda-grand-approach" class="hover:underline">Andromeda Galaxy <span class="text-gray-500">(p. 12)</span></a></li>
+                    <li><a href="#astrophotography-tips" class="hover:underline">Astrophotography <span class="text-gray-500">(p. 45)</span></a></li>
+                    <li><a href="#astronomical-instrumentation-section" class="hover:underline">Astronomical Instrumentation <span class="text-gray-500">(p. 58)</span></a></li>
+                    <li><a href="#" class="hover:underline">Auroras <span class="text-gray-500">(p. 8)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">B</p>
+                <ul class="space-y-2">
+                    <li><a href="#beyond-solar-system-section" class="hover:underline">Beyond Our Solar System <span class="text-gray-500">(p. 25)</span></a></li>
+                    <li><a href="#" class="hover:underline">Black Holes <span class="text-gray-500">(p. 30)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">C</p>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:underline">Comet Trails <span class="text-gray-500">(p. 18)</span></a></li>
+                    <li><a href="#" class="hover:underline">Cosmic Dust <span class="text-gray-500">(p. 22)</span></a></li>
+                    <li><a href="#cosmic-phenomena-section" class="hover:underline">Cosmic Phenomena <span class="text-gray-500">(p. 42)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">D</p>
+                <ul class="space-y-2">
+                    <li><a href="#featured-article-section" class="hover:underline">Dark Energy <span class="text-gray-500">(p. 35)</span></a></li>
+                    <li><a href="#" class="hover:underline">Deep Sky Wonders <span class="text-gray-500">(p. 14)</span></a></li>
+                    <li><a href="#" class="hover:underline">Dwarf Planets <span class="text-gray-500">(p. 15)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">E</p>
+                <ul class="space-y-2">
+                    <li><a href="#early-universe-section" class="hover:underline">Early Universe <span class="text-gray-500">(p. 50)</span></a></li>
+                    <li><a href="#earths-night-sky-section" class="hover:underline">Earth's Night Sky <span class="text-gray-500">(p. 5)</span></a></li>
+                    <li><a href="#beyond-solar-system-section" class="hover:underline">Exoplanets <span class="text-gray-500">(p. 25)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">F</p>
+                <ul class="space-y-2">
+                    <li><a href="#featured-article-section" class="hover:underline">Featured Article <span class="text-gray-500">(p. 10)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">G</p>
+                <ul class="space-y-2">
+                    <li><a href="#galaxies-clusters-section" class="hover:underline">Galaxies & Clusters <span class="text-gray-500">(p. 40)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">L</p>
+                <ul class="space-y-2">
+                    <li><a href="#life-cycle-of-stars" class="hover:underline">Life Cycle of Stars <span class="text-gray-500">(p. 38)</span></a></li>
+                    <li><a href="#" class="hover:underline">Lunar Phases <span class="text-gray-500">(p. 6)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">M</p>
+                <ul class="space-y-2">
+                    <li><a href="#martian-missions-update" class="hover:underline">Martian Missions <span class="text-gray-500">(p. 16)</span></a></li>
+                    <li><a href="#" class="hover:underline">Meteor Showers <span class="text-gray-500">(p. 10)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">O</p>
+                <ul class="space-y-2">
+                    <li><a href="#observational-astronomy-section" class="hover:underline">Observational Astronomy <span class="text-gray-500">(p. 55)</span></a></li>
+                    <li><a href="#our-sun-heliosphere-section" class="hover:underline">Our Sun & Heliosphere <span class="text-gray-500">(p. 7)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">P</p>
+                <ul class="space-y-2">
+                    <li><a href="#planetary-explorations-section" class="hover:underline">Planetary Explorations <span class="text-gray-500">(p. 20)</span></a></li>
+                    <li><a href="#" class="hover:underline">Product review <span class="text-gray-500">(p. 11)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">Q</p>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:underline">Quick look <span class="text-gray-500">(p. 11)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">R</p>
+                <ul class="space-y-2">
+                    <li><a href="#reports-section" class="hover:underline">Reports <span class="text-gray-500">(p. 11)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">S</p>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:underline">Scientific articles <span class="text-gray-500">(p. 10)</span></a></li>
+                    <li><a href="#" class="hover:underline">Solar Flares <span class="text-gray-500">(p. 9)</span></a></li>
+                    <li><a href="#" class="hover:underline">Star Hopping <span class="text-gray-500">(p. 13)</span></a></li>
+                    <li><a href="#" class="hover:underline">Stellar Nurseries <span class="text-gray-500">(p. 28)</span></a></li>
+                    <li><a href="#" class="hover:underline">Sun, Moon and Planets <span class="text-gray-500">(p. 13)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">T</p>
+                <ul class="space-y-2">
+                    <li><a href="#this-months-sky-section" class="hover:underline">This Month's Sky <span class="text-gray-500">(p. 13)</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-semibold text-blue-300 mb-3">W</p>
+                <ul class="space-y-2">
+                    <li><a href="#webb-telescopes-first-year" class="hover:underline">Webb Telescope <span class="text-gray-500">(p. 48)</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 p-8 text-center text-gray-500 text-base rounded-t-2xl mt-16">
+        <p>&copy; 2025 Stellar Gaze Magazine. All rights reserved.</p>
+        <p class="mt-2">Designed with a passion for the cosmos.</p>
+    </footer>
+
+    <script>
+        // Simple JavaScript for dropdown toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownBtn = document.getElementById('featuresDropdownBtn');
+            const dropdownContent = document.getElementById('featuresDropdownContent');
+            const userQuestionInput = document.getElementById('userQuestionInput');
+            const askGeminiBtn = document.getElementById('askGeminiBtn');
+            const geminiResponseDiv = document.getElementById('geminiResponse');
+            const geminiAnswerContent = document.getElementById('geminiAnswerContent');
+            const geminiErrorDiv = document.getElementById('geminiError');
+            const geminiErrorMessage = document.getElementById('geminiErrorMessage');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const buttonText = document.getElementById('buttonText');
+
+            dropdownBtn.addEventListener('click', function() {
+                dropdownContent.classList.toggle('hidden');
+            });
+
+            // Close the dropdown if the user clicks outside of it
+            window.addEventListener('click', function(event) {
+                if (!event.target.matches('#featuresDropdownBtn') && !dropdownContent.contains(event.target)) {
+                    dropdownContent.classList.add('hidden');
+                }
+            });
+
+            // Gemini API Integration
+            askGeminiBtn.addEventListener('click', async function() {
+                const prompt = userQuestionInput.value.trim();
+                if (!prompt) {
+                    geminiResponseDiv.classList.add('hidden');
+                    geminiErrorDiv.classList.remove('hidden');
+                    geminiErrorMessage.textContent = "Please enter a question before asking Gemini.";
+                    return;
+                }
+
+                // Show loading spinner and disable button
+                buttonText.textContent = 'Thinking...';
+                loadingSpinner.classList.remove('hidden');
+                askGeminiBtn.disabled = true;
+                geminiResponseDiv.classList.add('hidden');
+                geminiErrorDiv.classList.add('hidden');
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; // Canvas will automatically provide this key at runtime
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`API error: ${response.status} ${response.statusText} - ${errorData.error.message || 'Unknown error'}`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        geminiAnswerContent.textContent = text;
+                        geminiResponseDiv.classList.remove('hidden');
+                    } else {
+                        geminiErrorDiv.classList.remove('hidden');
+                        geminiErrorMessage.textContent = "Gemini could not generate a response for that question. Please try rephrasing.";
+                    }
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                    geminiErrorDiv.classList.remove('hidden');
+                    geminiErrorMessage.textContent = `Failed to get a response from Gemini: ${error.message}. Please try again.`;
+                } finally {
+                    // Hide loading spinner and re-enable button
+                    buttonText.textContent = 'Ask Gemini ✨';
+                    loadingSpinner.classList.add('hidden');
+                    askGeminiBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

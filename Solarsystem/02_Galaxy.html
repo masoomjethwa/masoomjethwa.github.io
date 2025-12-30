@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Journey Through Our Galaxy: An Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1A202C;
+            color: #F7FAFC;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 40vh;
+            width: 100%;
+            max-width: 600px;
+            max-height: 400px;
+        }
+        .kpi-value {
+            font-weight: 900;
+            font-size: 3rem;
+            line-height: 1;
+            color: #00A9E0;
+        }
+        .kpi-label {
+            font-size: 1rem;
+            color: #A0AEC0;
+        }
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #FFFFFF;
+        }
+        .section-intro {
+            color: #A0AEC0;
+            max-width: 48rem; /* 768px */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .card {
+            background-color: #2D3748;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .flowchart-node {
+            background-color: #2D3748;
+            border: 2px solid #4A5568;
+            padding: 0.75rem 1.25rem;
+            border-radius: 9999px;
+            text-align: center;
+            font-weight: 700;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .flowchart-node:hover {
+            transform: translateY(-5px);
+            border-color: #00A9E0;
+        }
+        .flowchart-arrow {
+            color: #4A5568;
+            font-size: 2rem;
+            line-height: 1;
+        }
+        .flowchart-path-line {
+            background-color: #4A5568;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Hero Section -->
+    <header class="text-center py-16 md:py-24 px-4">
+        <h1 class="text-4xl md:text-6xl font-black text-white uppercase tracking-wider">A Journey Through Our Galaxy</h1>
+        <p class="mt-4 text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">An infographic exploring the vast scales, life cycles, and cosmic wonders discovered from the analysis by Prof. S.S. Ojha.</p>
+        
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div class="bg-gray-800/50 p-6 rounded-lg">
+                <p class="kpi-value">100B+</p>
+                <p class="kpi-label">Stars in the Milky Way</p>
+            </div>
+            <div class="bg-gray-800/50 p-6 rounded-lg">
+                <p class="kpi-value">12B</p>
+                <p class="kpi-label">Years Old (Galaxy Age)</p>
+            </div>
+            <div class="bg-gray-800/50 p-6 rounded-lg">
+                <p class="kpi-value">200M+</p>
+                <p class="kpi-label">Years for Sun's Orbit</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-24 pb-24">
+
+        <!-- Section 1: Stellar Lifecycle -->
+        <section id="lifecycle" class="text-center">
+            <h2 class="section-title">The Stellar Lifecycle</h2>
+            <p class="section-intro mt-4 mb-12">A star's destiny is written in its mass. From clouds of dust, stars are born, live for billions of years, and die in spectacular fashion, seeding the cosmos with the elements for new life. Follow the two primary paths of stellar evolution.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
+                <!-- Path 1: Sun-like Stars -->
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold text-white mb-6">Sun-like Star Path (< 8 Solar Masses)</h3>
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="flowchart-node">✨ Embryo Cloud</div>
+                        <div class="flowchart-arrow">↓</div>
+                        <div class="flowchart-node">☀️ Protosun</div>
+                        <div class="flowchart-arrow">↓</div>
+                        <div class="flowchart-node">🌟 Sun-like Star</div>
+                        <div class="flowchart-arrow">↓</div>
+                        <div class="flowchart-node" style="border-color: #F50057;">🔴 Old Giant</div>
+                        <div class="flowchart-arrow">↓</div>
+                        <div class="flowchart-node">💎 White Dwarf</div>
+                    </div>
+                </div>
+
+                <!-- Path 2: Massive Stars -->
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold text-white mb-6">Massive Star Path (> 8 Solar Masses)</h3>
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="flowchart-node">✨ Embryo Cloud</div>
+                        <div class="flowchart-arrow">↓</div>
+                        <div class="flowchart-node">🌟 Young Massive Star</div>
+                        <div class="flowchart-arrow">↓</div>
+                        <div class="flowchart-node" style="border-color: #FFC107;">💥 Supernova</div>
+                        <div class="flex justify-around w-full mt-2">
+                            <div class="flowchart-arrow">↙</div>
+                            <div class="flowchart-arrow">↘</div>
+                        </div>
+                        <div class="flex justify-around w-full">
+                            <div class="flowchart-node w-2/5">💫 Neutron Star</div>
+                            <div class="flowchart-node w-2/5">⚫ Black Hole</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Stellar Remnants -->
+        <section id="remnants" class="text-center">
+            <h2 class="section-title">The Cosmic Graveyard</h2>
+            <p class="section-intro mt-4 mb-12">When stars die, they leave behind some of the most extreme objects in the universe. Their final form is determined by the mass they hold after their life has ended, leading to a fascinating comparison of density and power.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">Stellar Remnant Mass Comparison</h3>
+                    <p class="text-gray-400 mb-4 text-sm flex-grow">This chart compares the typical final masses of stellar remnants. The Chandrasekhar limit (~1.44 M☉) defines the maximum mass of a white dwarf, while remnants over ~3 M☉ collapse into black holes.</p>
+                    <div class="chart-container" style="height:300px; max-height:300px;">
+                        <canvas id="remnantMassChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-bold text-white mb-4">A Question of Density</h3>
+                    <p class="text-gray-400 mb-4 text-sm flex-grow">The density of stellar remnants is almost incomprehensible. A white dwarf packs the sun's mass into the size of Earth, while a neutron star crams even more mass into the size of a city.</p>
+                    <div class="space-y-6 flex-grow flex flex-col justify-center">
+                        <div class="flex items-center">
+                            <div class="text-6xl mr-4">💎</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-white">White Dwarf</h4>
+                                <p class="text-gray-400">1 Sun's Mass in an <strong class="text-[#00A9E0]">Earth-sized</strong> volume.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="text-6xl mr-4">💫</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-white">Neutron Star</h4>
+                                <p class="text-gray-400">1.5 Sun's Mass in a <strong class="text-[#F50057]">City-sized</strong> volume.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: The Local Group -->
+        <section id="localgroup" class="text-center">
+            <h2 class="section-title">Our Galactic Neighborhood</h2>
+            <p class="section-intro mt-4 mb-12">The Milky Way isn't alone. It's a leading member of the Local Group, a gravitationally bound collection of over 54 galaxies. Our cosmic family is a dynamic system, with galaxies constantly interacting and heading for future mergers.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-3 card">
+                     <h3 class="text-xl font-bold text-white mb-2">Major Local Group Galaxies by Size</h3>
+                    <p class="text-gray-400 mb-4 text-sm">Comparing the estimated star count of the three largest galaxies in our Local Group. The Andromeda galaxy is our largest neighbor and is on a collision course with the Milky Way, set to merge in about 4.5 billion years.</p>
+                    <div class="chart-container" style="height:400px; max-height:400px;">
+                        <canvas id="galaxySizeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section 4: Cosmic Wonders -->
+        <section id="wonders" class="text-center">
+            <h2 class="section-title">Cosmic Wonders of the Milky Way</h2>
+            <p class="section-intro mt-4 mb-12">Our galaxy is filled with breathtaking phenomena. From stellar nurseries where new suns are born to the ancient clusters that hold the secrets of galactic history, these wonders showcase the beauty and complexity of the cosmos.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card">
+                    <div class="text-5xl mb-4">✨</div>
+                    <h3 class="text-xl font-bold text-white">Orion Nebula</h3>
+                    <p class="text-gray-400 mt-2 flex-grow">A stellar nursery, this vast cloud of gas and dust is one of the most active star-forming regions in our galactic neighborhood, visible to the naked eye.</p>
+                </div>
+                <div class="card">
+                    <div class="text-5xl mb-4">◌◌◌</div>
+                    <h3 class="text-xl font-bold text-white">M-13 Globular Cluster</h3>
+                    <p class="text-gray-400 mt-2 flex-grow">A tightly bound, spherical collection of hundreds of thousands of very old stars. These clusters are "fossil records" that help us understand the Milky Way's formation.</p>
+                </div>
+                <div class="card">
+                    <div class="text-5xl mb-4">💥 → 💫</div>
+                    <h3 class="text-xl font-bold text-white">Vela Supernova & Pulsar</h3>
+                    <p class="text-gray-400 mt-2 flex-grow">The aftermath of a massive star's explosion. The supernova remnant is an expanding cloud of gas, and at its heart is a pulsar—a rapidly spinning neutron star acting as a cosmic lighthouse.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 5: Quasars -->
+        <section id="quasars" class="text-center">
+            <h2 class="section-title">Echoes from the Dawn of Time</h2>
+            <p class="section-intro mt-4 mb-12">Looking deep into space is looking back in time. There we can see quasars, the most luminous objects in the universe, which were far more common when the cosmos was young. They are powered by supermassive black holes feeding ferociously.</p>
+            <div class="card md:col-span-2">
+                <h3 class="text-xl font-bold text-white mb-2">The Rise and Fall of Quasars</h3>
+                <p class="text-gray-400 mb-4 text-sm">Quasar activity peaked in the early universe, about 10 billion years ago, and has declined since. This chart illustrates how these intensely bright galactic cores were a feature of the young, active cosmos.</p>
+                <div class="chart-container">
+                    <canvas id="quasarChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 px-4 border-t border-gray-700">
+        <p class="text-gray-400">Infographic based on the analysis of "OUR GALAXY" by Prof. S.S. Ojha / Global Geographics.</p>
+        <p class="text-gray-500 text-sm mt-2">Designed to visualize the dynamic and interconnected nature of the cosmos.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const FONT_COLOR = '#F7FAFC';
+            const GRID_COLOR = '#4A5568';
+            const PALETTE = {
+                blue: '#00A9E0',
+                pink: '#F50057',
+                yellow: '#FFC107',
+                lightGray: '#A0AEC0'
+            };
+
+            const tooltipConfig = {
+                plugins: {
+                    tooltip: {
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 12 },
+                        backgroundColor: '#1A202C',
+                        titleColor: FONT_COLOR,
+                        bodyColor: FONT_COLOR,
+                        borderColor: GRID_COLOR,
+                        borderWidth: 1,
+                        padding: 10,
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    },
+                    legend: {
+                        labels: {
+                            color: FONT_COLOR,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            };
+            
+            function wrapLabel(str, max_width) {
+                if (str.length <= max_width) return str;
+                let words = str.split(' ');
+                let lines = [];
+                let current_line = words.shift();
+                for (let word of words) {
+                    if (current_line.length + word.length + 1 <= max_width) {
+                        current_line += ' ' + word;
+                    } else {
+                        lines.push(current_line);
+                        current_line = word;
+                    }
+                }
+                lines.push(current_line);
+                return lines;
+            }
+
+            // Chart 1: Remnant Mass Chart
+            const remnantCtx = document.getElementById('remnantMassChart');
+            if(remnantCtx) {
+                new Chart(remnantCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['White Dwarf', 'Neutron Star', 'Black Hole / Frozen Star'],
+                        datasets: [{
+                            label: 'Max Remnant Mass (Solar Masses)',
+                            data: [1.44, 3, 20],
+                            backgroundColor: [PALETTE.blue, PALETTE.pink, PALETTE.yellow],
+                            borderColor: [PALETTE.blue, PALETTE.pink, PALETTE.yellow],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        ...tooltipConfig,
+                        indexAxis: 'y',
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                grid: { color: GRID_COLOR },
+                                ticks: { 
+                                    color: FONT_COLOR,
+                                    callback: function(value) { return value + ' M☉' } 
+                                }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { color: FONT_COLOR }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Chart 2: Galaxy Size Chart
+            const galaxyCtx = document.getElementById('galaxySizeChart');
+            if (galaxyCtx) {
+                new Chart(galaxyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Triangulum (M33)', 'Milky Way', 'Andromeda (M31)'],
+                        datasets: [{
+                            label: 'Estimated Star Count (in Billions)',
+                            data: [40, 100, 1000],
+                            backgroundColor: [PALETTE.yellow, PALETTE.blue, PALETTE.pink],
+                        }]
+                    },
+                    options: {
+                         ...tooltipConfig,
+                         maintainAspectRatio: false,
+                         scales: {
+                            y: {
+                                type: 'logarithmic',
+                                beginAtZero: false,
+                                grid: { color: GRID_COLOR },
+                                ticks: {
+                                    color: FONT_COLOR,
+                                    callback: function(value, index, values) {
+                                        if (value === 1000 || value === 100 || value === 10) {
+                                            return value + 'B';
+                                        }
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: FONT_COLOR }
+                            }
+                         }
+                    }
+                });
+            }
+
+            // Chart 3: Quasar Chart
+            const quasarCtx = document.getElementById('quasarChart');
+            if (quasarCtx) {
+                new Chart(quasarCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['12 Bya', '10 Bya', '8 Bya', '6 Bya', '4 Bya', '2 Bya', 'Present'],
+                        datasets: [{
+                            label: 'Relative Quasar Prevalence',
+                            data: [60, 100, 70, 30, 10, 5, 1],
+                            fill: true,
+                            backgroundColor: 'rgba(0, 169, 224, 0.2)',
+                            borderColor: PALETTE.blue,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        ...tooltipConfig,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: GRID_COLOR },
+                                ticks: { color: FONT_COLOR, callback: function(value) {return value + '%'} }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: FONT_COLOR }
+                            }
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>
