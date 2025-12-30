@@ -823,20 +823,20 @@
 
                 <!-- Right Column: Contact Form -->
                 <div class="glass p-8 rounded-2xl">
-                    <form class="space-y-6" onsubmit="event.preventDefault(); alert('Message sent! (This is a demo)');">
+                    <form class="space-y-6" action="mailto:connectmpj@gmail.com" method="post" enctype="text/plain">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label for="name" class="block text-sm font-medium text-gray-400 mb-2">Name</label>
-                                <input type="text" id="name" required class="w-full bg-space-900/50 border border-space-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-colors placeholder-gray-600" placeholder="Your Name">
+                                <input type="text" id="name" name="Name" required class="w-full bg-space-900/50 border border-space-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-colors placeholder-gray-600" placeholder="Your Name">
                             </div>
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-400 mb-2">Email</label>
-                                <input type="email" id="email" required class="w-full bg-space-900/50 border border-space-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-colors placeholder-gray-600" placeholder="your@email.com">
+                                <input type="email" id="email" name="Email" required class="w-full bg-space-900/50 border border-space-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-colors placeholder-gray-600" placeholder="your@email.com">
                             </div>
                         </div>
                         <div>
                             <label for="message" class="block text-sm font-medium text-gray-400 mb-2">Message</label>
-                            <textarea id="message" rows="4" required class="w-full bg-space-900/50 border border-space-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-colors placeholder-gray-600" placeholder="How can we collaborate?"></textarea>
+                            <textarea id="message" name="Message" rows="4" required class="w-full bg-space-900/50 border border-space-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-space-accent focus:ring-1 focus:ring-space-accent transition-colors placeholder-gray-600" placeholder="How can we collaborate?"></textarea>
                         </div>
                         <button type="submit" class="w-full px-8 py-3 rounded-full bg-space-accent text-space-900 font-bold hover:bg-space-highlight transition-all shadow-lg shadow-space-accent/25 transform hover:-translate-y-0.5">
                             Send Message
