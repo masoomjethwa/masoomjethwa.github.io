@@ -915,7 +915,7 @@
 
         // Dynamic Educational Resources Dropdown Logic
         document.addEventListener("DOMContentLoaded", () => {
-            // Embedded data to avoid fetch errors in local/preview environments
+            // Embedded data with new folder structure
             const data = {
               "Astronomy": [
                 "01_Kids.html",
@@ -1020,12 +1020,10 @@
                 // Construct the path relative to current location
                 // Use encodeURIComponent to handle spaces and special chars in folder names
                 const folderPath = encodeURIComponent(category.value).replace(/%20/g, "%20"); 
-                // Note: Browsers usually handle " " in href automatically, but safer to rely on exact string if local
-                // Simple concatenation as per request
                 window.location.href = `./${category.value}/${file.value}`;
             });
             
-            // Also populate the grid select boxes if they exist (legacy support from previous step)
+            // Populate the grid select boxes (mapping new JSON keys to existing tile IDs)
              const mapping = {
                 "Astronomy": "select-01",
                 "Solarsystem": "select-02",
