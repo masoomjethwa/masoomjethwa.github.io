@@ -1,5 +1,5 @@
 {
-  "01 Astronomy": [
+  "Astronomy": [
     "01_Kids.html",
     "02_Cosmos.html",
     "03_Journey.html",
@@ -15,7 +15,7 @@
     "13_Eccentricity.html",
     "14_Ellipse.html"
   ],
-  "02 Solarsystem": [
+  "Solarsystem": [
     "01_Origins.html",
     "02_Galaxy.html",
     "03_Transit.html",
@@ -30,11 +30,11 @@
     "12_Ions.html",
     "13_Detectors.html"
   ],
-  "03 Space": [
+  "Space": [
     "01_Moon.html",
     "02_Abiogenesis.html"
   ],
-  "04 Arduino": [
+  "Arduino": [
     "01_Projects.html",
     "02_Arduino.html",
     "03_BVI.html",
@@ -44,26 +44,26 @@
     "07_Pico.html",
     "08_Zero.html"
   ],
-  "05 RaspberryPi": [
+  "RaspberryPi": [
     "01_RPI2.html",
     "02_Course.html",
     "03_Poster.html",
     "04_RPI5.html"
   ],
-  "06 STEM": [
+  "STEM": [
     "01_Environment.html",
     "02_eSTEM.html",
     "03_Planetary.html",
     "04_Green.html"
   ],
-  "07 Games": [
+  "Games": [
     "01_Quiz.html"
   ],
-  "08 Misc": [
+  "Misc": [
     "01_Star.html",
     "02_Index.html",
     "03_Journey.html",
     "04_Lifecycle.html"
   ],
-  "09 Codes": []
+  "Codes": []
 }
