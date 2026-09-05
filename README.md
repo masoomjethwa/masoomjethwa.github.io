@@ -135,9 +135,9 @@ masoomjethwa.github.io/
 │   │   └── ...
 │   └── ...
 │
-├── certifications/
-│   ├── Python-Certification.pdf
-│   ├── Machine-Learning-Cert.pdf
+├── Certificates/
+│   ├── 5-day-ai-agents_-intensive-vibe-coding-course_55508954611_o.png
+│   ├── certificate-_-zooniverse_page-0001_55509066873_o.jpg
 │   └── ...
 │
 ├── assets/
